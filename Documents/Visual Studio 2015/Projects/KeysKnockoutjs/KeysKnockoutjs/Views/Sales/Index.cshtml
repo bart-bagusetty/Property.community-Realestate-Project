@@ -1,0 +1,271 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+
+<h2><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#salemodal" data-bind="click: createSale">Create New Sale</button></h2>
+<input type="hidden" id="hiddenId" data-bind="value: id" />
+
+<div id="salemodal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="title"></h4>
+            </div>
+            <div class="modal-body">
+                <form id="frm-sale">
+                    <p>
+                        @*<div class="form-group">
+                                <label class="control-label" for="Name">Name:</label>
+                                <input type="text" class="form-control" id="Name" name="Name" data-bind="value: name">
+                            </div>*@
+                        <div style="width:200px;">
+                            <div class="form-group">
+                                <label class="control-label" for="ddlCustomer">CustomerName:</label>
+                                <select id="ddlCustomer" name="ddlCustomer" class="form-control"
+                                        data-bind="options: customers, optionsText: 'Name', optionsValue: 'Id', value: customerid, optionsCaption: 'Select Customer'">
+                                    <option value="">Select Customer</option>
+                                </select>
+                            </div>
+                        </div>
+                    </p>
+                    <p>
+                        <div style="width:200px;">
+                            <div class="form-group">
+                                <label class="control-label" for="ddlProduct">ProductName:</label>
+                                <select id="ddlProduct" name="ddlProduct" class="form-control"
+                                        data-bind="options: products, optionsText: 'Name', optionsValue: 'Id', value: productid, optionsCaption: 'Select Product'">
+                                    <option value="">Select Product</option>
+                                </select>
+                            </div>
+                        </div>
+                    </p>
+                    <p>
+                        <div style="width:200px;">
+                            <div class="form-group">
+                                <label class="control-label" for="ddlStore">StoreName:</label>
+                                <select id="ddlStore" name="ddlStore" class="form-control"
+                                        data-bind="options: stores, optionsText: 'Name', optionsValue: 'Id', value: storeid, optionsCaption: 'Select Store'">
+                                    <option value="">Select Store</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </p>
+                    <p>
+                        <div style="width:200px;">
+                            <label class="control-label" for="Datesold">Datesold:</label>
+                            <br>
+                            <input id="Datesold" type="text" data-bind="value: datesold">
+                        </div>
+
+                    </p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnSave" data-bind="click: addSale">Save</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<table id="datatable" class="table table-striped table-bordered" style="width:100%;margin-left:12px">
+
+    <thead>
+        <tr>
+            <th> Id </th>
+            <th>CustomerName</th>
+            <th>ProductName</th>
+            <th>StoreName</th>
+            <th>Datesold</th>
+            <th>Edit</th>
+            <th>Delete</th>
+
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: sales">
+        <tr>
+            <td data-bind="text: Id"></td>
+            <td data-bind="text: Customer.Name"></td>
+            <td data-bind="text: Product.Name"></td>
+            <td data-bind="text: Store.Name"></td>
+            <td data-bind="text: moment(Datesold).format('MMM D YYYY')"></td>
+
+            <td><button class="btn btn-warning" data-toggle="modal" data-target="#salemodal" data-bind="click: $root.editSale">Edit</button></td>
+            <td><button class="btn btn-danger" data-bind="click: $root.deleteSale">Delete</button></td>
+            @*<td><button>Edit</button></td>
+                <td><button>Delete</button></td>*@
+        </tr>
+    </tbody>
+</table>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            ko.validation.rules.pattern.message = 'Invalid.';
+
+            ko.validation.init({
+                registerExtenders: true,
+                messagesOnModified: true,
+                insertMessages: true,
+                parseInputAttributes: true,
+                messageTemplate: null
+            }, true);
+
+            var ViewModel = function () {
+                var self = this;
+
+                this.id = ko.observable('');
+                this.customerid = ko.observable().extend({ required: { message: 'Please enter name.' } });
+                this.productid = ko.observable().extend({ required: { message: 'Please enter name.' } });
+                this.storeid = ko.observable().extend({ required: { message: 'Please enter name.' } });
+                this.datesold = ko.observable().extend({ required: { message: 'Please enter Datesold.' } });
+                this.errors = ko.validation.group(this);
+                this.sales = ko.observableArray([]);
+                // dropdown lists in create form
+                this.customers = ko.observableArray([]);
+                this.stores = ko.observableArray([]);
+                this.products = ko.observableArray([]);
+
+                // list of sales
+
+                getSales(self.sales);
+                getCustomers(self.customers);
+                getStores(self.stores);
+                getProducts(self.products);
+                //$('#title').text('Add');
+                this.addSale = function () {
+                    //$('#title').text('Add');
+                    //if (self.errors().length === 0) {
+                    addSale(self.customerid(), self.productid(), self.storeid(), self.datesold());
+                };
+               
+              
+              
+
+        
+                this.editSale = function (s) {
+                    console.log(s);
+                    $('#title').text('Edit');
+                    self.id(s.Id);
+                    self.customerid(s.CustomerId);
+                    self.storeid(s.StoreId);
+                    self.productid(s.ProductId);
+                    self.datesold(s.Datesold);
+                };
+                this.createSale = function () {
+                    $('#title').text('Add');
+                    self.id('');
+                    self.customerid('');
+                    self.storeid('');
+                    self.productid('');
+                    self.datesold('');
+                };
+                this.deleteSale = function (s) {
+                    if(confirm('Are you sure you want to delete?'))
+                        deleteSale(s.Id);
+                };
+
+            };
+
+            ko.applyBindings(new ViewModel());
+
+        });
+
+        function getCustomers(customers) {
+            $.getJSON("/api/customers", function (data) {
+              
+                customers(data);
+            });
+        }
+
+        function getStores(stores) {
+            $.getJSON("/api/stores", function (data) {
+                stores(data);
+            });
+        }
+
+        function getProducts(products) {
+            $.getJSON("/api/products", function (data) {
+                products(data);
+            });
+        }
+        function getSales(sales) {
+            $.getJSON("/api/sales", function (data) {
+           
+                sales(data);
+
+            });
+        }
+
+
+        // same for add/edit
+        function addSale(customerid, productid, storeid, datesold) {
+            if ($('#title').text() === "Edit") {
+
+                $.ajax({
+                    type: "put",
+                    url: "/api/sales/" + $('#hiddenId').val(),
+                    data: {
+                        "Id": $('#hiddenId').val(),
+                        "CustomerId": customerid,
+                        "ProductId": productid,
+                        "StoreId": storeid,
+                        "DateSold": datesold
+                    },
+                    dataType: "JSON",
+                    success: function () {
+                        location.reload();
+
+                    }
+
+                });
+            } else {
+                $.ajax({
+                    type: "post",
+                    url: "/api/sales/",
+                    data: {
+                        "CustomerId": customerid,
+                        "ProductId": productid,
+                        "StoreId": storeid,
+                        "DateSold": datesold
+                    },
+                    dataType: "JSON",
+                    success: function () {
+                        location.reload();
+
+                    }
+
+                });
+            }
+        }
+
+        function deleteSale(id) {
+            $.ajax({
+                type: 'delete',
+                url: "/api/sales/" + id,
+                success: function () {
+                    location.reload();
+                },
+                error: function () {
+                    alert('error');
+                }
+            });
+        }
+
+
+
+
+
+
+
+    </script>
+}

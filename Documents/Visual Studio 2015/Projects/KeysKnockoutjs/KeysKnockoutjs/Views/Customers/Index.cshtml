@@ -1,0 +1,192 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+
+<h2><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#customermodal" data-bind="click: createCustomer">Create New Customer</button></h2>
+<input type="hidden" id="hiddenId" data-bind="value: id" />
+
+<div id="customermodal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="title"></h4>
+            </div>
+            <div class="modal-body">
+                <form id="frm-customer">
+                    <p>
+                        <div class="form-group">
+                            <label class="control-label" for="Name">Name:</label>
+                            <input type="text" class="form-control" id="Name" name="Name" data-bind="value: name" placeholder="Enter Name">
+                            <span class="help-block"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="Address">Address:</label>
+                            <input type="text" class="form-control" id="Address" name="Address" data-bind="value: address" placeholder="Enter Address">
+                            <span class="help-block"></span>
+                        </div>
+
+                    </p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnSave" data-bind="click: addCustomer">Save</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<table id="datatable" class="table table-striped table-bordered" style="width:100%;margin-left:12px">
+
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Edit</th>
+            <th>Delete</th>
+
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: customers">
+        <tr>
+            <td data-bind="text: Id"></td>
+            <td data-bind="text: Name"></td>
+            <td data-bind="text: Address"></td>
+            <td><button class="btn btn-warning" data-toggle="modal" data-target="#customermodal" data-bind="click: $root.editCustomer">Edit</button></td>
+            <td><button class="btn btn-danger" data-bind="click: $root.deleteCustomer">Delete</button></td>
+            @*<td><button>Edit</button></td>
+                <td><button>Delete</button></td>*@
+        </tr>
+    </tbody>
+</table>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            ko.validation.rules.pattern.message = 'Invalid.';
+
+            ko.validation.init({
+                registerExtenders: true,
+                messagesOnModified: true,
+                insertMessages: true,
+                parseInputAttributes: true,
+                messageTemplate: null
+            }, true);
+
+
+            var ViewModel = function () {
+                var self = this;
+                this.id = ko.observable();
+                this.name = ko.observable().extend({ required: { message: 'Please enter name.' } });
+                this.address = ko.observable().extend({ required: { message: 'Please enter address.' } });
+                this.errors = ko.validation.group(this);
+                this.customers = ko.observableArray([]);
+                getCustomers(self.customers);
+                this.addCustomer = function () {
+                    //$('#title').text('Add');
+                    if (self.errors().length === 0) {
+                        // if no validation errors then add/update
+                        addCustomer(self.name(), self.address());
+                    }
+
+                };
+                this.editCustomer = function (c) {
+                    $('#title').text('Edit');
+                    self.id(c.Id);
+                    self.name(c.Name);
+                    self.address(c.Address);
+                    //addProduct(self.name(), self.price());
+                };
+                this.createCustomer = function () {
+
+                    $('#title').text('Enter New Customer');
+                    self.id('');
+                    self.name('');
+                    self.address('');
+                };
+                this.deleteCustomer = function (c) {
+                    if(confirm('Are you sure you want to delete?'))
+                        deleteCustomer(c.Id);
+                };
+
+
+
+            };
+
+            //ViewModel.errors = ko.validation.group(ViewModel);
+            ko.applyBindings(new ViewModel());
+
+            function getCustomers(customers) {
+                $.getJSON("/api/customers", function (data) {
+                    customers(data);
+
+                });
+            }
+
+            // same for add/edit
+            function addCustomer(name, address) {
+
+                if ($('#title').text() === "Edit") {
+
+                    $.ajax({
+                        type: "put",
+                        url: "/api/customers/" + $('#hiddenId').val(),
+                        data: {
+                            "Name": name,
+                            "Address": address
+                        },
+                        dataType: "JSON",
+                        success: function () {
+                            location.reload();
+
+                        }
+
+                    });
+                } else {
+                    $.ajax({
+                        type: "post",
+                        url: "/api/customers/",
+                        data: {
+                            "Name": name,
+                            "Address": address
+                        },
+                        dataType: "JSON",
+                        success: function () {
+                            location.reload();
+
+                        }
+
+                    });
+                }
+            }
+
+            function deleteCustomer(id) {
+                $.ajax({
+                    type: 'delete',
+                    url: "/api/customers/" + id,
+                    success: function () {
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('error');
+                    }
+                });
+            }
+
+
+        });
+
+
+
+
+    </script>
+}
