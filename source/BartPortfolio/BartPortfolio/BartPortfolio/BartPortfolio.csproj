@@ -1,0 +1,437 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{99AFE33E-4F2D-49C3-9ACF-34997C199743}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BartPortfolio</RootNamespace>
+    <AssemblyName>BartPortfolio</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.4\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.4\lib\net45\System.Web.Webpages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Deployment">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.4\lib\net45\System.Web.Webpages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.4\lib\net45\System.Web.Webpages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="budgety\app.js" />
+    <Content Include="budgety\back.png" />
+    <Content Include="budgety\index.html" />
+    <Content Include="budgety\style.css" />
+    <Content Include="dom-pig-content\app.js" />
+    <Content Include="dom-pig-content\back.jpg" />
+    <Content Include="dom-pig-content\challenges.js" />
+    <Content Include="dom-pig-content\dice-1.png" />
+    <Content Include="dom-pig-content\dice-2.png" />
+    <Content Include="dom-pig-content\dice-3.png" />
+    <Content Include="dom-pig-content\dice-4.png" />
+    <Content Include="dom-pig-content\dice-5.png" />
+    <Content Include="dom-pig-content\dice-6.png" />
+    <Content Include="dom-pig-content\style.css" />
+    <Content Include="EmailTemplates\contact.html" />
+    <Content Include="Global.asax" />
+    <Content Include="Web.config" />
+    <Content Include="wp-content\plugins\rs-card-contact-form\js\contact-form5010.js" />
+    <Content Include="wp-content\plugins\woocommerce\assets\css\photoswipe\default-skin\default-skin.png" />
+    <Content Include="wp-content\plugins\woocommerce\assets\css\photoswipe\default-skin\default-skin.svg" />
+    <Content Include="wp-content\plugins\woocommerce\assets\css\photoswipe\default-skin\default-skinedb1.css" />
+    <Content Include="wp-content\plugins\woocommerce\assets\css\photoswipe\default-skin\preloader.gif" />
+    <Content Include="wp-content\plugins\woocommerce\assets\css\photoswipe\photoswipeedb1.css" />
+    <Content Include="wp-content\plugins\woocommerce\assets\css\select2edb1.css" />
+    <Content Include="wp-content\plugins\woocommerce\assets\js\flexslider\jquery.flexslider.min653d.js" />
+    <Content Include="wp-content\plugins\woocommerce\assets\js\frontend\add-to-cart-variation.minedb1.js" />
+    <Content Include="wp-content\plugins\woocommerce\assets\js\frontend\add-to-cart.minedb1.js" />
+    <Content Include="wp-content\plugins\woocommerce\assets\js\frontend\address-i18n.minedb1.js" />
+    <Content Include="wp-content\plugins\woocommerce\assets\js\frontend\cart-fragments.minedb1.js" />
+    <Content Include="wp-content\plugins\woocommerce\assets\js\frontend\cart.minedb1.js" />
+    <Content Include="wp-content\plugins\woocommerce\assets\js\frontend\country-select.minedb1.js" />
+    <Content Include="wp-content\plugins\woocommerce\assets\js\frontend\lost-password.minedb1.js" />
+    <Content Include="wp-content\plugins\woocommerce\assets\js\frontend\password-strength-meter.minedb1.js" />
+    <Content Include="wp-content\plugins\woocommerce\assets\js\frontend\single-product.minedb1.js" />
+    <Content Include="wp-content\plugins\woocommerce\assets\js\frontend\woocommerce.minedb1.js" />
+    <Content Include="wp-content\plugins\woocommerce\assets\js\jquery-blockui\jquery.blockUI.min44fd.js" />
+    <Content Include="wp-content\plugins\woocommerce\assets\js\js-cookie\js.cookie.min6b25.js" />
+    <Content Include="wp-content\plugins\woocommerce\assets\js\photoswipe\photoswipe-ui-default.min0235.js" />
+    <Content Include="wp-content\plugins\woocommerce\assets\js\photoswipe\photoswipe.min0235.js" />
+    <Content Include="wp-content\plugins\woocommerce\assets\js\selectWoo\selectWoo.full.min4b68.js" />
+    <Content Include="wp-content\plugins\woocommerce\assets\js\zoom\jquery.zoom.min5a35.js" />
+    <Content Include="wp-content\themes\rs-card\colors\theme-color5010.css" />
+    <Content Include="wp-content\themes\rs-card\fonts\icomoon\fonts\icomoon0ca3.svg" />
+    <Content Include="wp-content\themes\rs-card\fonts\icomoon\style5010.css" />
+    <Content Include="wp-content\themes\rs-card\fonts\map-icons\css\map-icons.min5010.css" />
+    <Content Include="wp-content\themes\rs-card\fonts\map-icons\fonts\map-icons.svg" />
+    <Content Include="wp-content\themes\rs-card\fonts\map-icons\js\map-icons.min5010.js" />
+    <Content Include="wp-content\themes\rs-card\img\ajax-loader-dark.gif" />
+    <Content Include="wp-content\themes\rs-card\img\ajax-loader.gif" />
+    <Content Include="wp-content\themes\rs-card\img\arrows.png" />
+    <Content Include="wp-content\themes\rs-card\img\knockoutjs1.png" />
+    <Content Include="wp-content\themes\rs-card\img\logo-bootstrap-1-2-2-1-1.png" />
+    <Content Include="wp-content\themes\rs-card\img\logo-jquery-1-2-2-1-1.png" />
+    <Content Include="wp-content\themes\rs-card\img\my-logo.jpg" />
+    <Content Include="wp-content\themes\rs-card\img\overlay.png" />
+    <Content Include="wp-content\themes\rs-card\img\rs-calendar-cover.jpg" />
+    <Content Include="wp-content\themes\rs-card\img\th-1.jpeg" />
+    <Content Include="wp-content\themes\rs-card\img\th-2.jpeg" />
+    <Content Include="wp-content\themes\rs-card\img\th.jpeg" />
+    <Content Include="wp-content\themes\rs-card\js\libs\modernizr5010.js" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\awwwards\awwwards5010.css" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\awwwards\awwwards5010.js" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\awwwards\ribbons\awwwards_nominee_black_left%402x.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\awwwards\ribbons\awwwards_nominee_black_left.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\awwwards\ribbons\awwwards_nominee_black_right%402x.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\awwwards\ribbons\awwwards_nominee_black_right.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\awwwards\ribbons\awwwards_nominee_green_left%402x.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\awwwards\ribbons\awwwards_nominee_green_left.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\awwwards\ribbons\awwwards_nominee_green_right%402x.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\awwwards\ribbons\awwwards_nominee_green_right.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\awwwards\ribbons\awwwards_nominee_silver_left%402x.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\awwwards\ribbons\awwwards_nominee_silver_left.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\awwwards\ribbons\awwwards_nominee_silver_right%402x.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\awwwards\ribbons\awwwards_nominee_silver_right.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\awwwards\ribbons\awwwards_nominee_white_left%402x.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\awwwards\ribbons\awwwards_nominee_white_left.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\awwwards\ribbons\awwwards_nominee_white_right%402x.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\awwwards\ribbons\awwwards_nominee_white_right.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\isotope.pkgd.min5010.js" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.appear5010.js" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.bxslider\images\bx_loader.gif" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.bxslider\images\controls.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.bxslider\jquery.bxslider.min5010.js" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.bxslider\jquery.bxslider5010.css" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.customscroll\jquery.mCustomScrollbar.concat.min5010.js" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.customscroll\jquery.mCustomScrollbar.min5010.css" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.customscroll\mCSB_buttons.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.mediaelement\background.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.mediaelement\bigplay.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.mediaelement\bigplay.svg" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.mediaelement\controls.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.mediaelement\controls.svg" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.mediaelement\jumpforward.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.mediaelement\loading.gif" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.mediaelement\mediaelementplayer.min5010.css" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.mediaelement\skipback.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.onepagenav.min5010.js" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.optionpanel\option-panel5010.css" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.optionpanel\option-panel5010.js" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.owlcarousel\AjaxLoader.gif" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.owlcarousel\grabbing.png" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.owlcarousel\owl.carousel5010.css" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.owlcarousel\owl.carousel5010.js" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.owlcarousel\owl.theme5010.css" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.slick\slick.min5010.js" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.slick\slick5010.css" />
+    <Content Include="wp-content\themes\rs-card\js\plugins\jquery.smartsticky5010.js" />
+    <Content Include="wp-content\themes\rs-card\js\site68b3.js" />
+    <Content Include="wp-content\themes\rs-card\style5010.css" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\css\woocommerce-layout5010.css" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\css\woocommerce-smallscreen5010.css" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\css\woocommerce5010.css" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\fonts\star.svg" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\fonts\WooCommerce.svg" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\images\icons\credit-cards\amex.html" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\images\icons\credit-cards\diners.html" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\images\icons\credit-cards\discover.html" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\images\icons\credit-cards\jcb.html" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\images\icons\credit-cards\laser.html" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\images\icons\credit-cards\maestro.html" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\images\icons\credit-cards\mastercard.html" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\images\icons\credit-cards\visa.html" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\images\icons\loader.html" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\cd_1_angle.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\cd_1_flat-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\cd_1_flat.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\cd_2_angle.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\cd_2_flat-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\cd_2_flat.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\cd_3_angle.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\cd_3_flat-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\cd_3_flat.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\cd_4_angle.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\cd_4_flat-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\cd_4_flat.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\cd_5_angle.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\cd_5_flat-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\cd_5_flat.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\cd_6_angle.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_1_back-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_1_back.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_1_front-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_1_front.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_2_back-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_2_back.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_2_front.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_3_back-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_3_back.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_3_front.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_4_back-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_4_back.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_4_front.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_5_back-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_5_back.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_5_front.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_6_back-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_6_back.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_6_front.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_7_back-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_7_back.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\hoodie_7_front.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\Poster_1_flat-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\Poster_1_flat.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\poster_1_up.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\Poster_2_flat-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\Poster_2_flat.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\poster_2_up.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\Poster_3_flat-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\Poster_3_flat.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\poster_3_up.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\Poster_4_flat-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\Poster_4_flat.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\poster_4_up.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\Poster_5_flat-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\Poster_5_flat.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\poster_5_up.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_1_back-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_1_back.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_1_front.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_2_back-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_2_back.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_2_front.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_3_back-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_3_back.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_3_front-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_3_front.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_4_back-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_4_back.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_4_front.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_4_front1-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_4_front1.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_5_back-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_5_back.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_5_front.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_6_back-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_6_back.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_6_front.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_7_back-600x600.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_7_back.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2013\06\T_7_front.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\download-2-2-1-1-449x286.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\download-2-2-1-1-617x400.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\download-2-2-1.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\download4-2-2-1-1-449x286.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\echo-hereweare-1-2-2-1-1.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\echo-hereweare-1-2-2-1-1.mp3" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\echo-hereweare-1-2-2-1-1.mp4" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\echo-hereweare-1-2-2-1-1.ogv" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\echo-hereweare-1-2-2-1-1.webm" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\logo-angularjs-1-2-2-1-1.png" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\logo-bootstrap-1-2-2-1-1.png" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\logo-compass-1-2-2-1-1.png" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\logo-envato-1-2-2-1-1.png" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\logo-evernote-1-2-2-1-1.png" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\logo-jasmine-1-2-2-1-1.png" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\logo-jquery-1-2-2-1-1.png" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\logo-teaspoon-1-2-2-1-1.png" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\logo-wordpress-1-2-2-1-1.png" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\photo-1433769778268-24b797c4fc9a-2-2-1-1-449x286.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\photo-1433769778268-24b797c4fc9a-2-2-1.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\photo-1445295029071-5151176738d0-1-1-2-1-1-449x286.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\rs-avatar-60x60-1-2-2-1-1.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\rs-thumb-610x396-1-2-2-1-1-449x286.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\startuper-1-299x347.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\startuper-hover-1-299x347.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\thumb-449x286-1-1-2-2-1-1.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\thumb-449x286-3-1-2-2-1-1.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\waterf-2-2-1-1-449x286.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\waterf-2-2-1-1-617x400.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\waterf-2-2-1.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\12\kaboompics-1-2-1-1-294x278.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\12\photo-1421757295538-9c80958e75b0-2-2-1-1-294x278.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\12\photo-1422480041422-130238c67fe2-1-2-2-1-1-607x576.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\12\portfolio-thumb-02-610x6001-1-2-2-1-1-610x452.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\12\portfolio-thumb-03-610x600-1-2-2-1-1-610x452.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\12\portfolio-thumb-08-610x600-1-2-2-1-1-610x452.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\12\portfolio-thumb-09-610x600-1-2-2-1-1-610x452.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2015\12\rs-thumb-509x319-2-2-1-1-300x188.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2016\01\favicon-2-2-1-1.png" />
+    <Content Include="wp-content\uploads\sites\2\2016\02\rs-cover-2-2-1-1.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2017\11\download2-1-449x286.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2017\11\download2-1-617x400.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2018\05\image-alignment-1200x40021.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2018\05\image-alignment-150x1501.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2018\05\image-alignment-300x2001.jpg" />
+    <Content Include="wp-content\uploads\sites\2\2018\05\image-alignment-580x3001.jpg" />
+    <Content Include="wp-includes\js\comment-reply.min5010.js" />
+    <Content Include="wp-includes\js\imagesloaded.min55a0.js" />
+    <Content Include="wp-includes\js\jquery\jquery-migrate.min330a.js" />
+    <Content Include="wp-includes\js\jquery\jqueryb8ff.js" />
+    <Content Include="wp-includes\js\mediaelement\mediaelement-and-player.min45a0.js" />
+    <Content Include="wp-includes\js\mediaelement\mediaelement-migrate.min5010.js" />
+    <Content Include="wp-includes\js\underscore.min4511.js" />
+    <Content Include="wp-includes\js\wp-embed.min5010.js" />
+    <Content Include="wp-includes\js\wp-util.min5010.js" />
+    <Content Include="wp-includes\js\zxcvbn-async.min5152.js" />
+    <Content Include="wp-includes\wlwmanifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\homeController.cs" />
+    <Compile Include="EMailing\EmailClass.cs" />
+    <Compile Include="EMailing\EmailConfig.cs" />
+    <Compile Include="EMailing\EmailingFactory.cs" />
+    <Compile Include="EMailing\EmailingMessage.cs" />
+    <Compile Include="EMailing\IEmailing.cs" />
+    <Compile Include="EMailing\SystemWebEmailing.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config" />
+    <Content Include="dom-pig-content\.DS_Store" />
+    <Content Include="budgety\.DS_Store" />
+    <None Include="packages.config" />
+    <Content Include="Views\home\Index.cshtml" />
+    <Content Include="Views\home\dompiggame.cshtml" />
+    <Content Include="Views\home\budgety.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <Content Include="wp-content\themes\rs-card\fonts\icomoon\fonts\icomoon0ca3.eot" />
+    <Content Include="wp-content\themes\rs-card\fonts\icomoon\fonts\icomoon0ca3.ttf" />
+    <Content Include="wp-content\themes\rs-card\fonts\icomoon\fonts\icomoon0ca3.woff" />
+    <Content Include="wp-content\themes\rs-card\fonts\map-icons\fonts\map-icons.eot" />
+    <Content Include="wp-content\themes\rs-card\fonts\map-icons\fonts\map-icons.ttf" />
+    <Content Include="wp-content\themes\rs-card\fonts\map-icons\fonts\map-icons.woff" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\fonts\star.eot" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\fonts\star.ttf" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\fonts\star.woff" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\fonts\stard41d.eot" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\fonts\WooCommerce.eot" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\fonts\WooCommerce.ttf" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\fonts\WooCommerce.woff" />
+    <Content Include="wp-content\themes\rs-card\woocommerce\fonts\WooCommerced41d.eot" />
+    <Content Include="wp-content\uploads\sites\2\2015\11\startuper-1.1b.delayed" />
+    <Content Include="wp-includes\fonts\dashicons.eot" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>51312</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:49403/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:49403/</IISAppRootUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
