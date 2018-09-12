@@ -1,0 +1,145 @@
+﻿@*this form is used to edit jobs from service suppliers and property owners*@
+<div id="editForm" data-bind="visible:showEditJob" style="display : none">
+
+    <div class="row">
+        <div style="width : 80%; margin : auto">
+            <h3>Edit Job </h3>
+            <hr />
+            <button class="btn btn-info btn-sx" data-bind="click:$root.goToIndex"><span class="fa fa-arrow-left"></span> Back</button>
+            <br /><br />
+        </div>
+    </div>
+    <div id="jobFormModal">
+        <div class="row" style="padding-bottom: 100px">
+            <form class="step-form" data-bind="with:selectedJob()">
+                <fieldset>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Job Details
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Property Name</label>
+                                        <span data-bind="text:PropertyName"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">Start Date</label>
+                                        <span data-bind="if:JobStartDate">
+                                            <span data-bind="text:moment(JobStartDate()).format('LL')"></span>
+                                        </span>
+                                        <span data-bind="ifnot:JobStartDate"> Job has not started </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Job Status</label>
+                                        <span data-bind="text:JobStatusName"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">End Date</label>
+                                        <span data-bind="if:JobEndDate">
+                                            <span data-bind="text:moment(JobEndDate()).format('LL')"></span>
+                                        </span>
+                                        <span data-bind="ifnot:JobEndDate"> Job has not been completed </span>
+                                    </div>
+                                </div>
+
+                            </div><!--row-->
+                        </div><!--panel body-->
+                    </div><!--panel-->
+
+                    <div class="form-group">
+                        <label class="control-label">Percentage Done</label>
+                        <select class="form-control" data-bind="value: PercentDone">
+                            <option value="0">0%</option>
+                            <option value="10">10%</option>
+                            <option value="20">20%</option>
+                            <option value="30">30%</option>
+                            <option value="40">40%</option>
+                            <option value="50">50%</option>
+                            <option value="60">60%</option>
+                            <option value="70">70%</option>
+                            <option value="80">80%</option>
+                            <option value="90">90%</option>
+                            <option value="100">100%</option>
+                        </select>
+                    </div>
+
+                    @*<div class="form-group">
+                    @if (ViewBag.MaxBudget != null)
+                    {
+                        <label class="control-label">Maximum Quote:</label>
+                        <input readonly="readonly" type="text" class="form-control" data-bind="value: computedMax, valueUpdate:'afterkeydown' , visible : JobStatusName()==='Pending' || JobStatusName()==='In process'" />
+                    }
+                    else
+                    {
+                        <label class="control-label">Maximum Quote:</label>
+                        <span style="display:none;width:70%"><input readonly="readonly" type="text" class="form-control" data-bind="value: computedMax, valueUpdate:'afterkeydown' , visible : JobStatusName()==='Pending' || JobStatusName()==='In process'"></span>
+                    }
+                    </div>*@
+
+                    <div class="form-group" data-bind="visible:!ProviderId()"><!--only Property Owners can edit job Description-->
+                        <label class="control-label">Description</label>
+                        <textarea class="form-control" data-bind="value: JobDescription,valueUpdate:'afterkeydown'" id="jobDescription" style="border-radius:0px; padding-left:8px" maxlength="500" rows="6" cols="70"></textarea>
+                        <p class="text-muted" style="font-size:11px; text-align : left">Maximum of 500 characters</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Note <span style="color:red;">*</span></label>
+                        <textarea class="form-control" data-bind="value: Note, valueUpdate : 'afterkeydown'" maxlength="500" rows="6" cols="70"></textarea>
+                        <p class="text-muted" style="font-size:11px; text-align : left">Maximum of 500 characters</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Please upload your documents here:</label>
+                        <div class="panel panel-default">
+                            <div class="panel-body" style="min-height:120px">
+                                <div data-bind="foreach: ImgFiles()">
+                                    <div class="col-xs-3">
+                                        <div class="thumbnail">
+                                            <a data-bind="click: $root.removePhoto">
+                                                <i class="zmdi zmdi-close-circle" style="float:right"></i>
+                                            </a>
+                                            <a target="_blank">
+                                                <img class="img-responsive" data-bind="attr: {src: ko.isObservable(Data) ? Data() : Data}"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul class="list-group" data-bind="foreach: DocFiles()">
+                            <li class="list-group-item">
+                                <span data-bind="text : OldFileName"></span>
+                                <span class="zmdi zmdi-close-circle pull-right" data-bind="click : $root.removePhoto"></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="btn btn-success">
+                            <span class="fa fa-cloud-upload"></span>
+                                Choose Files
+                            <input type="file" id="file-upload" class="key-upload" name="fileName" data-bind="filesUpload: MediaFiles" accept="application/msword, application/pdf,image/*" multiple />
+                        </div>
+                        <p class="text-muted" style="font-size:11px; text-align : left">You may upload up to 5 files. Total size is 5 MB and supported file types are *.jpg, *.jpeg, *.png, *.gif, *.pdf & *.doc*</p>
+                    </div>
+
+                    <div class="col-sm-12 text-center" style="padding-bottom: 30px">
+                        <button id="saveButton" data-dismiss="modal" class="btn btn-success" data-bind="click: $root.updateJobStatus, enable : IsValid">
+                            <span data-bind="if: $parent.isViewingFinishedJob">Re-List</span>
+                            <span data-bind="ifnot:$parent.isViewingFinishedJob">Save</span>
+                        </button>
+                        <button class="btn btn-danger" data-bind="click: $root.goToIndex">Cancel</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div><!--row-->
+    </div><!--jobFormModal-->
+</div><!--editForm-->

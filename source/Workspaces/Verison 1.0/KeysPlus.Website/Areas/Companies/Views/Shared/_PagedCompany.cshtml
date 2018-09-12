@@ -1,0 +1,27 @@
+﻿@model IPagedList<CompanyViewModel>
+
+<div class="text-center" id="pagedList">
+    @if (Model.PageCount == 1)
+    {
+        <div class="pagination-container">
+            <ul class="pagination">
+                <li class="disabled PagedList-pageCountAndLocation">
+                    <a>Page 1 of 1.</a>
+                </li>
+              @*  <li class="active"><a>1</a></li>
+    <li class="PagedList-skipToNext"><a>»</a></li>
+      <li class="PagedList-skipToLast"><a>»»</a></li>*@
+            </ul>
+        </div>
+    }
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }),
+     new PagedListRenderOptions()
+     {
+         Display = PagedListDisplayMode.IfNeeded,
+         DisplayPageCountAndCurrentLocation = true,
+         MaximumPageNumbersToDisplay = 5
+     })
+</div>
+

@@ -1,0 +1,91 @@
+﻿    <style>
+         
+        .inputstl {
+            border: solid 1px #0077B0;
+            outline: 0;
+            background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #C6ECFF), to(#FFFFFF));
+            background: -moz-linear-gradient(top, #FFFFFF, #C6ECFF 1px, #FFFFFF 25px);
+            box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+            -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+            -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+        }
+        .add-company-wrapper {
+            padding-left: 0px;
+            padding-left: 0px;
+        }
+            .table>tbody>tr>td{
+              vertical-align:middle;
+        }
+    </style>
+    <script type="text/html" id="companyIndex">
+        <div class="add-company-wrapper" data-bind="with: company().viewModel">
+            <a class="btn btn-success" id="add-new-company" ViewBag.CurrentFilter="" data-bind="click: $root.addCompany" style="margin-bottom:15px ">
+                <span class="glyphicon glyphicon-plus"></span>
+                Add New Service Supplier 
+            </a>
+
+        </div>
+        <br />
+
+
+
+        @{
+            Html.RenderPartial("_SearchBox");
+        }
+
+
+        <table style="width:800px" class="table table-striped table-hover table-bordered" id="compTable">
+            <thead>
+                <tr>
+                    <!-- Bug #1218 -->
+                    <!-- Added clickable search functionality. Dmitry -->
+                    <th width="30%">
+                        <span>
+                            @if (ViewBag.CurrentSort == "CompName_asc")
+                            {
+                                @Html.ActionLink("Company Name", "Index", new { sortOrder = "CompName_desc", currentFilter = ViewBag.CurrentFilter }, new { @style = "color:#000000;" })
+                                <i class="glyphicon glyphicon-sort-by-alphabet"></i>
+                            }
+                            else
+                            {
+                                @Html.ActionLink("Company Name", "Index", new { sortOrder = "CompName_asc", currentFilter = ViewBag.CurrentFilter }, new { @style = "color:#000000;" })
+                                <i class="glyphicon glyphicon-sort-by-alphabet-alt"></i>
+                            }
+                        </span>
+                    </th>
+                    <!-- End -->
+                    <th width="30%">Action</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach : companies" id="compList">
+                <tr data-bind="with:viewModel">
+                    <td data-bind="text:Name" @*style="width: 30%"*@></td>
+                    <td style="width:0%">
+
+                        <div class="btn-group btn-group-raised inputstl">
+                            <button type="button" class="btn btn-secondary dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"style="padding:4px 8px">
+                                <span class="glyphicon glyphicon-edit "></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-left inputstl">
+                                <li><a  data-bind="click: $root.viewDetails"><span class="glyphicon glyphicon-file"></span> Details</a></li>
+                                <li class="dropdown-divider"></li>
+                                <li><a data-bind="click: $root.editCompany"><span class="glyphicon glyphicon-edit"></span> Edit</a></li>
+                                <li class="dropdown-divider"></li>
+                                <li><a  data-bind="click: $root.showCompanyDeleteModal"><span class="glyphicon glyphicon-remove"></span> Delete </a></li>
+                                <li class="dropdown-divider"></li>
+                            </ul>
+                        </div>
+
+
+                        @*<a class="btn btn-info" data-bind="click: $root.viewDetails"><span class="glyphicon glyphicon-file"></span>Details</a>
+                            <a class="btn btn-warning" data-bind="click: $root.editCompany"><span class="glyphicon glyphicon-edit"></span>Edit</a>
+                            <a class="btn btn-danger" data-bind="click: $root.showCompanyModal"><span class="glyphicon glyphicon-remove"></span>Delete</a>*@
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        @{
+            Html.RenderPartial("_PagedCompany");
+        }
+    </script>

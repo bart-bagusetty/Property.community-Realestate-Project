@@ -1,0 +1,60 @@
+﻿@model KeysPlus.Service.Models.LoginViewModel
+@{
+    ViewBag.Title = "Log In";
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/login")
+}
+@section ModuleStyle{
+    @Styles.Render("~/content/loginModuleStyle")
+}
+<div class="login-page authentication">
+    <div class="container form-container">
+       
+        <div class="row card">
+            <h1 class="title"><span>Keys</span>Login <span class="msg">Sign in to start using</span></h1>
+            @*<p class="text-danger">@ViewBag.Status</p>*@
+            <div class="col-md-12">
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @id = "sign_in" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @*@Html.ValidationSummary()*@
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"> <i class="zmdi zmdi-account"></i> </span>
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Username" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"> <i class="zmdi zmdi-lock"></i> </span>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                    
+                    <input type="checkbox" name="RememberMe" id="rememberme" class="filled-in chk-col-pink" value="true">
+                    <label for="rememberme">Remember Me</label>
+                    <div class="text-center">
+                        <button class="btn btn-primary" type="submit">Sign In</button>
+                        @Html.ActionLink("Sign Up", "Register", "Account", new { @class = "btn btn-primary" })
+                    </div>
+                    <div class="text-center">
+                        @Html.ActionLink("Forgot Password?", "ForgotPassword", "Account")
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@*<script type="text/javascript">
+    var myUrl = '@Url.Action("ValidateUser", "Account")';
+</script>*@
+
+
+
+
+
+
+

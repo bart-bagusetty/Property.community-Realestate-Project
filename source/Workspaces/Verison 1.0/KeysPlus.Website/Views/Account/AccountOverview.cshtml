@@ -1,0 +1,1168 @@
+﻿@model AccountOverView
+@{
+    ViewBag.Title = "Property Community | Account Overview";
+}
+<div id="userPersonalDetails">
+    <h3>User Information </h3>
+    <hr />
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body" data-bind="visible:MainView">
+                <!--Profile Information-->
+                <ul class="nav nav-tabs">
+                    <!--Tabs-->
+                    <li class="active"><a data-toggle="tab" href="#yourInformation">Your Information</a></li><!--Tab for Your Information (person)-->
+                    <li><a data-toggle="tab" href="#yourCompany" data-bind="visible:IsServiceSupplier">Your Company</a></li><!--Tab for Your Company -->
+                </ul>
+                <div class="tab-content">
+                    <div id="yourInformation" class="tab-pane active">
+                        <div class="row">
+                            <div class="col-md-12" style="padding-bottom: 100px;">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <span class="h3" data-bind="text: FullUserName"></span>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-8" style="margin-top:10px;">
+                                                <!--details coloum-->
+                                                <div class="row" style="line-height : 25px">
+                                                    <div class="col-md-4" style="padding-right : 0px;">
+                                                        <strong>First Name:</strong>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <span data-bind="text: FirstName"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="line-height : 25px">
+                                                    <div class="col-md-4" style="padding-right : 0px;">
+                                                        <strong>Middle Name:</strong>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <span data-bind="if: MiddleName">
+                                                            <span data-bind="text: MiddleName"></span>
+                                                        </span>
+                                                        <span data-bind="ifnot: MiddleName">
+                                                            -
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="line-height : 25px">
+                                                    <div class="col-md-4" style="padding-right : 0px;">
+                                                        <strong>Last Name:</strong>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <span data-bind="text: LastName"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="line-height : 25px">
+                                                    <div class="col-md-4" style="padding-right : 0px;">
+                                                        <strong>Place Of Birth:</strong>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <span class="bfh-countries" data-bind="country: PlaceOfBirth"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="line-height : 25px">
+                                                    <div class="col-md-4" style="padding-right : 0px;">
+                                                        <strong>Language:</strong>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <span data-bind="text: Language"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="line-height : 25px">
+                                                    <div class="col-md-4" style="padding-right : 0px;">
+                                                        <strong>Phone Number:</strong>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <span data-bind="text: PhoneNumber"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="line-height : 25px">
+                                                    <div class="col-md-4" style="padding-right : 0px;">
+                                                        <strong>Occupation:</strong>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <span data-bind="if: Occupation">
+                                                            <span data-bind="text: Occupation"></span>
+                                                        </span>
+                                                        <span data-bind="ifnot: Occupation">
+                                                            -
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="line-height : 25px">
+                                                    <div class="col-md-4" style="padding-right : 0px;">
+                                                        <strong>Linkedin Url :</strong>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <span data-bind="if: LinkedinUrl">
+                                                            <span data-bind="text: LinkedinUrl"></span>
+                                                        </span>
+                                                        <span data-bind="ifnot: LinkedinUrl">
+
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="line-height : 25px">
+                                                    <div class="col-md-4" style="padding-right : 0px;">
+                                                        <strong>Physical Address:</strong>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <div>
+                                                            <span data-bind="text: PhysicalAddress().Number"></span>
+                                                            <span data-bind="if: PhysicalAddress().Street">
+                                                                <span data-bind="text: PhysicalAddress().Street"></span>,
+                                                            </span>
+                                                        </div>
+                                                        <div>
+                                                            <span data-bind="if: PhysicalAddress().Suburb">
+                                                                <span data-bind="text: PhysicalAddress().Suburb"></span>,
+                                                            </span>
+                                                        </div>
+                                                        <div>
+                                                            <span data-bind="text: PhysicalAddress().City"></span>
+                                                            <span data-bind="text: PhysicalAddress().PostCode"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="line-height : 25px">
+                                                    <div class="col-md-4" style="padding-right : 0px;">
+                                                        <strong>Billing Address:</strong>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <div>
+                                                            <span data-bind="text: BillingAddress().Number"></span>
+                                                            <span data-bind="if: BillingAddress().Street">
+                                                                <span data-bind="text: BillingAddress().Street"></span>,
+                                                            </span>
+                                                        </div>
+                                                        <div>
+                                                            <span data-bind="if: BillingAddress().Suburb">
+                                                                <span data-bind="text: BillingAddress().Suburb"></span>,
+                                                            </span>
+                                                        </div>
+                                                        <div>
+                                                            <span data-bind="text: BillingAddress().City"></span>
+                                                            <span data-bind="text:BillingAddress().PostCode"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="line-height:25px">
+                                                    <div class="col-md-4" style="padding-right : 0px;">
+                                                        <strong>Uploads:</strong>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <div data-bind="foreach:$root.MediaFiles">
+                                                            <div class="row" style="padding-left : 12px;">
+                                                                <span> <a target="_blank" data-bind="text:OldFileName,attr:{href:Data}"></a></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> <!--details column-->
+                                            <div class="col-md-4">
+                                                <div class="row">
+                                                    <div class="col-md-12 pull-right" style="width:250px; height:250px; padding-right : 10px;">
+                                                        <img class="ui image img-thumbnail pull-right" data-bind="attr: {src: ProfilePhoto().Data}" alt="firstImg" onerror="this.src = '/images/icon-user-default.png'" />
+                                                        @*<img style="height:150px; width:150px;" class="ui image img-thumbnail pull-right" data-bind="attr: {src: ProfilePhotoModel().Data}" alt="firstImg" onerror="this.src = '/images/icon-user-default.png'" src="/images/icon-user-default.png">*@
+                                                    </div>
+                                                </div>
+                                            </div> <!--photo column-->
+                                        </div> <!--row -->
+                                        <div class="row">
+                                            <div class="col-md-1 pull-right">
+                                                <button name="edit" type="button" class="btn btn-success" style="margin-bottom:15px; text-align:center" value="Create" data-bind="click: $root.viewChange">Edit</button>
+                                            </div>
+                                        </div>
+                                    </div> <!--panel-body-->
+                                </div> <!--panel-primary-->
+                            </div> <!--coloumn-->
+                        </div> <!--row-->
+                    </div> <!--userDetails-->
+                    <div id="yourCompany" class="tab-pane" data-bind="with : Company">
+                        <!--Your Company tab-->
+                        <div class="row" id="companyDetails">
+                            <div class="col-md-12" style="padding-bottom: 100px;">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <span class="h3" data-bind="text: Name"></span>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-8" style="margin-top:10px;">
+
+                                                <!--details column-->
+                                                <div class="row" style="line-height : 25px">
+                                                    <div class="col-md-4" style="padding-right : 0px;">
+                                                        <strong>Phone Number:</strong>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <span data-bind="text: Phone"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="line-height : 25px">
+                                                    <div class="col-md-4" style="padding-right : 0px;">
+                                                        <strong>Website:</strong>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <span data-bind="text: Website"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="line-height : 25px">
+                                                    <div class="col-md-4" style="padding-right : 0px;">
+                                                        <strong>Physical Address:</strong>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <div>
+                                                            <span data-bind="text: PhysicalAddress.Number"></span>
+                                                            <span data-bind="if: PhysicalAddress.Street">
+                                                                <span data-bind="text: PhysicalAddress.Street"></span>,
+                                                            </span>
+                                                        </div>
+                                                        <div>
+                                                            <span data-bind="if: PhysicalAddress.Suburb">
+                                                                <span data-bind="text: PhysicalAddress.Suburb"></span>,
+                                                            </span>
+                                                        </div>
+                                                        <div>
+                                                            <span data-bind="text: PhysicalAddress.City"></span>
+                                                            <span data-bind="text: PhysicalAddress.PostCode"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="line-height : 25px">
+                                                    <div class="col-md-4" style="padding-right : 0px;">
+                                                        <strong>Billing Address:</strong>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <div>
+                                                            <span data-bind="text: BillingAddress.Number"></span>
+                                                            <span data-bind="if: BillingAddress.Street">
+                                                                <span data-bind="text: BillingAddress.Street"></span>,
+                                                            </span>
+                                                        </div>
+                                                        <div>
+                                                            <span data-bind="if: BillingAddress.Suburb">
+                                                                <span data-bind="text: BillingAddress.Suburb"></span>,
+                                                            </span>
+                                                        </div>
+                                                        <div>
+                                                            <span data-bind="text: BillingAddress.City"></span>
+                                                            <span data-bind="text: BillingAddress.PostCode"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div> <!--details column-->
+                                            <div class="col-md-4">
+                                                <div class="row">
+                                                    <div class="col-md-12 pull-right" style="width:250px; height:250px; padding-right : 10px;">
+                                                        <img class="img-responsive img-thumbnail" data-bind="attr: {src: ProfilePhoto.Data}" alt="firstImg" onerror="this.src = '/images/icon-user-default.png'" />
+                                                    </div>
+                                                </div>
+                                            </div> <!--photo coloum-->
+                                        </div> <!--row -->
+                                        <div class="row">
+                                            <div class="col-md-1 pull-right">
+                                                <button name="edit" type="button" class="btn btn-success" style="margin-bottom:15px; text-align:center" value="Create" data-bind="click: $root.ShowCompanyEdit">Edit</button>
+                                            </div>
+                                        </div>
+                                    </div> <!--panel-body-->
+                                </div> <!--panel-primary-->
+                            </div> <!--coloumn-->
+                        </div> <!--row-->
+                    </div> <!--userDetails-->
+                </div>
+            </div> <!--userPersonalDetails-->
+            <div class="row" data-bind="visible: EditUser">
+                <form class="step-form">
+                    <br /><br /><br /><br />
+                    <fieldset id="user-details">
+                        <h4 class="title"><strong>Edit User Information</strong></h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img class="img-responsive img-thumbnail" style="width:250px;height:250px" id="editimage" data-bind="attr: {src: ProfilePhoto().Data}" alt="firstImg" onerror="this.src = '/images/icon-user-default.png'" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <div class="btn btn-success">
+                                        <span class="fa fa-cloud-upload"></span>
+                                        Choose photo
+                                        <input type="file" id="file-upload" class="key-upload" data-bind="event: {change: fileUpload}" accept="image/*" multiple />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <button class="btn btn-danger" data-bind="click: $root.removePhoto">Remove photo</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="text-muted" style="font-size:11px; text-align : left">Upload your profile photo. Supported file types are *.jpg, *.jpeg, *.png, *.gif.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>First Name <span style="color:red;">*</span></label>
+                                <input class="form-control" type="text" name="firstName" placeholder="&nbsp First Name" data-bind="value: FirstName">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Middle Name</label>
+                                <input class="form-control" type="text" name="middleName" placeholder="&nbsp Middle Name" data-bind="value: MiddleName">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Last Name <span style="color:red;">*</span></label>
+                                <input class="form-control" type="text" name="lastName" placeholder="&nbsp Last Name" data-bind="value: LastName">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Phone Number <span style="color:red;">*</span></label>
+                                <input class="form-control" type="text" name="phoneNumber" placeholder="&nbsp Phone Number" data-bind="value: PhoneNumber">
+                            </div>
+                            <div class="col-md-6">
+                                <label>Country Of Birth </label>
+                                <select id="countries_states2" data-bind="value: PlaceOfBirth" class="form-control bfh-countries" name="PlaceofBirth" placeholder="&nbsp Country"></select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Language <span style="color:red;">*</span></label>
+                                <input class="form-control" type="text" name="Language" placeholder="&nbsp Language" data-bind="value: Language">
+                            </div>
+                            <div class="col-md-3">
+                                <label>Occupation</label>
+                                <input class="form-control" type="text" name="Occupation" placeholder="&nbsp Occupation" data-bind="value: Occupation">
+                            </div>
+                            <div class="col-md-6">
+                                <label>LinkedIn profile Url</label>
+                                <input class="form-control" type="text" name="LinkedinUrl" placeholder="&nbsp Linkedin Url" data-bind="value: LinkedinUrl">
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4><label> Physical Address</label></h4>
+                            </div>
+                            <div class="col-md-6">
+                                <h4> <label> Billing Address</label></h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label">Search Address</label>
+                                            <input class="form-control" type="text" name="searchAddressPhysical" id="PhysicalAutocomplete" placeholder="&nbsp Enter your address" data-bind="addressAutocomplete: PhysicalAddress(), value: PhyAddressSearchBar, valueUpdate:'afterkeydown'">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="Number">Number <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="Phy_number" placeholder="&nbsp Number" data-bind="value: PhysicalAddress().Number" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label class="control-label" for="Street">Street <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="Phy_street" placeholder="&nbsp Street" data-bind="value: PhysicalAddress().Street" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="Suburb">Suburb <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="Phy_suburb" placeholder="&nbsp Suburb" data-bind="value: PhysicalAddress().Suburb" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="City">City <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="Phy_city" placeholder="&nbsp City" data-bind="value: PhysicalAddress().City" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="PostCode">PostCode <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="Phy_postCode" placeholder="&nbsp PostCode" data-bind="value: PhysicalAddress().PostCode" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input name="isShipSame" id="isShipSame" type="checkbox" data-bind="checked: isShipSame">
+                                            <label>Same Billing Address</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label">Search Address</label>
+                                            <input class="form-control" type="text" name="searchAddressBilling" id="BillingAutocomplete" placeholder="&nbsp Enter your address" data-bind="addressAutocomplete: BillingAddress(), value: BillAddressSearchBar, valueUpdate:'afterkeydown', disable : isShipSame">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="street_number">Number <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="bill_number" placeholder="&nbsp Number" data-bind="value: BillingAddress().Number, disable : isShipSame" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label class="control-label" for="route">Street <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="bill_street" placeholder="&nbsp Street" data-bind="value: BillingAddress().Street, disable : isShipSame" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Suburb <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="bill_suburb" placeholder="&nbsp Suburb" data-bind="value: BillingAddress().Suburb, disable : isShipSame" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">City <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="bill_city" placeholder="&nbsp City" data-bind="value: BillingAddress().City, disable : isShipSame" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">PostCode <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="bill_postCode" placeholder="&nbsp PostCode" data-bind="value: BillingAddress().PostCode, disable : isShipSame" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="raw">
+                            <div class="form-group">
+                                <label class="control-label">Upload your documents here</label>
+                                <div class="panel panel-default">
+                                    <div class="panel-body" style="min-height:150px">
+                                        <div data-bind="foreach: MediaFiles()">
+                                            <div class="col-md-3 col-sm-4 col-xs-4" data-bind="visible : MediaType == 1">
+                                                <div class="thumbnail">
+                                                    <a data-bind="click: $root.removeFiles">
+                                                        <i class="zmdi zmdi-close-circle" style="float:right"></i>
+                                                    </a>
+                                                    <img class="img-responsive" data-bind="attr: {src: Data}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="list-group" data-bind="foreach: MediaFiles()">
+                                    <li class="list-group-item" data-bind="visible : MediaType == 2" style="display: none;">
+                                        <span data-bind="text : OldFileName"></span>
+                                        <span class="zmdi zmdi-close-circle pull-right" data-bind="click : $root.removeFiles"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="form-group">
+                                <div class="btn btn-success">
+                                    <span class="fa fa-cloud-upload"></span>
+                                    Choose Files
+                                    <input type="file" id="ImageFile" class="key-upload" data-bind="filesUpload : MediaFiles" accept="application/pdf,application/msword,image/*" multiple="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <p class="text-muted" style="font-size:11px; text-align : left" data-bind="text:FileWarning" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-primary" id="btnSave" name="next" data-bind="click: $root.edit">Save</button>
+                                <button class="btn btn-danger" onclick="location.href='@Url.Action("AccountOverview", "Account")'">Cancel</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <br /><br /><br /><br />
+                </form>
+            </div>
+            <div id="SaveModal" class="modal fade" role="dialog">
+                <!--Modal-->
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Changes saved successfully!</h4>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" data-bind="visible: EditCompany">
+                <form class="step-form" data-bind="with : Company">
+                    <br /><br /><br /><br />
+                    <fieldset id="user-details">
+                        <h4 class="title"><strong>Edit Company Information</strong></h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img class="img-responsive img-thumbnail" style="width:250px;height:250px" id="editcompanyimage" data-bind="attr: {src: ProfilePhoto().Data}" alt="firstImg" onerror="this.src = '/images/icon-user-default.png'" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <div class="btn btn-success">
+                                        <span class="fa fa-cloud-upload"></span>
+                                        Choose photo
+                                        <input type="file" id="file-upload" class="key-upload" data-bind="event: {change: fileUpload}" accept=".doc,.docx,.pdf,image/*" multiple />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <button class="btn btn-danger" data-bind="click: $root.removePhoto">Remove photo</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="text-muted" style="font-size:11px; text-align : left">Upload your company logo. Supported file types are *.jpg, *.jpeg, *.png, *.gif.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Company Name <span style="color:red;">*</span></label>
+                                <input class="form-control" type="text" name="companyName" placeholder="&nbsp Company Name" data-bind="value: Name">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Company Phone Number <span style="color:red;">*</span></label>
+                                <input class="form-control" type="text" name="companyPhone" placeholder="&nbsp Company Phone Number" data-bind="value: Phone">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Company Website <span style="color:red;">*</span></label>
+                                <input class="form-control" type="text" name="companyWebsite" placeholder="&nbsp Company Website" data-bind="value: Website, valueUpdate :'afterkeydown'">
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4><label> Physical Address</label></h4>
+                            </div>
+                            <div class="col-md-6">
+                                <h4> <label> Billing Address</label></h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label">Search Address</label>
+                                            <input class="form-control" type="text" name="searchAddressPhysical" id="PhysicalAutocomplete" placeholder="&nbsp Enter your address" data-bind="addressAutocomplete: PhysicalAddress, valueUpdate:'afterkeydown'">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="Number">Number <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="Phy_number" placeholder="&nbsp Number" data-bind="value: PhysicalAddress.Number" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label class="control-label" for="Street">Street <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="Phy_street" placeholder="&nbsp Street" data-bind="value: PhysicalAddress.Street" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="Suburb">Suburb <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="Phy_suburb" placeholder="&nbsp Suburb" data-bind="value: PhysicalAddress.Suburb" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="City">City <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="Phy_city" placeholder="&nbsp City" data-bind="value: PhysicalAddress.City" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="PostCode">PostCode <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="Phy_postCode" placeholder="&nbsp PostCode" data-bind="value: PhysicalAddress.PostCode" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input name="isCompShipSame" id="isCompShipSame" type="checkbox" data-bind="checked: isCompShipSame">
+                                            <label>Same Billing Address</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="control-label">Search Address</label>
+                                            <input class="form-control" type="text" name="searchAddressBilling" id="BillingAutocomplete" placeholder="&nbsp Enter your address" data-bind="addressAutocomplete: BillingAddress, valueUpdate:'afterkeydown', disable : $root.isCompShipSame">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label" for="street_number">Number <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="bill_number" placeholder="&nbsp Number" data-bind="value: BillingAddress.Number, disable : $root.isCompShipSame" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label class="control-label" for="route">Street <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="bill_street" placeholder="&nbsp Street" data-bind="value: BillingAddress.Street, disable : $root.isCompShipSame" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Suburb <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="bill_suburb" placeholder="&nbsp Suburb" data-bind="value: BillingAddress.Suburb, disable : $root.isCompShipSame" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">City <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="bill_city" placeholder="&nbsp City" data-bind="value: BillingAddress.City, disable : $root.isCompShipSame" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">PostCode <span style="color:red;">*</span></label>
+                                            <input type="text" class="form-control" id="bill_postCode" placeholder="&nbsp PostCode" data-bind="value: BillingAddress.PostCode, disable : $root.isCompShipSame" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-primary" id="btnSave" name="next" data-bind="click: $root.editCompany">Save</button>
+                                <button class="btn btn-danger" onclick="location.href='@Url.Action("AccountOverview", "Account")'">Cancel</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <br /><br /><br /><br />
+                </form>
+            </div>
+            <div id="SaveModal" class="modal fade" role="dialog">
+                <!--Modal-->
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Changes saved successfully!</h4>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Bootstrap Form Helpers -->
+<script src="http://bootstrapformhelpers.com/assets/js/bootstrap-formhelpers.min.js">
+</script>
+@*<script src="~/Scripts/Users/AccountOverview.js"></script>    *@
+<script src="~/Scripts/Globals/keysAddress.js"></script>
+<script src="~/Scripts/load-image.all.min.js"></script>
+<script src="~/Scripts/exif-js.js"></script>
+<script src="~/Scripts/binaryajax.js"></script>
+@*The following caused errors in the browser after I got the latest version of the project so I commented them out*@
+@*<link href="css/bootstrap-form-helpers.min.css" rel="stylesheet">
+    <script src="js/bootstrap-formhelpers.min.js"></script>*@
+<script>
+    $(document).ready(function () {
+
+        var dataVm = ko.mapping.fromJS(@Html.Raw(Json.Encode(Model)));
+        ko.applyBindings(new AccountOverviewViewModel(dataVm));
+
+        function AccountOverviewViewModel(dataVm) {
+            console.log(dataVm);
+            var self = this;
+            self.Company = dataVm.Company;
+            console.log(self.Company);
+            self.Company.Name.extend(Extender.companyName);
+            self.Company.Phone.extend(Extender.homePhoneNumber);
+            self.Company.Website.extend(Extender.websiteCompany);
+            self.Company.PhysicalAddress.Number.extend(Extender.addressNumber);
+            self.Company.PhysicalAddress.Street.extend(Extender.addressStreet);
+            self.Company.PhysicalAddress.Suburb.extend(Extender.addressSuburb);
+            self.Company.PhysicalAddress.City.extend(Extender.addressCity);
+            self.Company.PhysicalAddress.PostCode.extend(Extender.postcode);
+            self.Company.BillingAddress.Number.extend(Extender.addressNumber);
+            self.Company.BillingAddress.Street.extend(Extender.addressStreet);
+            self.Company.BillingAddress.Suburb.extend(Extender.addressSuburb);
+            self.Company.BillingAddress.City.extend(Extender.addressCity);
+            self.Company.BillingAddress.PostCode.extend(Extender.postcode);
+            self.Id = ko.observable("");
+            self.FirstName = ko.observable();
+            self.FirstName.extend(Extender.firstName);
+            self.MiddleName = ko.observable();
+            self.MiddleName.extend(Extender.middleName);
+            self.LastName = ko.observable();
+            self.LastName.extend(Extender.lastName);
+            self.availableRoles = ko.observable(['Service Provider', 'Tenant', 'Property Owner', 'Guest']);
+            self.userRole = ko.observable();
+            self.PlaceOfBirth = ko.observable();
+            self.PhoneNumber = ko.observable();
+            self.PhoneNumber = ko.observable().extend(Extender.homePhoneNumber);
+            self.Language = ko.observable();
+            self.Language.extend(Extender.language);
+            self.Occupation = ko.observable();
+            self.Occupation.extend(Extender.occupation);
+            self.LinkedinUrl = ko.observable();
+            self.LinkedinUrl = ko.observable().extend(Extender.linkedinUrl);
+            self.PhyAddressSearchBar = ko.observable();
+            self.BillAddressSearchBar = ko.observable();
+            self.PhysicalAddress = ko.observable(new AddressModel(""));
+            self.BillingAddress = ko.observable(new AddressModel(""));
+            self.ProfilePhoto = ko.observableArray();
+            self.MediaFiles = ko.observableArray();
+            self.FilesRemoved = ko.observableArray();
+            self.MainView = ko.observable(true);
+            self.EditUser = ko.observable(false);
+            self.EditCompany = ko.observable(false);
+            self.isShipSame = ko.observable(false);
+            self.isCompShipSame = ko.observable(false);
+            self.IsServiceSupplier = ko.observable(false);
+            self.isCompanyValid = ko.observable(false);
+            self.NewPhoto = ko.observable();
+            self.CompanyErrors = ko.validation.group([
+                self.Company.Name,
+                self.Company.Phone,
+                self.Company.Website,
+                self.Company.PhysicalAddress,
+                self.Company.BillingAddress,
+            ])
+
+            self.isCompanyValid = ko.computed(function () {
+                return self.CompanyErrors().length == 0;
+            });
+
+            self.ShowCompanyEdit = function () {
+                self.MainView(false);
+                self.EditUser(false);
+                self.EditCompany(true);
+            }
+
+
+            GetAccountOverview();
+
+            self.validFileTypes = [
+                "image/gif",
+                "image/jpeg",
+                "image/png",
+                "image/jpg"
+            ];
+
+            self.FileWarning = ko.observable(KeysInstrucTion.fileUpLoad);
+            self.viewChange = function () {
+                self.MainView(false);
+                self.EditUser(true);
+                self.EditCompany(false);
+            };
+
+            self.FullUserName = ko.pureComputed(function () {
+                return self.MiddleName() == null ? self.FirstName() + " " + self.LastName() : self.FirstName() + " " + self.MiddleName() + " " + self.LastName();
+            });
+
+            $(function () {
+                // Clear event
+                $('.image-preview-clear').click(function () {
+
+                    $('.image-preview-filename').val("");
+                    $('.image-preview-clear').hide();
+                    $('.image-preview-input input:file').val("");
+                    $(".image-preview-input-title").text("Choose File");
+                });
+
+            });
+
+            self.checkShipSame = ko.computed(function () {
+                if (self.isShipSame()) {
+                    UpdateAddress(ko.mapping.toJS(self.PhysicalAddress()), self.BillingAddress());
+                }
+                else {
+                    self.BillingAddress().Number();
+                    self.BillingAddress().Street();
+                    self.BillingAddress().Suburb();
+                    self.BillingAddress().City();
+                    self.BillingAddress().PostCode();
+                }
+            });
+
+            function resetOrientation(srcBase64, srcOrientation, callback) {
+                var img = new Image();
+                img.onload = function () {
+                    var width = img.width,
+                        height = img.height,
+                        canvas = document.createElement('canvas'),
+                        ctx = canvas.getContext("2d");
+                    // set proper canvas dimensions before transform & export
+                    if (4 < srcOrientation && srcOrientation < 9) {
+                        canvas.width = height;
+                        canvas.height = width;
+                    } else {
+                        canvas.width = width;
+                        canvas.height = height;
+                    }
+                    // transform context before drawing image
+                    switch (srcOrientation) {
+                        case 2: ctx.transform(-1, 0, 0, 1, width, 0); break;
+                        case 3: ctx.transform(-1, 0, 0, -1, width, height); break;
+                        case 4: ctx.transform(1, 0, 0, -1, 0, height); break;
+                        case 5: ctx.transform(0, 1, 1, 0, 0, 0); break;
+                        case 6: ctx.transform(0, 1, -1, 0, height, 0); break;
+                        case 7: ctx.transform(0, -1, -1, 0, height, width); break;
+                        case 8: ctx.transform(0, -1, 1, 0, 0, width); break;
+                        default: break;
+                    }
+                    // draw image
+                    ctx.drawImage(img, 0, 0);
+                    // export base64
+                    callback(canvas.toDataURL());
+                };
+                img.src = srcBase64;
+            }
+
+            self.ImageFile = ko.observable();
+            self.fileName = ko.observable();
+            self.fileSrc = ko.observable();
+
+            self.fileUpload = function (elemet, event) {
+               console.log(self.ProfilePhoto);
+                var files = event.target.files;
+                if (files && files[0]) {
+                    var f = files[0];
+                    if (!f.type.match('image.*')) {
+                        return;
+                    }
+
+                    //Get the current orientation value of the image
+                    var originalImage = document.getElementById("editimage");
+
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var result = e.target.result;
+
+                        var photo = {
+                            File: f,
+                            Data: result,
+                            OldFileName: f.name,
+                            Status: "add",
+                            MediaType: f.type
+                        }
+                        console.log('Photo', photo);
+                        self.ProfilePhoto(photo);
+                    }
+                    reader.readAsDataURL(f);
+
+
+                }
+
+            };
+            self.removePhoto = function (file) {
+                $('#editimage').attr('src', '/images/icon-user-default.png');
+
+            };
+            self.removeFiles = function (file) {
+                if (file.Status === 'load') {
+                    self.FilesRemoved.push(file.Id);
+                }
+                self.MediaFiles.remove(file);
+            }
+            self.errors = ko.validation.group([
+                self.FirstName,
+                self.MiddleName,
+                self.LastName,
+                self.PhoneNumber,
+                self.Language,
+                self.Occupation,
+                self.LinkedinUrl,
+                self.PhysicalAddress,
+                self.BillingAddress,
+
+            ]);
+
+            self.isValid = ko.computed(function () {
+                return self.errors().length == 0;
+            });
+
+
+            self.edit = function (data) {
+                var formData = new FormData();
+                formData.append('Id', data.Id());
+                formData.append('FirstName', data.FirstName());
+                formData.append('MiddleName', data.MiddleName() == null ? "" : data.MiddleName());
+                formData.append('LastName', data.LastName());
+                formData.append('userRole', data.userRole());
+                formData.append('PlaceOfBirth', data.PlaceOfBirth());
+                formData.append('Language', data.Language() == null ? "" : data.Language());
+                formData.append('Occupation', data.Occupation() == null ? "" : data.Occupation());
+                formData.append('LinkedinUrl', data.LinkedinUrl() == null ? "" : data.LinkedinUrl());
+                formData.append('PhoneNumber', data.PhoneNumber() == null ? "" : data.PhoneNumber());
+
+                if (data.ProfilePhoto().Status == 'add') {
+                    formData.append('NewPhoto', data.ProfilePhoto().File);
+                    if (data.ProfilePhoto().File.size > 2097152) {
+                        alert("You can not upload more than 2 mb.");
+                        return false;
+                    }
+                }
+
+                if ($('#editimage').attr('src') == "/images/icon-user-default.png") {
+                    formData.append('ProfilePhotoModel.Data', data.ProfilePhoto().Data);
+                    formData.append('ProfilePhotoModel.Id', data.ProfilePhoto().Id);
+                    formData.append('ProfilePhotoModel.Status', "removed");
+                }
+
+                formData.append('PhysicalAddress.Number', data.PhysicalAddress().Number());
+                formData.append('PhysicalAddress.Street', data.PhysicalAddress().Street());
+                formData.append('PhysicalAddress.Suburb', data.PhysicalAddress().Suburb());
+                formData.append('PhysicalAddress.City', data.PhysicalAddress().City());
+                formData.append('PhysicalAddress.PostCode', data.PhysicalAddress().PostCode());
+                if (isShipSame.checked == false) {
+                    console.log("different billing");
+                    formData.append('BillingAddress.Number', data.BillingAddress().Number());
+                    formData.append('BillingAddress.Street', data.BillingAddress().Street());
+                    formData.append('BillingAddress.Suburb', data.BillingAddress().Suburb());
+                    formData.append('BillingAddress.City', data.BillingAddress().City());
+                    formData.append('BillingAddress.PostCode', data.BillingAddress().PostCode());
+                }
+                else {
+                    console.log("same billing");
+                    formData.append('BillingAddress.Number', data.PhysicalAddress().Number());
+                    formData.append('BillingAddress.Street', data.PhysicalAddress().Street());
+                    formData.append('BillingAddress.Suburb', data.PhysicalAddress().Suburb());
+                    formData.append('BillingAddress.City', data.PhysicalAddress().City());
+                    formData.append('BillingAddress.PostCode', data.PhysicalAddress().PostCode());
+                }
+
+                var removedData = data.FilesRemoved();
+
+                for (var i = 0; i < removedData.length; i++) {
+                    formData.append('FilesRemoved', removedData[i]);
+                }
+                var addedPhoto = data.MediaFiles();
+                for (var i = 0; i < addedPhoto.length; i++) {
+                    formData.append('MediaFiles' + i, addedPhoto[i].File);
+                }
+
+                if (self.isValid()) {
+                    var url = "/Account/Edit/" + self.Id();
+                    $.ajax({
+                        type: "Post",
+                        url: url,
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function (data) {
+                            if (data.success) {
+                                KeysUtils.notification.show('<p>Changes saved successfully!</p>', 'success', viewChangeBack);
+                                GetAccountOverview();
+                            }
+
+                        },
+                        error: function (error) {
+
+                            alert(error.status + "<!----!>" + error.statusText);
+                        },
+                        fail: function () { }
+
+                    });
+
+                }
+                else {
+                    alert("Please check your submission. Please fill all required fields");
+                }
+            };
+
+            self.editCompany = function (data) {
+                debugger;
+                var formData = new FormData();
+                formData.append('Name', data.Name());
+                formData.append('Phone', data.Phone());
+                formData.append('Website', data.Website());
+
+                if (data.ProfilePhoto().Status() == 'add') {
+                    formData.append('NewCompPhoto', data.ProfilePhoto().File());
+                }
+
+                if ($('#editimage').attr('src') == "/images/icon-user-default.png") {
+                    formData.append('ProfilePhoto.Status', "removed");
+                }
+
+                formData.append('PhysicalAddress.Number', data.PhysicalAddress.Number());
+                formData.append('PhysicalAddress.Street', data.PhysicalAddress.Street());
+                formData.append('PhysicalAddress.Suburb', data.PhysicalAddress.Suburb());
+                formData.append('PhysicalAddress.City', data.PhysicalAddress.City());
+                formData.append('PhysicalAddress.PostCode', data.PhysicalAddress.PostCode());
+
+                if (isCompShipSame.checked == false) {
+                    console.log("different billing");
+                    formData.append('BillingAddress.Number', data.BillingAddress.Number());
+                    formData.append('BillingAddress.Street', data.BillingAddress.Street());
+                    formData.append('BillingAddress.Suburb', data.BillingAddress.Suburb());
+                    formData.append('BillingAddress.City', data.BillingAddress.City());
+                    formData.append('BillingAddress.PostCode', data.BillingAddress.PostCode());
+                }
+                else {
+                    console.log("same billing");
+                    formData.append('BillingAddress.Number', data.PhysicalAddress.Number());
+                    formData.append('BillingAddress.Street', data.PhysicalAddress.Street());
+                    formData.append('BillingAddress.Suburb', data.PhysicalAddress.Suburb());
+                    formData.append('BillingAddress.City', data.PhysicalAddress.City());
+                    formData.append('BillingAddress.PostCode', data.PhysicalAddress.PostCode());
+                }
+
+                if (self.isCompanyValid()) {
+                    var url = "/Account/EditCompany/" + self.Id();
+                    $.ajax({
+                        type: "Post",
+                        url: url,
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function (data) {
+                            if (data.success) {
+                                KeysUtils.notification.show('<p>Changes saved successfully!</p>', 'success', viewChangeBack);
+
+                                GetAccountOverview();
+
+                            }
+
+                        },
+                        error: function (error) {
+
+                            alert(error.status + "<!----!>" + error.statusText);
+                        },
+                        fail: function () { }
+
+                    });
+                }
+                else {
+                    alert("Please check your submission. Please fill all required fields");
+                }
+            };
+
+            function viewChangeBack() {
+                self.MainView(true);
+                self.EditUser(false);
+                self.EditCompany(false);
+            }
+
+            function GetAccountOverview() {
+                $.ajax({
+                    type: "GET",
+                    url: "/Account/FetchAccountOverview",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        debugger;
+                        self.Id(data.Id);
+                        self.FirstName(data.FirstName);
+                        self.MiddleName(data.MiddleName);
+                        self.LastName(data.LastName);
+                        self.PlaceOfBirth(data.PlaceOfBirth);
+                        data.Language ? self.Language(data.Language) : 1;
+                        self.Occupation(data.Occupation);
+                        self.LinkedinUrl(data.LinkedinUrl);
+                        self.PhoneNumber(data.PhoneNumber);
+                        self.IsServiceSupplier(data.IsServiceSupplier);
+                        UpdateAddress(data.PhysicalAddress, self.PhysicalAddress());
+                        UpdateAddress(data.BillingAddress, self.BillingAddress());
+                        self.ProfilePhoto(data.ProfilePhotoModel);
+                        self.MediaFiles(data.MediaFiles);
+                    },
+                    error: function (error) {
+
+                        console.log("error data");
+                    }
+                });
+            };
+
+            function UpdateAddress(data, address) {
+                data.Number ? address.Number(data.Number) : 1;
+                data.Street ? address.Street(data.Street) : 1;
+                data.Suburb ? address.Suburb(data.Suburb) : 1;
+                data.City ? address.City(data.City) : 1;
+                data.PostCode ? address.PostCode(data.PostCode) : 1;
+                data.Latitude ? address.Latitude(data.Latitude) : 1;
+                data.Longitude ? address.Longitude(data.Longitude) : 1;
+            }
+            //function ProfilePhoto(profilePhotoModel) {
+            //    data.Number ? address.Number(data.Number) : 1;
+            //    data.Street ? address.Street(data.Street) : 1;
+            //    data.Suburb ? address.Suburb(data.Suburb) : 1;
+            //    data.City ? address.City(data.City) : 1;
+            //    data.PostCode ? address.PostCode(data.PostCode) : 1;
+            //    data.Latitude ? address.Latitude(data.Latitude) : 1;
+            //    data.Longitude ? address.Longitude(data.Longitude) : 1;
+            //}
+        }
+        function AddressModel(data) {
+            var self = this;
+
+            self.errorsAddress = ko.validation.group(self);
+
+            self.Number = ko.observable(data.Number) || ko.observable();
+            self.Number.extend(Extender.addressNumber);
+
+            self.Street = ko.observable(data.Street) || ko.observable();
+            self.Street.extend(Extender.addressStreet);
+
+            self.Suburb = ko.observable(data.Suburb) || ko.observable();
+            self.Suburb.extend(Extender.addressSuburb);
+
+            self.City = ko.observable(data.City) || ko.observable();
+            self.City.extend(Extender.addressCity);
+
+            self.PostCode = ko.observable(data.PostCode) || ko.observable();
+            self.PostCode.extend(Extender.postcode);
+
+            self.Latitude = ko.observable(data.Latitude) || ko.observable();
+            self.Longitude = ko.observable(data.Longitude) || ko.observable();
+            self.Errors = ko.validation.group(self);
+            self.IsValid = ko.computed(function () {
+                return self.Errors().length == 0;
+            });
+
+        }
+    });
+</script>
+
+
+

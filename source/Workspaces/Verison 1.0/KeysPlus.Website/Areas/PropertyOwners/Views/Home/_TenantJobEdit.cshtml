@@ -1,0 +1,28 @@
+﻿<div id="tenantJobEditModal" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+             <h4 class="modal-title text-center">Edit Tenant Job</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form" data-bind="with: selectedTenantJob">
+                    <div class="form-group col-sm-12">
+                        <br />
+
+                        <label class="col-sm-3">Job Description:</label>
+                        <p class="col-sm-9" style="word-wrap: break-word;text-align:justify;" data-bind="text: JobDescription"> </p>
+                    </div>
+
+                    <div class="form-group col-sm-12">
+                        <label class="col-sm-3">Property Name:</label>
+                        <p class="col-sm-9" data-bind="text: PropertyName"></p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-success" data-bind="click:$data.saveJob">Save</button>
+                <button data-dismiss="modal" class="btn btn-danger"> Close</button>
+            </div>
+        </div>
+    </div>
+</div>

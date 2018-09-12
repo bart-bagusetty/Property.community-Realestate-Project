@@ -1,0 +1,21 @@
+﻿@model IPagedList<KeysPlus.Service.Models.TenantJobRequestModel>
+<div class="pagedList text-center">
+    @if (Model.PageCount == 1)
+    {
+        <div class="pagination-container">
+            <ul class="pagination">
+                <li class="disabled PagedList-pageCountAndLocation">
+                    <a>Page 1 of 1.</a>
+                </li>
+            </ul>
+        </div>
+    }
+    @Html.PagedListPager(Model, page => Url.Action("RequestForProperty", "Property", new { page }),
+     new PagedListRenderOptions()
+     {
+         Display = PagedListDisplayMode.IfNeeded,
+         DisplayPageCountAndCurrentLocation = true,
+         MaximumPageNumbersToDisplay = 5
+     })
+
+</div>

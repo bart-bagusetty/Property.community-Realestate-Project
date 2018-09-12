@@ -1,0 +1,128 @@
+﻿<script type="text/html" id="tenantJobDetails">
+    <style>
+        table {
+            table-layout: fixed;
+            width: 310px;
+            border: none;
+            border-top: 0px;
+        }
+
+            table td {
+                width: 100px;
+                word-wrap: break-word;
+                border-top: 0px;
+            }
+
+            table tr {
+                border-top: 0px;
+                border: none;
+            }
+
+        .wrap {
+            position: relative;
+            word-wrap: break-word;
+            margin-left: 5px;
+        }
+
+        .carousel-active-thumb {
+            border-bottom: 5px solid #000;
+            padding: 5px;
+            margin: 2px;
+        }
+
+        .carousel-thumb {
+            border-bottom: 5px solid #fff;
+            padding: 5px;
+            margin: 2px;
+        }
+
+        .carousel-thumbnail-center {
+            text-align: center;
+        }
+
+            .carousel-thumbnail-center ol {
+                display: inline-block;
+                overflow-x: scroll;
+                overflow-y: hidden;
+                max-width: 350px;
+                max-height: 70px;
+                padding: 0 15px;
+                white-space: nowrap;
+                zoom: 1;
+                *display: inline;
+            }
+
+        ol.horizontal-slide .item-inner {
+            display: inline-block;
+            float: none;
+        }
+
+        .carousel-thumbnail-center ol img {
+            display: inline-block;
+            overflow-x: scroll;
+            overflow-y: hidden;
+        }
+
+        .carousel-inner > .item > img {
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            height: 350px;
+            width: auto;
+        }
+    </style>
+
+    <div data-bind="with: selectedTenantJob">
+
+        <div class="offset-top4" style="padding:3px; padding-left:20px;">
+            <h4 style="font-weight:bold">Details</h4>
+        </div>
+        <hr style="margin-top:7px; margin-bottom:7px;" />
+        <div class="col-md-6" style="margin-top:10px; ">
+            <table class="table">
+                <tbody>
+                    
+                    <tr>
+                        <th class="col-md-3">Description</th>
+                        <td data-bind="text: JobDescription"></td>
+                    </tr>
+                    <tr>
+                        <th class="col-md-3">Property Name</th>
+                        <td data-bind="text: PropertyName"></td>
+                    </tr>
+                    <tr>
+                        <th class="col-md-3">The date job listed</th>
+                        <td data-bind="text: CreatedOn"></td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+            
+            <hr />
+@*Insert photot here*@
+            @*<div>
+                <div class="form-group" data-bind="visible:PhotoProfile().length>8">
+                    <img class="img-responsive" data-bind="attr: {src: ImageProfile }" />
+                </div>
+            </div>*@
+
+        </div>
+
+
+       
+
+
+        <div class="col-xs-12">
+            @* Other features like Google Maps will go here *@
+        </div>
+        <div class="col-xs-4 offset-top2">
+            <form>
+                <button class="btn-success" data-bind="click: $parent.acceptJob">Accept</button>
+                <button class="btn-warning">Reject</button>
+                <button class="btn-info">Reqest more info</button>
+                <button class="btn btn-default" data-bind="click:$root.goToIndex">Back to Index</button>
+            </form>
+        </div>
+    </div>
+
+</script>

@@ -1,0 +1,49 @@
+﻿<label class="onboard-label clear">Date of Birth<span style="color:red;">*</span></label>
+@*<input type="text" id="DOB" name="DateOfBirth" placeholder="dd/mm/yyyy" data-bind="value: DateOfBirth" />*@
+<input type="text" id="DOB" style="padding-left:10px" name="DateOfBirth" placeholder="&nbsp dd/mm/yyyy"
+       data-bind="datePicker : Model.DateOfBirth, dateTimePickerOptions : {format: 'DD/MM/YYYY', maxDate: (new Date()).addDays(-1), useCurrent : false}" />
+<br />
+<label class="onboard-label clear">Home Phone Number<span style="color:red;">*</span></label>
+<input type="tel" name="HomePhoneNumber" placeholder="eg:097001234" data-bind="value: Model.HomePhoneNumber, valueUpdate:'afterkeydown'" /><br />
+<label class="onboard-label clear">Mobile Phone Number<span style="color:red;">*</span></label>
+<input type="tel" name="MobilePhoneNumber" placeholder="eg:0212345678" data-bind="value : Model.MobilePhoneNumber, valueUpdate:'afterkeydown'" /><br />
+<label for="searchTextField" class="onboard-label clear">Current Address<span style="color:red;">*</span></label><br />
+<input type="text" name="searchAddress" id="autocomplete" placeholder="&nbsp Enter your address" size="54" maxlength="120" data-bind="value: AddressField, addressAutocomplete : Model.Address">
+<input type="hidden" name="Address.Number" data-bind="value : Model.Address.Number" />
+<input type="hidden" name="Address.Street" data-bind="value : Model.Address.Street" />
+<input type="hidden" name="Address.Suburb" data-bind="value : Model.Address.Suburb" />
+<input type="hidden" name="Address.City" data-bind="value : Model.Address.City" />
+<input type="hidden" name="Address.PostCode" data-bind="value : Model.Address.PostCode" />
+<input type="hidden" name="Address.Latitude" data-bind="value : Model.Address.Latitude" />
+<input type="hidden" name="Address.Longitude" data-bind="value : Model.Address.Longitude" />
+<label class="onboard-label clear">Please upload your photo here</label>
+<br />
+<br />
+<br />
+<br />
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div style="height:150px">
+            <div data-bind="if:ImgData">
+                <div class="col-md-2 col-sm-3 col-xs-4">
+                    <div class="thumbnail">
+                        <a data-bind="removeFile : Model.PhotoFile, display : ImgData, element : 'file-upload'">
+                            <i class="zmdi zmdi-close-circle" style="float:right"></i>
+                        </a>
+                        <img class="img-responsive" data-bind="attr: {src: ImgData}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="inputWrapper action-button">
+            <i  class="fa fa-cloud-upload"></i>
+            Choose Photo
+            <input class="fileInput" type="file" id="ImageFile" name="ImageFile" accept="image/*" data-bind="uploadFile : Model.PhotoFile, display : ImgData, validFileTypes : ValidFileTypes"/>
+          
+        </div>
+        <p class="text-muted" style="font-size:11px; text-align : left">Max size is 2 MB and supported file types are *.jpg, *.jpeg, *.png, & *.gif</p>
+    </div>
+ </div>
+

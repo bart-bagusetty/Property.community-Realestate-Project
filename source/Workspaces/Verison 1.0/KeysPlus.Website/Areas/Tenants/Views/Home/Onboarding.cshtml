@@ -1,0 +1,54 @@
+﻿
+@{
+    Layout = null;
+}
+<head>
+    <title>Tenant Onboarding</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDF1Nus-BmJkWyNInNx1Re0sqBa_CKuL_o&libraries=places"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/onboarding.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/moment")
+    @Scripts.Render("~/bundles/globals")
+    @Scripts.Render("~/bundles/notification")
+    @Styles.Render("~/notification/css")
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.0/css/bootstrap-datepicker.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.0/js/bootstrap-datepicker.min.js"></script>*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+</head>
+<body>
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "msform" }))
+    {
+        @Html.AntiForgeryToken()
+        <fieldset id="tenant-details">
+            <h2 class="fs-title">Tenant Details </h2>
+            <h3 class="fs-subtitle">Enter the Tenant Details here</h3>
+            @Html.Partial("_TenantDetails")
+            <input type="button" id="addTenant" name="save" class="action-button" value="Save" data-bind="click: SaveInfo" />
+            <input type="button" name="skip" class="action-button" value="Skip" onclick="location.href='@Url.Action("Dashboard", "Home", new {Area = "" })'" />
+        </fieldset>
+    }
+    <script src="~/Scripts/jquery.easing.min.js"></script>
+    <script src="~/Scripts/PropertyOwners/Home/Onboarding.js"></script>
+    <script src="~/Scripts/Tenants/TenantDetails.js"></script>
+    <script>
+        $(document).ready(function () {
+            //ko.applyBindings(new tenantDetailsViewModel(), document.getElementById("tenant-details"));
+            ko.applyBindings(new TenantInfoVm());
+        });
+    </script>
+</body>
+<style>
+    a.action-button{
+        text-decoration:none;
+        font-size : 13px;
+        box-sizing: border-box;
+    }
+</style>
+

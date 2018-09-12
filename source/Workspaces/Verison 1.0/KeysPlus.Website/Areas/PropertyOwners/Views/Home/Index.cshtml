@@ -1,0 +1,922 @@
+﻿@model POPropSearchModel
+@{
+    ViewBag.Title = "Properties | Property Community";
+}
+<div data-bind="visible : ShowProps">
+    <div id="mainPage" data-bind="visible : MainView">
+        <div class="row">
+            <div class="block-header col-md-8">
+                <h3>Your Properties</h3>
+                <span class="text-muted" style="font-size:12px;">You can manage your properties and tenants here</span>
+            </div>
+            <div class="pull-right" style="margin-top : 20px; padding-right : 15px">
+                <a href="@Url.Action("AddNewProperty", new { controller = "Property", area = "PropertyOwners" })" style="padding-right: 15px"><span class="zmdi zmdi-plus-circle-o"></span> Add New Property</a>
+                @if (Model.CanListRental)
+                {
+                    <a href="@Url.Action("ListRental", new { controller = "Property", area = "PropertyOwners", propId = -1 })"><span class="zmdi zmdi-plus-circle-o"></span> List A Rental</a>
+                }
+            </div>
+        </div>
+        <div class="clear"></div>
+        <hr />
+        @{
+            Html.RenderPartial("_SearchInput");
+
+        }
+        <br />
+        <div class="row" data-bind="foreach : Items">
+           
+            <div class="col-md-12" data-bind="">
+                <div class="panel panel-default">
+                    <div class="panel-body property-list-wrapper">
+                        <div title="Delete" class="delete-top-right-corner" >
+                            <a id="ttt" class="fa fa-trash-o" href="#" style="margin-right:20px;" data-bind="attr: {href:'@Url.Action("Delete", "Home", new { area = "PropertyOwners", returnUrl = HttpContext.Current.Request.RawUrl})' + '&id=' + Model.Id() }"></a>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img class="img-responsive img-thumbnail" data-bind="attr: {src: FirstPhoto().Data}" alt="firstImg" onerror="this.src = '/images/no-prop-img.png'" height="150" />
+                            </div>
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <!--details row-->
+                                    <div class="col-md-4 property-info-detail" style="padding-bottom : 0px">
+                                        <div class="prop-name" data-bind="text:Model.Name"></div>
+                                        <div class="prop-detail">
+                                            <span data-bind="text : StreetAddress"></span><br />
+                                            <span data-bind="text : CitySub"></span><br />
+                                        </div>
+                                        <div class="prop-amenities">
+                                            <span class="amenity-detail" data-bind="text:Model.Bedroom"></span> <i class="fa fa-bed"></i>
+                                            &nbsp;<span class="amenity-detail" data-bind="text:Model.Bathroom"></span> <i class="fa fa-shower"></i>
+                                            &nbsp;<span class="amenity-detail" data-bind="text:Model.ParkingSpace"></span> <i class="fa fa-car"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 property-info-detail">
+                                        <div><strong>Purchased Price: </strong>$<span class="finance-details-value" data-bind="numeric:PurchasePrice"></span></div>
+                                        <div><strong>Home value: </strong>$<span class="finance-details-value" data-bind="numeric:CurrentHomeValue"></span></div>
+                                        <div><strong>Rent: </strong> $<span class="finance-details-value" data-bind="numeric:Model.TargetRent"></span></div>
+                                    </div>
+                                </div><!--details row-->
+                                <div class="row">
+                                    <!--link row-->
+                                    <div class="col-md-12">
+                                        <a href="#" style="margin-right:20px;" data-bind="attr: { href: '@Url.Action("AddTenantDashboard", "Home", new { area = "PropertyOwners", returnUrl = HttpContext.Current.Request.RawUrl})' + '&propId=' + Model.Id() }">Add Tenant</a>
+                                        <a style="margin-right:20px;" href="#" data-bind="attr: { 'href': '@Url.Action("ListRental", "Property", new { area = "PropertyOwners", returnUrl = HttpContext.Current.Request.RawUrl})' + '&propId=' + Model.Id() }">List As Rental</a>
+                                        <a href="#" data-bind="visible : TenantCount() > 0, attr: { 'href': '@Url.Action("SendRequest", "Home", new { area = "Rental", returnUrl = HttpContext.Current.Request.RawUrl})' + '&propId=' + Model.Id() }">Send Request</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="action-area">
+                            <div class="card-acts">
+                                <a class="col-md-3 text-center card-act-btn" data-bind="attr: { 'href': '@Url.Action("PropertyTenants", "Property", new { Area = "PropertyOwners", returnUrl = HttpContext.Current.Request.RawUrl})' + '&PropId=' + Model.Id() + '&templateId=' + 1}">
+                                    <i class="zmdi zmdi-accounts"></i> Manage Tenant
+                                </a>
+                                <div class="col-md-3 text-center card-act-btn" data-bind="click: $root.ShowFinanceDetail"><span><i class="fa fa-usd"></i> Finance</span></div>
+                                <div class="col-md-3 text-center card-act-btn" data-bind="click: $root.ShowEdit">
+                                    <i class="zmdi zmdi-edit"></i> Edit
+                                </div>
+                                <div class="col-md-3 text-center card-act-btn no-border-right" data-bind="click: $root.ShowDetail, clickShowMap : Model.Address">
+                                    <i class="zmdi zmdi-info-outline"></i> Detail
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--panel body-->
+                </div><!--panel-->
+            </div>
+        </div>
+        @{
+            Html.RenderPartial("_PagedItems");
+        }
+    </div>
+    <div data-bind="visible : DetailView" style="display : none">
+        <div data-bind="with: SelectedItem">
+            <div class="row">
+                <div class="col-md-12" style="padding-bottom: 100px">
+                    <button class="btn btn-info btn-sx" data-bind="click:$root.ShowMain"><span class="fa fa-arrow-left"></span> Back</button>
+                    @*<i class="fa fa-lg fa-arrow-left" aria-hidden="true" data-bind="click:$root.goToIndex"></i>*@
+                    <br /><br />
+                    <div class="panel panel-default">
+                        <div class="panel-heading" data-bind="text: Model.Name"></div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-6" style="margin-top:10px;">
+                                    <!--details coloum-->
+
+                                    <div class="row" style="line-height : 25px">
+                                        <div class="col-md-4" style="padding-right : 0px;">
+                                            <strong>Location:</strong>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <span data-bind="text: StreetAddress"></span>
+                                            <span data-bind="text: CitySub"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="line-height : 25px">
+                                        <div class="col-md-4" style="padding-right : 0px;">
+                                            <strong>Property Type:</strong>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <span data-bind="text: PropertyTypeName"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="line-height : 25px">
+                                        <div class="col-md-4" style="padding-right : 0px;">
+                                            <strong>Rooms:</strong>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <span data-bind="text: Model.Bedroom"></span>&nbsp;<i class="fa fa-bed"></i>
+                                            &nbsp;&nbsp;<span data-bind="text: Model.Bathroom"></span>&nbsp;<i class="fa fa-shower"></i>
+                                            &nbsp;&nbsp;<span data-bind="text: Model.ParkingSpace"></span>&nbsp;<i class="fa fa-car"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="line-height : 25px">
+                                        <div class="col-md-4" style="padding-right : 0px;">
+                                            <strong>Land Area:</strong>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <span data-bind="if:Model.LandSqm">
+                                                <span data-bind="text: Model.LandSqm"></span>m<sup>2</sup>
+                                            </span>
+                                            <span data-bind="ifnot:Model.LandSqm"> Not Available </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="line-height : 25px">
+                                        <div class="col-md-4" style="padding-right : 0px;">
+                                            <strong>Floor Area:</strong>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <span data-bind="if:Model.FloorArea">
+                                                <span data-bind="text: Model.FloorArea"></span>m<sup>2</sup>
+                                            </span>
+                                            <span data-bind="ifnot:Model.FloorArea"> Not Available </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="line-height : 25px">
+                                        <div class="col-md-4" style="padding-right : 0px;">
+                                            <strong>Target Rent:</strong>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <span data-bind="if:Model.TargetRent">
+                                                $<span data-bind="numeric: Model.TargetRent"></span>
+                                            </span>
+                                            <span data-bind="ifnot:Model.TargetRent"> Not Available </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="line-height : 25px">
+                                        <div class="col-md-4" style="padding-right : 0px;">
+                                            <strong>Year Built:</strong>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <span data-bind="text: Model.YearBuilt"></span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row" style="line-height : 25px">
+                                        <div class="col-md-4" style="padding-right : 0px;">
+                                            <strong>Owner Occupied:</strong>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <span data-bind="text: IsOwnerOccupiedDisplay"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="line-height : 25px">
+                                        <div class="col-md-4" style="padding-right : 0px;">
+                                            <strong>Description:</strong>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <span data-bind="text: Model.Description"></span>
+                                        </div>
+                                    </div>
+                                    <br />
+                                </div>
+                                <div class="col-md-6" style="margin-top:10px;">
+                                    <!--photo column-->
+                                    <div data-bind="visible:ImgFiles().length>0">
+
+                                        <div id="carousel-property" class="carousel slide" data-ride="carousel" data-bind="visible:ImgFiles().length>0">
+                                            <!-- Wrapper for slides -->
+
+                                            <a href="#" class="thumbnail" data-toggle="modal" data-target="#CarouselModal" data-backdrop="static">
+                                                <div class="carousel-inner" role="listbox" data-bind="foreach: ImgFiles()">
+                                                    <div class="item" data-bind="css: {active: $index() == 0}">
+                                                        <img data-bind="attr: {src: Data}" alt="Thumbnail" data-target="#lightbox">
+                                                    </div>
+                                                </div>
+                                            </a>
+
+                                            <!-- Controls -->
+                                            <a class="left carousel-control" href="#carousel-property" role="button" data-slide="prev">
+                                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="right carousel-control" href="#carousel-property" role="button" data-slide="next">
+                                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </div>  <!-- Carousel -->
+                                    </div><!--With Images -->
+                                    <div class="row">
+                                        <!--Without Images -->
+                                        <div class="col-md-8">
+                                            <div data-bind="visible:ImgFiles().length<=0" class="thumbnail">
+                                                <img src="/images/no-prop-img.png" alt="noPropImg" />
+                                            </div>
+                                        </div>
+                                    </div><!--Without Images -->
+                                </div>
+                            </div>
+                            <!--photo column-->
+                        </div>
+                        <div class="panel-body">
+                            <div class="panel panel-default">
+                                <div id="map"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div data-bind="visible : EditView" style="display : none">
+        <div class="row">
+            <div style="width : 80%; margin : auto">
+                <h3>Edit Property </h3>
+                <hr />
+                <a class="btn btn-info btn-sx" data-bind="attr: { href: '@Url.Action("Index", "Home")' }"><span class="fa fa-arrow-left"></span> Back</a>
+                <br /><br />
+            </div>
+        </div>
+
+        <div class="row" data-bind="with:SelectedItemCopy">
+
+            <form class="step-form">
+                <fieldset id="property-details">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Property Name <span style="color:red;">*</span></label>
+                            <input class="form-control" type="text" name="propertyName" data-bind="textInput: Model.Name">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Property Type</label>
+                            <select class="form-control" data-bind="value : Model.PropertyTypeId">
+                                @foreach (var type in ViewBag.PropertyTypes)
+                                {
+                                    <option value="@type.PropertyTypeId">@type.Name</option>
+                                }
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Search Address <span style="color:red;">*</span></label>
+                                        <input class="form-control" type="text" name="searchAddress" id="autocomplete" placeholder="&nbsp Enter your address" data-bind="addressAutocomplete: Model.Address, valueUpdate:'afterkeydown'">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label" for="street_number">Number <span style="color:red;">*</span></label>
+                                        <input type="text" class="form-control" id="street_number" placeholder="&nbsp Number" data-bind="textInput: Model.Address.Number" />
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label class="control-label" for="route">Street <span style="color:red;">*</span></label>
+                                        <input type="text" class="form-control" id="route" placeholder="&nbsp Street" data-bind="textInput: Model.Address.Street" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label" for="route">Suburb <span style="color:red;">*</span></label>
+                                        <input type="text" class="form-control" id="route" placeholder="&nbsp Suburb" data-bind="textInput: Model.Address.Suburb" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label" for="street_number">City <span style="color:red;">*</span></label>
+                                        <input type="text" class="form-control" id="street_number" placeholder="&nbsp City" data-bind="textInput: Model.Address.City" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label" for="street_number">Postcode <span style="color:red;">*</span></label>
+                                        <input type="text" class="form-control" id="street_number" placeholder="&nbsp Postcode" data-bind="textInput: Model.Address.PostCode" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Description <span style="color:red;">*</span></label>
+                                <textarea class="form-control" data-bind="value:Model.Description,valueUpdate:'afterkeydown'" style="resize: vertical;" rows="8" cols="70" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Year Built <span style="color:red;">*</span></label>
+                                <select class="form-control" data-bind="value: Model.YearBuilt">
+                                    @for (int i = DateTime.Now.Year; i >= 1900; i--)
+                                    {
+                                        <option value=@i>@i</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Target Rent</label>
+                                <input class="form-control" type="text" data-bind="value: Model.TargetRent,valueUpdate:'afterkeydown'" placeholder="Rent Amount" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Rent Type</label>
+                                <select class="form-control" data-bind="value: Model.TargetRentType">
+                                    @foreach (var freq in ViewBag.Frequencies)
+                                    {
+                                        <option value="@freq.Id">@freq.Code</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Land Area</label>
+                                <input class="form-control" type="text" data-bind="value: Model.LandSqm,valueUpdate:'afterkeydown'" placeholder="Land Area" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Floor Area</label>
+                                <input class="form-control" type="text" data-bind="value: Model.FloorArea,valueUpdate:'afterkeydown'" placeholder="Floor Area" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Bedrooms <span style="color:red;">*</span></label>
+                                <input class="form-control" type="text" data-bind="value: Model.Bedroom,valueUpdate:'afterkeydown'" placeholder="Number of Bedrooms" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Bathrooms <span style="color:red; ">*</span></label>
+                                <input class="form-control" type="text" data-bind="value: Model.Bathroom,valueUpdate:'afterkeydown'" placeholder="Number of Bathrooms" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Carparks <span style="color:red;">*</span></label>
+                                <input class="form-control" type="text" data-bind="value: Model.ParkingSpace, valueUpdate : 'afterkeydown'" placeholder="Number of car parks" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group" style="margin-top:28px;">
+                                <input type="checkbox" name="test" style="float:left ;width: 20px" data-bind="checked : Model.IsOwnerOccupied" />
+                                <label class="control-label" style="padding-left:10px">Owner Occupied</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.Partial("_MediaInput")
+                            <div class="form-group">
+                                <p class="text-muted" style="font-size:11px; text-align : left">You may upload up to 5 files. Max size is 5 MB each and supported file types are *.jpg, *.jpeg, *.png, & *.gif</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <button class="btn btn-primary" data-bind="click:$root.Edit">Save</button>
+                            <button class="btn btn-danger" onclick="location.href='@Url.Action("Index", "Home")'">Cancel</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+
+        </div>
+    </div>
+    <div data-bind="visible : DeleteView" style="display : none">
+        <h3>Remove Property</h3>
+        <hr />
+        <a class="btn btn-info btn-sx" data-bind="click:$root.ShowMain"><span class="fa fa-arrow-left"></span> Back</a>
+        <br /><br />
+        <div class="panel panel-default" data-bind="with : SelectedItem">
+            <div class="panel-heading">
+                Are you sure you want to delete this property?
+            </div>
+            <div class="panel-body">
+                <div class="row" style="line-height : 25px">
+                    <div class="col-md-2" style="padding-right : 0px;">
+                        <strong>Name:</strong>
+                    </div>
+                    <div class="col-md-8" style="padding-right : 0px;">
+                        <div data-bind="text : Model.Name"></div>
+                    </div>
+                </div>
+                <div class="row" style="line-height : 25px">
+                    <div class="col-md-2" style="padding-right : 0px;">
+                        <strong>Location:</strong>
+                    </div>
+                    <div class="col-md-8" style="padding-right : 0px;">
+                        <span data-bind="text : StreetAddress"></span>
+                        <span data-bind="text : CitySub"></span>
+                    </div>
+                </div>
+                <div class="row" style="line-height : 25px">
+                    <div class="col-md-2" style="padding-right : 0px;">
+                        <strong>Purchased Price:</strong>
+                    </div>
+                    <div class="col-md-8" style="padding-right : 0px;">
+                        $<span class="finance-details-value" data-bind="text:PurchasePrice"></span>
+                    </div>
+                </div>
+                <div class="row" style="line-height : 25px">
+                    <div class="col-md-2" style="padding-right : 0px;">
+                        <strong>Home value:</strong>
+                    </div>
+                    <div class="col-md-8" style="padding-right : 0px;">
+                        $<span class="finance-details-value" data-bind="text:CurrentHomeValue"></span>
+                    </div>
+                </div>
+                <div class="row" style="line-height : 25px">
+                    <div class="col-md-2" style="padding-right : 0px;">
+                        <strong>Rent:</strong>
+                    </div>
+                    <div class="col-md-8" style="padding-right : 0px;">
+                        $<span class="finance-details-value" data-bind="text:Model.TargetRent"></span>
+                    </div>
+                </div>
+                <div class="row" style="line-height : 25px">
+                    <div class="col-md-2" style="padding-right : 0px;">
+                        <strong>Amenities:</strong>
+                    </div>
+                    <div class="col-md-8" style="padding-right : 0px;">
+                        <span class="amenity-detail" data-bind="text:Model.Bedroom"></span> <i class="fa fa-bed"></i>
+                        &nbsp;<span class="amenity-detail" data-bind="text:Model.Bathroom"></span> <i class="fa fa-shower"></i>
+                        &nbsp;<span class="amenity-detail" data-bind="text:Model.ParkingSpace"></span> <i class="fa fa-car"></i>
+                    </div>
+                </div>
+                <div class="prop-actions">
+                    <button type="button" class="btn btn-success" data-bind="click: $root.Delete">Confirm</button>
+                    <button type="button" class="btn btn-danger" data-bind="click: $root.ShowMain">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div data-bind="visible : ShowFinance" style="display : none">
+    <div class="" data-bind="with:SelectedItem">
+        <div data-bind="with : Finance">
+            <div class="row" style="padding-bottom:100px;">
+                <div style="width : 97%; margin : auto">
+                    <button class="btn btn-info btn-sx" data-bind="click:$root.ShowPropertites"><span class="fa fa-arrow-left"></span> Back</button>
+                    <br /><br />
+                </div>
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                        <li role="presentation" class="active"><a href="#propertyAnalysis" data-toggle="tab">Property analysis</a></li>
+                        <li role="presentation"><a href="#financeDetail" data-toggle="tab">Finance details</a></li>
+                        <li role="presentation"><a href="#cashflow" data-toggle="tab">Cash flow</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade in active" id="propertyAnalysis">
+                            <div class="row">
+                                <div class="col-md-12 block-header">
+                                    <h3 class="border-bottom no-margin-bottom m-l-10">Investment Analysis</h3>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="analysis-property-key-metric-header property-key-metric-header row">
+                                        <div class="vertical-value-label-pair border-seperated col-md-3 col-md-offset-0 col-xs-12">
+                                            <span class="label top">Indicated</span>
+                                            <span class="label heading">Purchased Price</span>
+                                            <span class="label value"></span>
+                                            <span class="content"><span><span class="value"><span class="currency-symbol">$</span><span data-bind="numeric: PurchasePrice"></span></span></span></span>
+                                            <div class="info">
+                                                @*<span>
+                                                        <span>
+                                                            <i class="gray-scale sm icon svg" style="display: inline;">
+                                                            </i><span style="display: inline;"><span>-55.9%</span> lower than suburb median</span>
+                                                        </span>
+                                                    </span>*@
+                                            </div>
+                                        </div>
+                                        <div class="vertical-value-label-pair border-seperated col-md-3 col-md-offset-0 col-xs-12">
+                                            <span class="label top">Indicated</span>
+                                            <span class="label heading">Home value</span>
+                                            <span class="label value"></span>
+                                            <span class="content"><span><span class="value"><span class="currency-symbol">$</span><span data-bind="numeric : CurrentHomeValue"></span></span></span></span>
+                                            <div class="info">
+                                                @*<span>
+                                                        <span>
+                                                            <i class="gray-scale sm icon svg" style="display: inline;">
+                                                            </i><span style="display: inline;"><span>-55.9%</span> lower than suburb median</span>
+                                                        </span>
+                                                    </span>*@
+                                            </div>
+                                        </div>
+                                        <div class="vertical-value-label-pair border-seperated col-md-3 col-md-offset-0 col-xs-12">
+                                            <span class="label top">Indicated</span>
+                                            <span class="label heading">Mortgage</span>
+                                            <span class="label value"></span>
+                                            <span class="content"><span><span class="value"><span class="currency-symbol">$</span><span data-bind="numeric : Mortgage"></span></span></span></span>
+                                            <div class="info">
+                                                @*<span>
+                                                        <span>
+                                                            <i class="gray-scale sm icon svg" style="display: inline;">
+                                                            </i><span style="display: inline;"><span>-55.9%</span> lower than suburb median</span>
+                                                        </span>
+                                                    </span>*@
+                                            </div>
+                                        </div>
+                                        <div class="vertical-value-label-pair border-seperated col-md-3 col-md-offset-0 col-xs-12">
+                                            <span class="label top">Indicated</span>
+                                            <span class="label heading">Net yield</span>
+                                            <span class="label value"></span>
+                                            <span class="content"><span><span class="value">7.4<span class="percent-symbol">%</span></span> </span></span>
+                                            <div class="info">
+                                                @*<span>
+                                                        <span>
+                                                            <i class="gray-scale sm icon svg" style="display: inline;">
+                                                            </i><span style="display: inline;"><span>-55.9%</span> lower than suburb median</span>
+                                                        </span>
+                                                    </span>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Property detail -->
+                            <div class="analysis-equations-row col-md-12">
+                                <div class="equation three-components">
+                                    <div class="equation-inner clearfix">
+                                        <div class="equation-component equation-input col-xs-4">
+                                            <div class="title">Annual Rent</div>
+                                            <div class="value" data-bind="if : Report()">
+                                                <span data-bind="text : Report().AnnualRentAtCurrentYear,">$9,100</span>
+                                            </div>
+                                            <div class="description" data-bind="if : Report">
+                                                <span data-bind="text : Report().RentAmountPerWeek">$175</span> Weekly Rent X 52 Weeks
+                                            </div>
+                                        </div>
+                                        <div class="equation-component equation-input col-xs-4">
+                                            <div class="title">Purchase Price</div>
+                                            <div class="value">
+                                                <span data-bind="numeric : PurchasePrice"></span>
+                                            </div>
+                                            <div class="description">Based on indicated sale price</div>
+                                        </div>
+                                        <div class="equation-component equation-result col-md-4 col-xs-4">
+                                            <div class="title">Gross Yield</div>
+                                            <div class="value" data-bind="if : Report()">
+                                                <span data-bind="text : Report().GrossYieldPercent">9.8%</span>
+                                            </div>
+                                            <div class="description">Excludes expenses</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="equation three-components">
+                                    <div class="equation-inner clearfix">
+                                        <div class="equation-component equation-input col-xs-4">
+                                            <div class="title">Avg Suburb Annual Growth</div>
+                                            <div class="value">
+                                                <span>5.9%</span>
+                                            </div>
+                                            <div class="description with-icon">
+                                                <span>
+                                                    <span>
+                                                        <span style="display: inline;"><span>0.9%</span><!-- react-text: 5414 --> higher than <!-- /react-text --><!-- react-text: 5415 -->national average<!-- /react-text --></span>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="equation-component equation-input col-xs-4">
+                                            <div class="title">Purchase Price</div>
+                                            <div class="value ">
+                                                <span data-bind="numeric : PurchasePrice"></span>
+                                            </div>
+                                            <div class="description">
+                                                <span>Based on indicated sale price</span>
+                                            </div>
+                                        </div>
+                                        <div class="equation-component equation-result col-xs-4">
+                                            <div class="title">5 Year Capital Gain</div>
+                                            <div class="value" data-bind="if : Report()">
+                                                <span data-bind="text : Report().CapitalGainAtCurrentYear">$30,979</span>
+                                            </div>
+                                            <div class="description" data-bind="if : Report()">
+                                                Estimated Sale Price in 5 years
+                                                <strong data-bind="text : Report().EstimatedSalesPriceAtYear5">$123,679</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="financeDetail">
+                            <div class="row">
+                                <div class="col-md-12 block-header">
+                                    <h3 class="border-bottom no-margin-bottom m-l-10">Finance details</h3>
+                                </div>
+                                <div class="col-md-12">
+                                    <div id="homeValueSection" class="homeValueSection m-l-10" style="margin-top: 20px">
+                                        <span class="title-header">
+                                            Home value
+                                        </span>
+                                        @* Home value section with knock out *@
+                                        <div>
+                                            <table class="table-financial table-properties property-projections table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Amount</th>
+                                                        <th>Value Type</th>
+                                                        <th>Date Added</th>
+                                                        <th>Is Active</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody data-bind="foreach: HomeValues">
+                                                    <tr data-bind="template:{name : $parent.HomeValueDisplay($data)}"></tr>
+                                                </tbody>
+                                            </table>
+                                            <p></p>
+                                            <a class="button-link" style="color: #337ab7" data-bind="click : AddHomeValue"><i class="glyphicon glyphicon-plus-sign"></i> Add home value</a>
+                                        </div>
+                                    </div>
+                                    <div id="repaymentSection" class="repaymentSection m-l-10" style="margin-top: 20px">
+                                        <span class="title-header">
+                                            Repayments
+                                        </span>
+                                        @* Repayments section with knock out *@
+                                        <div>
+                                            <table class="table-financial table-properties property-projections table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Amount</th>
+                                                        <th>Frequency</th>
+                                                        <th>Start date</th>
+                                                        <th>End date</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody data-bind="foreach : Repayments">
+                                                    <tr data-bind="template :{name : $parent.RepaymentDisplay($data)}"></tr>
+                                                </tbody>
+
+                                            </table>
+                                            <p></p>
+                                            <a class="button-link" style="color: #337ab7" data-bind="click : AddRepayment"><i class="glyphicon glyphicon-plus-sign"></i> Add repayment</a>
+                                        </div>
+                                    </div>
+                                    <div id="expenseSection" class="expenseSection m-l-10" style="margin-top: 20px">
+                                        <h4>
+                                            <span class="title-header">
+                                                Expenses
+                                            </span>
+                                        </h4>
+                                        <table class="table-financial table-properties property-projections table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Amount</th>
+                                                    <th>Description</th>
+                                                    <th>Date Added</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody data-bind="foreach : Expenses">
+                                                <tr data-bind="template : {name : $parent.ExpenseDisplay($data)}"></tr>
+                                            </tbody>
+
+                                        </table>
+                                        <a class="button-link" style="color: #337ab7" data-bind="click : AddExpense"><i class="glyphicon glyphicon-plus-sign"></i> Add expense</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="cashflow">
+                            <div class="analysis-projected-cashflow row">
+                                <div class="col-md-12 block-header">
+                                    <h3 class="border-top border-bottom no-margin-bottom m-l-10">Projected Cash flow</h3>
+                                </div>
+                                <div class="col-md-8 col-md-offset-2 col-xs-12">
+                                    <div class="equation three-components row">
+                                        <div class="vertical-value-label-pair border-seperated equation-component col-xs-4">
+                                            <span class="value equation-component" data-bind="if : Report()"><span data-bind="text : Report().MonthlyRentalIncome">$758</span></span>
+                                            <span class="label">Monthly Income</span>
+                                        </div>
+                                        <div class="vertical-value-label-pair border-seperated equation-component col-xs-4">
+                                            <span class="value equation-component" data-bind="if : Report()"><span data-bind="text : Report().MonthlyExpense">$468</span></span>
+                                            <span class="label">Monthly Expenses</span>
+                                        </div>
+                                        <div class="vertical-value-label-pair border-seperated equation-component col-xs-4">
+                                            <span class="value equation-component" data-bind="if : Report()"><span data-bind="text : Report().MonthlyMoneyInPocket">$291</span></span>
+                                            <span class="label">In your pocket per month</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="table-financial table-properties property-projections table">
+                                            <colgroup><col style="width: 25%"><col style="width: 25%"><col style="width: 25%"><col style="width: 25%"></colgroup>
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Current Year</th>
+                                                    <th>Year 5</th>
+                                                    <th>Year 10</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Property Value</td>
+                                                    <td>
+                                                        <span data-bind="if : Report()">
+                                                            <span data-bind="text : Report().IndicatedHomeValue">$92,700</span>
+                                                        </span>
+
+                                                    </td>
+                                                    <td>
+                                                        <span data-bind="if : Report()">
+                                                            <span data-bind="text : Report().EstimatedSalesPriceAtYear5">$123,679</span>
+                                                        </span>
+
+                                                    </td>
+                                                    <td>
+                                                        <span data-bind="if : Report()">
+                                                            <span data-bind="text : Report().EstimatedSalesPriceAtYear10">$165,012</span>
+                                                        </span>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Rental Income</td>
+                                                    <td>
+                                                        <span data-bind="if : Report()">
+                                                            <span data-bind="text : Report().AnnualRentAtCurrentYear">$9,100</span>
+                                                        </span>
+
+                                                    </td>
+                                                    <td>
+                                                        <span data-bind="if : Report()">
+                                                            <span data-bind="text : Report().AnnualRentAtYear5">$10,397</span>
+                                                        </span>
+
+                                                    </td>
+                                                    <td>
+                                                        <span data-bind="if : Report()">
+                                                            <span data-bind="text : Report().AnnualRentAtYear10">$11,878</span>
+                                                        </span>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Estimated Expenses
+                                                        <br>
+                                                        <span class="text-muted">Based on 25% of rent p/a<br>and 4.5% interest</span>
+                                                    </td>
+                                                    <td>
+                                                        <span data-bind="if : Report()">
+                                                            <span data-bind="text : Report().TotalExpenseAtCurrentYear">$5,612</span>
+                                                        </span>
+
+                                                    </td>
+                                                    <td>
+                                                        <span data-bind="if : Report()">
+                                                            <span data-bind="text : Report().TotalExpenseAtYear5">$5,936</span>
+                                                        </span>
+
+                                                    </td>
+                                                    <td>
+                                                        <span data-bind="if : Report()">
+                                                            <span data-bind="text : Report().TotalExpenseAtYear10">$6,307</span>
+                                                        </span>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Cash flow (pre-tax)
+                                                        <br>
+                                                        <span class="text-muted">Income - expenses</span>
+                                                    </td>
+                                                    <td>
+                                                        <span data-bind="if : Report()">
+                                                            <span data-bind="text : Report().CashflowPreTaxAtCurrentYear">$3,488</span>
+                                                        </span>
+
+                                                    </td>
+                                                    <td>
+                                                        <span data-bind="if : Report()">
+                                                            <span data-bind="text : Report().CashflowPreTaxAtYear5">$4,309</span>
+                                                        </span>
+
+                                                    </td>
+                                                    <td>
+                                                        <span data-bind="if : Report()">
+                                                            <span data-bind="text : Report().CashflowPreTaxAtYear10">$5,247</span>
+                                                        </span>
+
+                                                    </td>
+                                                </tr>
+                                                <tr class="success">
+                                                    <td>
+                                                        Capital Gain
+                                                        <br>(accumulated)
+                                                    </td>
+                                                    <td>
+                                                        <span data-bind="if : Report()">
+                                                            <span data-bind="text : Report().CapitalGainAtCurrentYear">$5,503</span>
+                                                        </span>
+
+                                                    </td>
+                                                    <td>
+                                                        <span data-bind="if : Report()">
+                                                            <span data-bind="text : Report().CapitalGainAtYear5">$30,979</span>
+                                                        </span>
+
+                                                    </td>
+                                                    <td>
+                                                        <span data-bind="if : Report()">
+                                                            <span data-bind="text : Report().CapitalGainAtYear10">$72,312</span>
+                                                        </span>
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@Html.AntiForgeryToken()
+@section Modal{
+    @{
+        Html.RenderPartial("_SearchResultModal");
+        Html.RenderPartial("_PropertyFinancial");
+    }
+}
+@section scripts{
+    @Scripts.Render("~/Scripts/PropertyOwners/Home/FinancialModel.js")
+    @Scripts.Render("~/Scripts/propertyOwners/Home/Index.js")
+    <script>
+        $(document).ready(function () {
+            var searchCount = @Model.SearchCount;
+            if(searchCount == 0){
+                $('#NoRecord').appendTo('body').modal('show');
+            }
+            var dataVm = ko.mapping.fromJS(@Html.Raw(Json.Encode(Model)));
+            var vm = new PageViewModel(dataVm, KeysExtendsDic.Property);
+         
+            
+            ko.applyBindings(vm);
+        });
+    </script>
+   
+}

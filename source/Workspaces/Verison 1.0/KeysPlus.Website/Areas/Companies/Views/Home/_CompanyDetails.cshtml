@@ -1,0 +1,62 @@
+﻿
+<script type="text/html" id="companyDetails">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a>
+                    Company Details
+                </a>
+            </h4>
+        </div>
+        <div class="panel-body">
+            <div class="col-sm-12">
+                <div data-bind="with:selectedCompany">
+                    <div >
+                        <div class="form-group" data-bind="visible:PhotoProfile().length>8">
+                            <img class="img-responsive"  data-bind="attr: {src: ImageProfile }"/>
+                        </div>
+                    </div>
+                    <div class="offset-top4" style="font-size:350%; font-family:Britannic;">
+                        <h1 data-bind="text: Name"></h1>
+                    </div>
+                    <div class="col-sm-12">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th class="col-md-3">Website:</th>
+                                    <td data-bind="text: Website"></td>
+                                </tr>
+                                <tr>
+                                    <th class="col-md-3">Contact Number:</th>
+                                    <td data-bind="text: PhoneNumber"></td>
+                                </tr>
+                                @*<tr>
+                                    <th class="col-md-3">Location:</th>
+                                    <td data-bind="text:fullAddress"></td>
+                                </tr>*@
+                                <tr data-bind="with:PhysicalAddress">
+                                    <th class="col-md-3">Location:</th>
+                                    <td>
+                                    <span data-bind="text:Number,visible:Number!=null">&nbsp;</span>
+                                    <span data-bind="text:Street,visible:Street!=null">,&nbsp;</span>
+                                    <span data-bind="text:Suburb,visible:Suburb!=null">,&nbsp;</span>
+                                    <span data-bind="text:City,visible:City!=null">&nbsp; - &nbsp;</span>
+                                    <span data-bind="text:PostCode,visible:PostCode!=null"></span> 
+                                    </td>
+                                </tr>  
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <br />
+                <div class="col-sm-12 offset-top4">
+                    <button type="button" class="btn btn-default" data-bind="click:$root.goToIndex">Back to Index</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</script>
+

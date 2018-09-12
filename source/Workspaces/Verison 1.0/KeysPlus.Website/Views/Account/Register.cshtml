@@ -1,0 +1,138 @@
+﻿@model KeysPlus.Service.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+@section Scripts {
+
+
+}
+@section ModuleStyle{
+    @Styles.Render("~/content/loginModuleStyle")
+}
+<div class="login-page authentication">
+    <div class="container form-container">
+        <div class="row card">
+            <h1 class="title"><span>Keys</span>Sign up <span class="msg">Create your account</span></h1>
+            <div class="col-md-12">
+
+                @using (Html.BeginForm("Register", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @id = "sign_in" }))
+                {
+                 
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"> <i class="zmdi zmdi-account"></i> </span>
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First Name", data_bind = "value:FirstName" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+
+                        <div class="input-group">
+                            <span class="input-group-addon"> <i class="zmdi zmdi-account"></i> </span>
+                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name", data_bind = "value:LastName" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"> <i class="zmdi zmdi-email"></i> </span>
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Email Address", data_bind = "value:UserName" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"> <i class="zmdi zmdi-lock"></i> </span>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Choose your password (min 6 characters)", data_bind = "value:Password" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group" id="dropdown-input">
+                            <span class="input-group-addon"> <i class="zmdi zmdi-accounts"></i> </span>
+                            @Html.DropDownListFor(m => m.RoleId, new SelectList(ViewBag.Roles, "Id", "Name"), "Choose account type", new { @class = "form-control", id = "roleDropdown" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.RoleId, "", new { @class = "text-danger" })
+                    </div>
+                  
+                    <input type="checkbox" id="checkAgreement" data-bind="checked:CheckAgree" />
+                    <label>I read and agree to the <a href="#termModal" id="show-modal-link" data-target="#termModal" data-toggle="modal">terms and conditions</a></label>
+
+                    <div id="error-tac" data-bind="visible: errorTaC" class="text-danger field-validation-error" data-valmsg-for="TermsAndConditions" data-valmsg-replace="true">
+                        <span id="TaC-error" class="">Please read and accept the Terms and Conditions First</span>
+                    </div>
+
+                    <div class="text-center">
+                        <button id="SignupButton" type="submit" class="btn btn-primary" data-bind="enable:IsRegisValid">Sign Up</button>
+                       
+                        @Html.ActionLink("Had An Account?", "Login", "Account", new { @class = "btn btn-primary" })
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="termModal">
+    <div class="modal-dialog ">
+        <div class="container form-container">
+            <div class="row card">
+                <div class="modal-header">
+                    <h1 class="title"><span>Keys</span>Terms <span class="msg"></span></h1>
+                </div>
+                <div class="modal-body">
+                    <div class="">
+                        Terms and conditions
+                        <br />
+                        Read this before Sign Up
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="btnAccept" class="btn btn-primary" data-dismiss="modal" data-bind="click : Agree">I Accept</button>
+                        <button type="submit" id="btnOk" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var isValid = @Html.Raw(Json.Encode(ViewData.ModelState.IsValid));
+    function RegisViewModel() {
+        var self = this;
+        self.FirstName= ko.observable('');
+        self.LastName = ko.observable('');
+        self.UserName = ko.observable(null);
+        self.Password = ko.observable(null);
+        self.hasReadTaC = ko.observable(false);
+        self.errorTaC = ko.observable(false);
+        self.CheckAgree = ko.observable(false);
+
+
+        self.CheckAgree.subscribe(function(value){
+            if(!value){
+                return self.hasReadTaC(false);
+            }
+            if(!self.hasReadTaC()){
+                self.errorTaC(true);
+                self.CheckAgree(false);
+            } else {
+                self.errorTaC(false);
+            }
+        });
+
+        self.Agree = function(){
+            self.hasReadTaC(true);
+            self.CheckAgree(true);
+        }
+
+        self.IsRegisValid = ko.computed(function () {
+            return self.CheckAgree();
+        });
+    };
+    $(document).ready(function () {
+        ko.applyBindings(new RegisViewModel());
+    });
+</script>

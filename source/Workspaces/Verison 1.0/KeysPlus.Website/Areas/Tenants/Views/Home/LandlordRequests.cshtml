@@ -1,0 +1,310 @@
+﻿@model KeysPlus.Service.Models.LandlordRequestsSearchModel
+@{
+    ViewBag.Title = "Tenant | Landlord's Request";
+}
+<div data-bind="visible:MainView">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="block-header"><h3 class="modal-title">Landlord's Request</h3></div>
+            <span class="text-muted" style="font-size:12px;">You can view your landlord's requests here</span>
+        </div>
+    </div>
+    <hr />
+    @if (Model.ReturnUrl != null)
+    {
+        <a class="btn btn-info btn-sx" data-bind="attr: { href: '@Html.Raw(Model.ReturnUrl)' }"><span class="fa fa-arrow-left"></span> Back</a>
+        <br />
+    }
+    @{
+        Html.RenderPartial("_SearchInput");
+    }
+    <br />
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="@(Model.RequestStatus.Equals(PropertyRequestStatus.Submitted) ? "active" : "")">@Html.ActionLink("Current", "LandLordRequests", new { RequestStatus = PropertyRequestStatus.Submitted })</li>
+        <li class="@(Model.RequestStatus.Equals(PropertyRequestStatus.Accepted) ? "active" : "")">@Html.ActionLink("Accepted", "LandLordRequests", new { RequestStatus = PropertyRequestStatus.Accepted })</li>
+        <li class="@(Model.RequestStatus.Equals(PropertyRequestStatus.Declined) ? "active" : "")">@Html.ActionLink("Declined", "LandLordRequests", new { RequestStatus = PropertyRequestStatus.Declined })</li>
+    </ul>
+    <br />
+    <div class="row" data-bind="foreach : Items">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                          @Html.Partial("_PanelImgs")
+                        </div>
+                        <div class="col-md-7">
+                            <div class="row" style="line-height : 25px">
+                                <div class="row">
+                                    <div class="col-md-4"><strong>Request Status: </strong></div>
+                                    <div class="col-md-7"><span data-bind="text : RequestStatus"></span></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4"><strong>Landlord Name: </strong></div>
+                                    <div class="col-md-7"><span data-bind="text : LandlordName"></span></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4"><strong>Landlord Phone: </strong></div>
+                                    <div class="col-md-7">
+                                        <span data-bind="if: LandlordContactNumber">
+                                            <span data-bind="text : LandlordContactNumber"></span>
+                                        </span>
+                                        <span data-bind="ifnot: LandlordContactNumber">
+                                            Not Available
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4"><strong><span data-bind="text : RequestType"></span>:</strong></div>
+                                    <div class="col-md-7"><span data-bind="text : Model.RequestMessage" style="word-break: break-all;"></span></div>
+                                </div>
+                                <div class="row" data-bind="ifnot:  Model.DueDate()">
+                                    <div class="col-md-4"><strong>Due Date:</strong></div>
+                                    <div class="col-md-7"><span> Not Provided</span></div>
+                                </div>
+                                <div class="row" data-bind="if: Model.DueDate()">
+                                    <div class="col-md-4"><strong>Due Date:</strong></div>
+                                    <div class="col-md-7"><span data-bind="text : moment(Model.DueDate()).format('ll')"></span></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4"><strong>Requested On: </strong></div>
+                                    <div class="col-md-7"><span data-bind="text: moment(CreatedOn()).format('ll')"></span></div>
+                                </div>
+                            </div><!--row-->
+                        </div>
+                        <div class="prop-actions" >
+                            <div>
+                                <button class="btn btn-success" data-bind="click : $root.ShowAccept,visible : Model.RequestStatusId() == 1 || Model.RequestStatusId() == 3"> Accept</button>
+                                <button class="btn btn-default" data-bind="click: $root.showDecline, visible : Model.RequestStatusId() == 1 || Model.RequestStatusId() == 3">Decline</button>
+                            </div>
+                            @*<div data-bind="">
+                                <span class="tooltiptext"  data-bind=""></span>
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div data-bind="visible:Items().length==0">
+        <p style="text-align:center"> No landlord requests for this property</p>
+    </div>
+    @{
+        Html.RenderPartial("_PagedItems");
+    }
+</div>
+
+<div data-bind="visible : DetailView" style="display: none">
+
+</div>
+
+<div data-bind="visible : AcceptView" style="display : none">
+    <div class="step-form-header" style="width:80%; margin:auto">
+        <h3>Accept Request</h3>
+        <hr />
+        <a class="btn btn-info btn-sx" data-bind="click :  $root.ShowMain "><span class="fa fa-arrow-left"></span> Back</a>
+    </div>
+    <br />
+    <div class="row" style="padding-bottom: 100px" data-bind="with : SelectedItem">
+        <div class="col-md-12">
+            <form class="step-form" style="margin-bottom:20px">
+                <fieldset>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span> LandLord Request Details</span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-md-6">
+                                <div class="row" style="line-height:25px">
+                                    <div class="row">
+                                        <div class="col-md-5"><strong>Landlord Name : </strong></div>
+                                        <div class="col-md-7"><span data-bind="text : LandlordName"></span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5"><strong>Property : </strong></div>
+                                        <div class="col-md-7">
+                                            <div data-bind="text : StreetAddress"></div>
+                                            <div data-bind="text : CitySub"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5"><strong>Request : </strong></div>
+                                        <div class="col-md-7"><span data-bind="text : Model.RequestMessage" style="word-break: break-all;"></span></div>
+                                    </div>
+                                </div><!--row-->
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6"><strong>LandLord Number: </strong></div>
+                                    <div class="col-md-6"><span data-bind="text : LandlordContactNumber"></span></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6"><strong>Request Type: </strong></div>
+                                    <div class="col-md-6"><span data-bind="text : RequestType"></span></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6"><strong>Requested On: </strong></div>
+                                    <div class="col-md-6"><span data-bind="text: moment(CreatedOn()).format('ll')"></span></div>
+                                </div>
+
+                                <div class="row" data-bind="ifnot: Model.DueDate()">
+                                    <div class="col-md-6"><strong>Due Date:</strong></div>
+                                    <div class="col-md-6"><span> Not Provided</span></div>
+                                </div>
+                                <div class="row" data-bind="if: Model.DueDate()">
+                                    <div class="col-md-6"><strong>Due Date:</strong></div>
+                                    <div class="col-md-6"><span data-bind="text : moment(Model.DueDate()).format('ll')"></span></div>
+                                </div>
+                            </div>
+                        </div><!--panel body-->
+                    </div><!--panel-->
+                    <div data-bind="visible : Model.RequestTypeId() == 3, with : $root.Inspection">
+                        <div class="form-group">
+                            <label class="control-label">Percentage Done <span style="color:red;">*</span></label>
+                            <select class="form-control" data-bind="value: Model.PercentDone">
+                                <option value="0">0%</option>
+                                <option value="10">10%</option>
+                                <option value="20">20%</option>
+                                <option value="30">30%</option>
+                                <option value="40">40%</option>
+                                <option value="50">50%</option>
+                                <option value="60">60%</option>
+                                <option value="70">70%</option>
+                                <option value="80">80%</option>
+                                <option value="90">90%</option>
+                                <option value="100">100%</option>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">Message <span style="color:red;">*</span></label>
+                                    <textarea class="form-control" rows="5" style="height:123px;" data-bind="value : Model.Message, valueUpdate:'afterkeydown'"></textarea>
+                                </div>
+                                @Html.Partial("_MediaInput");
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <div>
+                                    <button type="button" class="btn btn-primary" data-bind="click:$root.AddInspection" autofocus>Submit</button>
+                                    <button type="button" class="btn btn-danger"data-bind="click:$root.ShowMain" autofocus>Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" data-bind="visible : Model.RequestTypeId() != 3">
+                        <div class="col-md-12 text-center">
+                            <div>
+                                <button type="button" class="btn btn-primary" data-bind="click:$root.AcceptRequest" autofocus>Accept</button>
+                                <button type="button"  class="btn btn-danger" data-bind="click:$root.ShowMain" autofocus>Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<div data-bind="visible : DeclineView" style="display : none">
+    <div class="step-form-header" style="width:80%; margin:auto">
+        <h3>Decline Request</h3>
+        <hr />
+        <a class="btn btn-info btn-sx" data-bind="click :  $root.ShowMain "><span class="fa fa-arrow-left"></span> Back</a>
+    </div>
+    <br />
+    <div class="row" style="padding-bottom: 100px" data-bind="with:  SelectedItem">
+        <div class="col-md-12">
+            <form class="step-form" style="margin-bottom:20px">
+                <fieldset>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <span> LandLord Request Details</span>
+                        </div>
+                        <div class="panel-body"  >
+                            <div class="col-md-6">
+                                <div class="row" style="line-height : 25px">
+
+                                    <div class="row">
+                                        <div class="col-md-5"><strong>Landlord Name : </strong></div>
+                                        <div class="col-md-7"><span data-bind="text : LandlordName"></span></div>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-5"><strong>Property : </strong></div>
+                                        <div class="col-md-7">
+                                            <div data-bind="text : StreetAddress"></div>
+                                            <div data-bind="text : CitySub"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5"><strong>Request : </strong></div>
+                                        <div class="col-md-7"><span data-bind="text : Model.RequestMessage" style="word-break: break-all;"></span></div>
+                                    </div>
+
+                                </div><!--row-->
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6"><strong>LandLord Number: </strong></div>
+                                    <div class="col-md-6"><span data-bind="text : LandlordContactNumber"></span></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6"><strong>Request Type: </strong></div>
+                                    <div class="col-md-6"><span data-bind="text : RequestType"></span></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6"><strong>Requested On: </strong></div>
+                                    <div class="col-md-6"><span data-bind="text: moment(CreatedOn()).format('ll')"></span></div>
+                                </div>
+                                <div class="row" data-bind="ifnot:  Model.DueDate()">
+                                    <div class="col-md-6"><strong>Due Date:</strong></div>
+                                    <div class="col-md-6"><span> Not Provided</span></div>
+                                </div>
+                                <div class="row" data-bind="if: Model.DueDate()">
+                                    <div class="col-md-6"><strong>Due Date:</strong></div>
+                                    <div class="col-md-6"><span data-bind="text : moment(Model.DueDate()).format('ll')"></span></div>
+                                </div>
+                            </div>
+                        </div><!--panel body-->
+                    </div><!--panel-->
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">Reason for declining the Request :</label>
+                                <textarea class="form-control" rows="5" style="height:123px;" data-bind="value: Model.Reason, valueUpdate:'afterkeydown'"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <div>
+                                <button type="button" id="declineRequestbutton" class="btn btn-primary" data-bind="click: $root.Decline" autofocus>Post</button>
+                                <button type="button" id="declineRequestCancelButton" class="btn btn-danger"
+                                        data-bind="click :  $root.ShowMain " autofocus>
+                                    Cancel
+                                </button> 
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+@Html.AntiForgeryToken()
+<script src="~/Scripts/Tenants/LandlordRequests.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#NoRecord").modal("show");
+        var dataVm = ko.mapping.fromJS(@Html.Raw(Json.Encode(Model)));
+        var vm = new PageViewModel(dataVm);
+        ko.applyBindings(vm);
+    });
+</script>

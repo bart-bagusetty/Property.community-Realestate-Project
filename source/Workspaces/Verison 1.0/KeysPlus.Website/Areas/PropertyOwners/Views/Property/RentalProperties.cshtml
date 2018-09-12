@@ -1,0 +1,450 @@
+﻿@model KeysPlus.Service.Models.PORentalListingSearchModel
+@{
+    ViewBag.Title = "Rental Listings";
+}
+<div data-bind="visible : MainView">
+    <div class="row">
+        <div class="block-header col-md-8">
+            <h3>Rental Listings and Tenant Applications</h3>
+            <span class="text-muted" style="font-size:12px;">You can manage your rental listings and tenant applications here</span>
+        </div>
+        <div class="pull-right" style="margin-top : 20px;margin-right : 20px;">
+            <a href="@Url.Action("ListRental", new { controller = "Property", area = "PropertyOwners", propId = -1 })"><span class="zmdi zmdi-plus-circle-o"></span> List A Rental</a>
+
+        </div>
+        <div class="clear"></div>
+    </div>
+    <hr />
+    @{
+        Html.RenderPartial("_SearchInput");
+    }
+    <br />
+    <div class="row" data-bind="foreach : Items">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div title="Delete" class="delete-top-right-corner" data-bind="click:$root.ShowDelete"><i class="fa fa-trash-o"></i></div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div data-bind="visible:Model.MediaFiles().length>0">
+                                <div class="carousel " data-ride="carousel" data-bind="attr :{id : 'carousel'+ Model.Id()}">
+                                    <div class="carousel-inner" style="margin:auto" data-bind="foreach: Model.MediaFiles">
+                                        <div class="item" data-bind="css:{active: $index() == 0}">
+                                            <img class="img-responsive img-thumbnail" data-bind="attr: {src: Data()}"
+                                                 onerror="this.src = '/images/no-prop-img.png'" alt="firstImg">
+                                        </div>
+                                    </div>
+
+                                    <a class="left carousel-control" data-slide="prev" data-bind="attr : {href : '#' + 'carousel'+ Model.Id()}, if : Model.MediaFiles().length > 1">
+                                        <span class="fa fa-2x fa-angle-left"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="right carousel-control" data-slide="next" data-bind="attr : {href : '#' + 'carousel'+ Model.Id()}, if : Model.MediaFiles().length > 1">
+                                        <span class="fa fa-2x fa-angle-right"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div data-bind="visible:Model.MediaFiles().length<=0">
+                                <img class="img-thumbnail" src="/images/no-prop-img.png" alt="noPropImg" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 data-bind="text:Model.Title"></h4>
+                            <div><strong>Listing Id :</strong> # <span data-bind="text : Model.Id"></span></div>
+                            <div>
+                                <strong>Location :</strong>
+                                <span data-bind="text : StreetAddress"></span>
+                                <span data-bind="text : CitySub"></span>
+                            </div>
+                            <br />
+                        </div>
+                        <div class="col-md-3" style="padding:10px;">
+                            <!--stickynote-->
+                            <div id="stickynote">
+                                <p>
+                                    <a data-bind="attr: { 'href': '@Url.Action("AllRentalApplications", "Property", new { Area = "PropertyOwners", returnUrl = HttpContext.Current.Request.RawUrl})' + '&rentallistingId=' + Model.Id()}">
+                                        New<br />Applications<br />
+                                        <span style="font-size:18px; color:blue;" data-bind="text:NewApplicationsCount"></span>
+                                    </a>
+                                </p>
+                            </div>
+                        </div><!--stickynote-->
+                    </div>
+                </div>
+                <div class="card-acts">
+                    <a class="col-md-4 text-center card-act-btn" data-bind="attr: { 'href': '@Url.Action("AllRentalApplications", "Property", new { Area = "PropertyOwners", returnUrl = HttpContext.Current.Request.RawUrl})' + '&rentallistingId=' + Model.Id() }">
+                        <i class="fa fa-files-o"></i> Applications &nbsp;
+                    </a>
+
+                    <div class="col-md-4 text-center card-act-btn" data-bind="click:$root.ShowEdit"><i class="zmdi zmdi-edit"></i> Edit</div>
+                    <div class="col-md-4 text-center card-act-btn" data-bind="click:$root.ShowDetail"><i class="zmdi zmdi-info-outline"></i> Details</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div>
+        @{
+            Html.RenderPartial("_PagedItems");
+        }
+    </div>
+</div>
+<div data-bind="visible : EditView" style="display : none">
+    <div class="row">
+        <div style="width : 80%; margin : auto">
+            <h3>Edit Rental Listing</h3>
+            <hr />
+            <button class="btn btn-info btn-sx" data-bind="click:$root.ShowMain"><span class="fa fa-arrow-left"></span> Back</button>
+            <br /><br />
+        </div>
+    </div>
+
+    <div class="row" style="padding-bottom: 100px">
+        <form class="step-form" data-bind="with:SelectedItemCopy" style="margin-bottom:20px">
+            <fieldset>
+                <div class="row">
+                    <div class="col-md-12" style="font-size:16px;">
+                        <label class="control-label">Property:&nbsp;</label><span data-bind="text:PropertyAddress"></span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">Title <span style="color:red;">*</span></label>
+                                    <input class="form-control" type="text" data-bind="textInput:Model.Title" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">Moving Cost <span style="color:red;">*</span></label>
+                                    <input class="form-control" type="text" data-bind="textInput:Model.MovingCost, trimTo2dp" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Description <span style="color:red;">*</span></label>
+                            <textarea class="form-control" rows="5" style="height:120px;" data-bind="value: Model.Description, valueUpdate:'afterkeydown'"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Target Rent <span style="color:red;">*</span></label>
+                            <input class="form-control" type="text" data-bind="textInput:Model.TargetRent, trimTo2dp" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Furnishing <span style="color:red;">*</span></label>
+                            <input class="form-control" type="text" data-bind="textInput:Model.Furnishing" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Available Date <span style="color:red;">*</span></label>
+                            <input type="text" class="form-control" data-bind="datePicker : Model.AvailableDate, dateTimePickerOptions : {format: 'DD/MM/YYYY'}" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Ideal Tenant <span style="color:red;">*</span></label>
+                            <input class="form-control" type="text" data-bind="textInput:Model.IdealTenant" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">No. of Occupants <span style="color:red;">*</span></label>
+                            <input class="form-control" type="text" data-bind="textInput:Model.OccupantCount" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Pets Allowed <span style="color:red;">*</span></label>
+                            @*<select class="form-control" data-bind="options:PetsAllowedOption, optionsText: 'Choice',optionsValue : 'Choice', value : PetsAllowed"></select>*@
+                            <select class="form-control" data-bind="value : Model.PetsAllowed">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">Please upload your photos here <span style="color:red;"></span></label>
+                            <div class="panel panel-default">
+                                <div class="panel-body" style="min-height:120px">
+                                    <div data-bind="foreach: Model.MediaFiles()">
+                                        <div class="col-md-3 col-sm-4 col-xs-4 no-padding-left">
+                                            <div class="thumbnail">
+                                                <a data-bind="click: $root.RemoveFile">
+                                                    <i class="zmdi zmdi-close-circle" style="float:right"></i>
+                                                </a>
+                                                <a target="_blank" data-bind="attr: { href: Data }">
+                                                    <img class="img-responsive" data-bind="attr: {src: Data()}" style="height:80px" />
+                                                </a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="btn btn-success">
+                                <span class="fa fa-cloud-upload"></span>
+                                Choose Files
+                                <input type="file" id="file-upload" class="key-upload" data-bind="uploadFiles : Model.MediaFiles" accept="image/*" multiple />
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <p class="text-muted" style="font-size:11px; text-align : left">You may upload up to 5 files. Max size is 2 MB each and supported file types are *.jpg, *.jpeg, *.png, & *.gif</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 text-center" style="padding-bottom: 30px">
+                    <button class="btn btn-primary" data-bind="enable : IsValid, click : $root.Edit">Save</button>
+                    <button class="btn btn-danger" data-bind="" onclick="location.href='@Url.Action("Property", "RentalProperties")'">Cancel</button>
+                </div>
+            </fieldset>
+        </form>
+
+    </div>
+
+</div>
+
+<div data-bind="visible : DetailView" style="display : none">
+    <div id="viewRentalDetails" data-bind="with:SelectedItem">
+        <h3>Rental Application Details </h3>
+        <hr />
+        <button class="btn btn-info btn-sx" data-bind="click:$root.ShowMain"><span class="fa fa-arrow-left"></span> Back</button>
+        <br /><br />
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="h4"> <span data-bind="text: Model.Title"></span></span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!--details coloumn-->
+                                <div class="row" style="line-height : 25px">
+                                    <div class="col-md-4" style="padding-right : 0px;">
+                                        <strong>Location:</strong>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <span data-bind="text: StreetAddress"></span>
+                                        <span data-bind="text: CitySub"></span>
+                                    </div>
+                                </div>
+                                <div class="row" style="line-height : 25px">
+                                    <div class="col-md-4" style="padding-right : 0px;">
+                                        <strong>Title:</strong>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <span data-bind="text:Model.Title"></span>
+                                    </div>
+                                </div>
+                                <div class="row" style="line-height : 25px">
+                                    <div class="col-md-4" style="padding-right : 0px;">
+                                        <strong>Moving Cost:</strong>
+                                    </div>
+                                    <div class="col-md-8">
+                                        $<span data-bind="numeric: Model.MovingCost"></span>
+                                    </div>
+                                </div>
+                                <div class="row" style="line-height : 25px">
+                                    <div class="col-md-4" style="padding-right : 0px;">
+                                        <strong>Description:</strong>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <span data-bind="text:Model.Description" style="word-break: break-all;"></span>
+                                    </div>
+                                </div>
+                                <div class="row" style="line-height : 25px">
+                                    <div class="col-md-4" style="padding-right : 0px;">
+                                        <strong>Target Rent:</strong>
+                                    </div>
+                                    <div class="col-md-8">
+                                        $<span data-bind="numeric:Model.TargetRent"></span>
+                                    </div>
+                                </div>
+                                <div class="row" style="line-height : 25px">
+                                    <div class="col-md-4" style="padding-right : 0px;">
+                                        <strong>Furnishing:</strong>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <span data-bind="text:Model.Furnishing"></span>
+                                    </div>
+                                </div>
+                                <div class="row" style="line-height : 25px">
+                                    <div class="col-md-4" style="padding-right : 0px;">
+                                        <strong>Available Date:</strong>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <span data-bind="text:moment(Model.AvailableDate()).format('ll')"></span>
+                                    </div>
+                                </div>
+                                <div class="row" style="line-height : 25px">
+                                    <div class="col-md-4" style="padding-right : 0px;">
+                                        <strong>Ideal Tenant:</strong>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <span data-bind="text:Model.IdealTenant"></span>
+                                    </div>
+                                </div>
+                                <div class="row" style="line-height : 25px">
+                                    <div class="col-md-4" style="padding-right : 0px;">
+                                        <strong>No. of Occupants:</strong>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <span data-bind="text:Model.OccupantCount"></span>
+                                    </div>
+                                </div>
+                                <div class="row" style="line-height : 25px">
+                                    <div class="col-md-4" style="padding-right : 0px;">
+                                        <strong>Pets Allowed:</strong>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <span data-bind="text:Model.PetsAllowed"></span>
+                                    </div>
+                                </div>
+                                <div class="row" style="line-height : 25px">
+                                    <div class="col-md-4" style="padding-right : 0px;">
+                                        <strong>Listed on:</strong>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <span data-bind="text:moment(CreatedOn()).format('ll')"></span>
+                                    </div>
+                                </div>
+                                <br />
+                            </div> <!--details coloumn-->
+
+                            <div class="col-md-5">
+                                <!--photo coloumn-->
+                                <div id="carousel-property" class="carousel slide" data-ride="carousel" data-bind="visible:Model.MediaFiles().length>0">
+                                    <!-- Wrapper for slides -->
+                                    <a href="#" class="thumbnail">
+                                        <div class="carousel-inner" role="listbox" data-bind="foreach: Model.MediaFiles()">
+                                            <div class="item" data-bind="css: {active: $index() == 0}">
+                                                <img data-bind="attr: {src: Data()}" alt="Thumbnail" data-target="#lightbox" style="height:280px">
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <!-- Controls -->
+                                    <a class="left carousel-control" href="#carousel-property" role="button" data-slide="prev">
+                                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="right carousel-control" href="#carousel-property" role="button" data-slide="next">
+                                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                                <!-- thumb navigation carousel items -->
+                                <div class="carousel-thumbnail-center .carousel-thumb canvas-scrollable">
+                                    <ol>
+                                        <li data-bind="foreach: Model.MediaFiles()" style="display:inline; text-align:center" class="item-inner">
+                                            <a href="#">
+                                                <img data-bind="attr: {src: Data()}" alt="Thumbnail" style="width:40px; height:50px;">
+                                            </a>
+                                        </li>
+                                    </ol>
+                                </div>
+
+                                <div class="row">
+                                    <!--Without Images -->
+                                    <div class="col-md-10">
+                                        <div class="thumbnail" data-bind="visible:Model.MediaFiles().length<=0">
+                                            <img src="/images/no-prop-img.png" alt="noPropImg" />
+                                        </div>
+                                    </div>
+                                </div><!--Without Images -->
+
+                            </div><!--photo coloum-->
+                        </div><!-- row-->
+                    </div> <!--panel body-->
+                </div><!--panel-->
+            </div><!--coloumn-->
+        </div><!--coloumn-->
+    </div>
+</div>
+
+<div data-bind="visible : DeleteView" style="display : none">
+    <div id="deleteRentalModal" data-bind="with : SelectedItem()">
+        <div class="container">
+            <h3>Remove Rental Listing</h3>
+            <hr />
+            <a class="btn btn-info btn-sx" data-bind="click:$root.ShowMain"><span class="fa fa-arrow-left"></span> Back</a>
+            <br /><br />
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Are you sure you want to delete this Rental Listing?
+                </div>
+                <div class="panel-body">
+                    <div class="row" style="line-height : 25px">
+                        <div class="col-md-2" style="padding-right : 0px;">
+                            <strong>Title:</strong>
+                        </div>
+                        <div class="col-md-8" style="padding-right : 0px;">
+                            <div data-bind="text : Model.Title"></div>
+                        </div>
+                    </div>
+                    <div class="row" style="line-height : 25px">
+                        <div class="col-md-2" style="padding-right : 0px;">
+                            <strong>Location:</strong>
+                        </div>
+                        <div class="col-md-8" style="padding-right : 0px;">
+                            <span data-bind="text : StreetAddress"></span>
+                            <span data-bind="text : CitySub"></span>
+                        </div>
+                    </div>
+                    <div class="prop-actions">
+                        <button type="button" class="btn btn-success" data-bind="click: $root.Delete">Confirm</button>
+                        <button type="button" class="btn btn-danger" data-bind="click: $root.ShowMain">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.AntiForgeryToken()
+<script src="~/Scripts/PropertyOwners/Property/PORentalListings.js"></script>
+@section Modal{
+    @{
+        Html.RenderPartial("_SearchResultModal");
+    }
+}
+<script>
+    $(document).ready(function () {
+        $("#NoRecord").modal("show");
+        var dataVm = ko.mapping.fromJS(@Html.Raw(Json.Encode(Model)));
+        var vm = new PageViewModel(dataVm);
+        ko.applyBindings(vm);
+    });
+</script>

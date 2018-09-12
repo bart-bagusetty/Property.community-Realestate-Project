@@ -1,0 +1,107 @@
+﻿<script type="text/html" id="AddCompany">
+    <div id="addCompanyForm">
+        <div class="input-group">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" data-bind="with:selectedCompany">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#companyDetails" aria-expanded="true" aria-controls="companyDetails">
+                                Add New Service Supplier Details
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="companyDetails" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="keys control-label col-sm-3">Name <span style="color:red;">*</span></label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" style="margin-bottom:15px; padding-left:8px" placeholder="Name" data-bind="value: Name" href="#Name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="keys control-label col-sm-3">Website <span style="color:red;">*</span></label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control"style="margin-bottom:15px; padding-left:8px" placeholder="Website" data-bind="value: Website">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="keys control-label col-sm-3">Phone Number <span style="color:red;">*</span></label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control"style="margin-bottom:15px; padding-left:8px" placeholder="Phone Number" data-bind="value: PhoneNumber">
+                                    </div>
+                                </div>
+                                <div class="input-group col-sm-12">
+                                    <h4 class="lead text-left">Physical Address</h4>
+                                    <div data-bind="with: PhysicalAddress">
+                                        <div  data-bind="template: {name:'editAddress'}"></div>
+                                    </div>
+                                </div>
+                                <div class="input-group col-sm-12">
+
+                                    <input type="checkbox" name="BillingAddress" id="BillingAddressCheckbox" value="1" class="filled-in chk-col-pink" data-bind="checked: isShipSame, click: $root.ResetAddress" />
+                                    <label for="BillingAddressCheckbox">Same Billing Address</label>
+
+                                </div>
+                                <div class="input-group col-sm-12" data-bind="ifnot: isShipSame,AddCss: $data">
+                                    <p class="lead text-left">Billing Address</p>
+                                    <div data-bind="with: BillingAddress">
+                                        <div data-bind="template:{name:'editAddress'}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12" data-bind="visible:toggleImgDisable()">
+                                <div class="form-group col-sm-12">
+                                    <button type="button" class="btn btn-success" data-bind="click:$root.showUploadLogoForCompanyModal,disable:toggleDisable" style="margin-bottom:15px; text-align:center">Save & Continue</button>
+                                    <button type="button" class="btn btn-danger" data-bind="click:$root.showDiscardCompanyDetailsModal" style="margin-bottom:15px; text-align:center">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!---UploadImage-->
+                <div class="panel panel-default">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#uploadImage" aria-expanded="true" aria-controls="companyDetails" data-bind="visible: $root.disablePhoto">
+                                    Upload Service Suppliers Logo
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="uploadImage" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <div class="thumbnail" data-bind="visible: !toggleImgDisable()">
+                                            <a data-bind="event: {click:removeImage}">
+                                                <i class="glyphicon glyphicon-remove"></i>
+                                            </a>
+                                            <img class="img-responsive" id="imageSource" data-bind="attr: {src:ImageProfile }" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-5" id="CompanyLogoUpload">
+                                        <label for="ImageFile" class="custom-file-upload">
+                                            <i class="fa fa-cloud-upload"></i> Choose File
+                                        </label>
+                                        <input type="file" id="ImageFile" data-bind="event: {change:imageUpload}" accept="image/*" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <button type="button" class="btn btn-success" data-bind="click:$root.showSaveCompanyWithLogoModal,disable:toggleImgDisable() || toggleDisable" style="margin-bottom:15px; text-align:center"> Save </button>
+                                        <button type="button" class="btn btn-danger" data-bind="click:$root.showDiscardCompanyDetailsModal" style="margin-bottom:15px; text-align:center">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+

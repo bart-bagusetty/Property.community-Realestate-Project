@@ -1,0 +1,64 @@
+﻿@model KeysPlus.Service.Models.TenantDashBoardModel
+<p>Tenant Dashboard</p>
+<hr />
+<div class="row dashboard">
+    <div class="col-md-4">
+        <div class="panel panel-default dashboard-panel" data-step="@(++Model.IntroSteps)" data-intro="These handy buttons are for quick access to majors functionalities." style="height : 230px">
+            <div class="panel-heading">Quick Buttons</div>
+            <div class="panel-body" style="height : 190px">
+                <div class="row" style="height : 50%">
+                    <div class="col-md-4 text-center no-padding-side btn-dash-quick" style="border-right : 1px solid #dedee0">
+                        <a href="#" data-bind="attr: { 'href': '@Url.Action("SendRequest", "Home", new { area = "Tenants", returnUrl = HttpContext.Current.Request.RawUrl})' }">
+                            <div class="fa fa-envelope-square" style="position : relative">
+                                <span style="position : absolute; top:-5px; left:-6px; font-weight : 900; font-size : 12px">+</span>
+                            </div>
+                            <br />
+                            <p>Send Requests</p>
+                        </a>
+                    </div>
+                    <div class="col-md-4 text-center btn-dash-quick" style="border-right : 1px solid #dedee0" onclick="location.href='@Url.Action("MyRequests", "Home", new { area = "Tenants" })'">
+                        <div class="fa fa-envelope-square">
+                        </div>
+                        <div>My Requests</div>
+                    </div>
+                    <div class="col-md-4 text-center btn-dash-quick" style="border-right : 1px solid #dedee0" onclick="location.href='@Url.Action("LandlordRequests", "Home", new { area = "Tenants"})'">
+                        <div class="zmdi zmdi-account"></div>
+                        <div>LandLord Requests</div>
+                    </div>
+                </div>
+
+                <div class="row" style="height :50%">
+                    <div class="col-md-12" style="border-top : 1px solid #dedee0; height : 100%">
+                        <div class="row" style="height : 100%;">
+                            <div class="col-md-4 text-center btn-dash-quick pad-top-10" style="border-right : 1px solid #dedee0" onclick="location.href='@Url.Action("MyRentals", "Home", new { area = "Tenants" })'">
+                                <div class="fa fa-key">
+                                    <span class="zmdi zmdi-home" style="position : absolute; top:0; right:0; font-size : 9px"></span>
+                                </div>
+                                <div>My Rentals</div>
+                            </div>
+                            <div class="col-md-4 text-center btn-dash-quick pad-top-10 no-padding-side" style="border-right : 1px solid #dedee0" onclick="location.href='@Url.Action("MyRentalApplications", "Home", new { area = "Tenants" })'">
+                                <div class="fa fa-clone"></div>
+                                <div>My</div>
+                                <div>Applications</div>
+                            </div>
+                            <div class="col-md-4 text-center btn-dash-quick pad-top-10 no-padding-side" onclick="location.href='/Personal/Watchlist'">
+                                <div class="fa fa-bookmark"></div>
+                                <div>My</div>
+                                <div>Watchlist</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--Quick buttons-->
+
+</div>
+<script src="~/Scripts/chartjs/TenantDashboardChart.js"></script>
+<script>
+    $(document).ready(function () {
+        var tenantDashBoardData = @Html.Raw(Json.Encode(Model));
+        var dashBoard = new TenantDashBoard(tenantDashBoardData);
+        
+    });
+</script>

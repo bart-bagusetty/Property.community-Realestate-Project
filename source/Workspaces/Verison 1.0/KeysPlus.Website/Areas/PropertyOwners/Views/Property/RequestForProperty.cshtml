@@ -1,0 +1,84 @@
+﻿@model RequestForPropertyModel
+<div class="block-header">
+    <h2 style="display:inline-block;">Requests for :  </h2>
+    <h4 style="display:inline-block;"> <lable data-bind="text: PropertyAddress"></lable><span> property</span></h4>
+</div>
+<hr />
+<div>
+    @if (ViewBag.ReturnUrl != null)
+    {
+        @Html.ActionLink("Back to previous page", null, null, null, new { href = ViewBag.ReturnUrl, @class = "btn btn-info" })
+        
+    }
+    @*<button class="btn btn-info" data-bind="click:$root.goToIndex">Back to Index</button>*@
+    <br />
+    <hr />
+</div>
+<div>
+    <table style="max-width:900px" class="table table-striped table-hover table-bordered">
+        <thead>
+            <tr>
+                <th class="wrap">Note</th>
+                
+                <th class="wrap">Request Type</th>
+                <th class="wrap">Date</th>
+                <th class="wrap"></th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach:PropertyRequests()">
+            <tr>
+                <td style="max-width:120px; overflow:hidden;text-overflow:ellipsis; white-space:nowrap" class="wrap tableLayout" data-bind="text: JobDescription"></td>
+                <td class="wrap" data-bind="text: RequestType"></td>
+                <td class="wrap tableLayout" data-bind="text:PersonName"></td>
+                <td class="wrap">
+                    <button class="btn btn-info" data-bind="click: $root.showTenantRequestDetailsModal">
+                        View Requests<span data-bind="if:!IsViewed()">
+                            <span class="label-count" style="background-color:red">New</span>
+                        </span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <hr />
+</div>
+@{
+    Html.RenderPartial("_PagedRequests", Model.Requests);
+}
+
+<script>
+    function RequestModel(item) {
+        var self = this;
+        self.TenantJobRequestId = ko.observable(item.TenantJobRequestId);
+        self.RequestType = ko.observable(item.RequestType);
+        self.JobDescription = ko.observable().extend(Extender.description);
+        self.JobDescription(item.JobDescription);
+        self.IsViewed = ko.observable(item.IsViewed);
+        self.RequestStatus = ko.observable(item.RequestStatus);
+        self.PropertyId = ko.observable(item.PropertyId);
+        self.PersonName = ko.observable(item.PersonName);
+        self.Errors = ko.validation.group(self);
+        self.MediaFiles = ko.observableArray();
+        self.IsValid = ko.computed(function () {
+            return self.Errors().length ==0;
+        });
+    }
+
+    function MainViewModel(data) {
+        var self = this;
+        self.PropertyAddress = data.Address;
+        self.PropertyRequests = ko.observableArray();
+        data.Requests.forEach(function(element){
+            self.PropertyRequests.push(new RequestModel(element));
+        });
+        self.showTenantRequestDetailsModal = function(){
+
+        }
+    }
+    $(document).ready(function () {
+        var data = @Html.Raw(Json.Encode(Model));
+
+        ko.applyBindings(new MainViewModel(data));
+    });
+</script>
+

@@ -1,0 +1,34 @@
+﻿@section scripts{
+    @Scripts.Render("~/bundles/chartLibrary")
+}
+
+<script src="~/Scripts/chartjs/KeysChart.js"></script>
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+@if (ViewBag.IsOwner || ViewBag.IsPropertyManager)
+{
+    Html.RenderAction("PODashboard");
+}
+
+@if (ViewBag.IsTenant)
+{
+    Html.RenderAction("TenantDashboard", new { steps = TempData["CurrentStep"] as int? });
+}
+
+
+@if (!ViewBag.IsOwner && !ViewBag.IsTenant && !ViewBag.IsServiceSupplier && !ViewBag.IsPropertyManager)
+{
+    <p> Dashboard unavailable for this login role </p>
+}
+<script>
+    $(document).ready(function () {
+        var dashboardFirsttime = localStorage.getItem("dashboard_Firsttime");
+        if (!dashboardFirsttime) {
+            localStorage.setItem("dashboard_Firsttime", "1");
+            introJs().start();
+        }
+        
+    });
+</script>

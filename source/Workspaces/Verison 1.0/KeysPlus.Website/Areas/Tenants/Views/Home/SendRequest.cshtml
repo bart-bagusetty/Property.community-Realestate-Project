@@ -1,0 +1,212 @@
+﻿@model List<KeysPlus.Service.Models.MyRentalsModel>
+@{
+    ViewBag.Title = "SendRequest";
+}
+<div id="RequestPage">
+    <div class="row">
+        <div style="width : 80%; margin : auto">
+            <h3>Rental Request Form</h3>
+            <hr />
+            <a class="btn btn-info btn-sx" data-bind="attr: { href: '@Html.Raw(ViewBag.ReturnUrl)' }"><span class="fa fa-arrow-left"></span> Back</a>
+            <br /><br />
+            <div data-bind="ifnot:SelectedTenantProperty()">
+               <p> You do not have any rental properties</p>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 100px" data-bind="with: SelectedTenantProperty()">
+        <form class="step-form" style="margin-bottom:20px">
+            <fieldset>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">Select property <span style="color:red;">*</span></label>
+                            <select class="form-control" data-bind="options: $parent.rentals,  optionsText: 'AddressString', value: $parent.SelectedTenantProperty "></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Property Details
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="control-label">Property Address </label> <span data-bind="text :Address"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div style="margin-top:5px;">
+                                    <label class="control-label">Landlord Name </label> <span class="detailspan" data-bind="text : Landlordname"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="control-label">Landlord Phone Number &nbsp;</label><span class="detailspan" data-bind="text :LandlordPhone"></span>
+                            </div>
+                        </div>
+                    </div><!--panel body-->
+                </div><!--panel-->
+
+                <div class="row" data-bind="with : Request">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">Type </label>
+                            <select class="form-control" id="jobRequestType" data-bind="value : RequestTypeId">
+                                @foreach (var type in ViewBag.RequestTypes)
+                                {
+                                    <option value="@type.Id">@type.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" data-bind="with : Request">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">Message</label>
+
+                            <textarea class="form-control" rows="5" style="height:123px;" data-bind="value: RequestMessage, valueUpdate:'afterkeydown'"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" data-bind="with : Request">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">Please upload your documents here <span style="color:red;"></span></label>
+                            <div class="panel panel-default">
+                                <div class="panel-body" style="min-height : 150px">
+                                    <div data-bind="foreach: MediaFiles()">
+                                        <div class="col-md-3 col-sm-4 col-xs-4" data-bind="visible : MediaType == 1" >
+                                            <div class="thumbnail">
+                                                <a data-bind="click: $parents[1].removePhoto">
+                                                    <i class="zmdi zmdi-close-circle" style="float:right"></i>
+                                                </a>
+                                                <a target="_blank" data-bind="attr: { href: Data }">
+                                                    <img class="img-responsive" data-bind="attr: {src: Data}" style="height:100px" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ul class="list-group" data-bind="foreach: MediaFiles()">
+                                <li class="list-group-item" data-bind="visible : MediaType == 2">
+                                    <span data-bind="text : Name"></span>
+                                    <span class="zmdi zmdi-close-circle pull-right" data-bind="click : $parents[1].removePhoto"></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" data-bind="with : Request">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="btn btn-success">
+                                <span class="fa fa-cloud-upload"></span>
+                                Choose Files
+                                <input type="file" id="file-upload" class="key-upload" data-bind="filesUpload : MediaFiles" accept="application/pdf,application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*" multiple />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <p class="text-muted" style="font-size:11px; text-align : left">You may upload up to 5 files. Max size is 2 MB each and supported file types are *.jpg, *.jpeg, *.png, *.gif, *.pdf & *.doc*.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button class="btn btn-success" data-bind="click: SubmitRequest, enable : IsValid">Submit</button>
+                        <a class="btn btn-group btn-danger" data-bind="attr: { href: '@Html.Raw(ViewBag.ReturnUrl)' }">Close</a>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div><!--RequestPage-->
+@Html.AntiForgeryToken()
+<script>
+    var token = $('input[name="__RequestVerificationToken"]').val();
+    var returnUrl = '@ViewBag.ReturnUrl';
+    debugger;
+    var Rental = function (rentalData) {
+        var self = this;
+        self.rentals = ko.observableArray();
+        rentalData.forEach(function (item) {
+            self.rentals.push(new RentalViewModel(item));
+        });
+        self.SelectedTenantProperty = ko.observable(self.rentals()[0]);
+    };
+    function TenantRequestViewModel(data){
+        var self = this;
+        self.TenantId = data.TenantId;
+        self.PropertyId = ko.observable(data.PropertyId);
+        self.RequestTypeId = ko.observable(1); //RequestTypeId
+        self.RequestMessage = ko.observable().extend(Extender.descriptionRentalListing);
+        self.ToOwner = 'true';
+        self.ToTenant = 'false';
+        self.MediaFiles = ko.observableArray();
+        self.Reason = "General";
+    }
+    function RentalViewModel(data) {
+        var self = this;
+        //For Display
+        self.AddressString = ko.observable(data.AddressString);
+        self.Address = ko.observable(data.Address);
+        self.Landlordname = ko.observable(data.Landlordname);
+        self.LandlordPhone = ko.observable(data.LandlordPhone);
+        self.Request = new TenantRequestViewModel(data);
+        self.IsValid = ko.computed(function(){
+            errors = ko.validation.group(self.Request);
+            return errors().length == 0;
+        });
+        //remove photos from the selected files list
+        self.removePhoto = function (photo) {
+            self.Data.MediaFiles.remove(photo);
+            $('#uploadImage').prop("disabled", false);
+        };
+
+        //submitting Tenant request
+        self.SubmitRequest = function (data) {
+            var token = $("input[name = '__RequestVerificationToken']").val();
+            var formData = KeysUtils.toFormData(data.Request, token);
+            for (var pair of formData.entries()) {
+                console.log(pair[0] + ', ' + pair[1]);
+            }
+            debugger;
+            $.ajax({
+                type: 'POST',
+                url: '/Rental/Home/SubmitPropertyRequest',
+                data: formData, 
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    if(result.Success){
+                        KeysUtils.notification.show('<p>Request Submitted Successfully!</p>', 'notice');
+                        window.location = returnUrl;
+                    }
+                    else{
+                        KeysUtils.notification.show(KeysUtils.notification.errorMsg, 'error');
+                    }
+                },
+                error: function (result) {
+                    // console.log(result.responseText);
+                }
+            });
+        }
+
+    };//RentalViewModel END
+
+    $(document).ready(function () {
+        var listRentals = @Html.Raw(Json.Encode(Model));
+        var rentModel = new Rental(listRentals);
+        ko.applyBindings(rentModel);
+    });
+</script>
+

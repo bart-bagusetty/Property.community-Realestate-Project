@@ -1,0 +1,177 @@
+﻿@model KeysPlus.Service.Models.PODashBoardModel
+<h1 class="ui center aligned header header">
+    <div class="content">
+        Owner's Dashboard
+        <div class="sub header">Your properties at a glance</div>
+    </div>
+</h1>
+    <hr />
+
+    <div class="row dashboard">
+        <div class="col-md-4">
+            <div class="panel panel-default dashboard-panel" data-intro="These handy buttons are for quick access to majors functionalities." style="height : 230px">
+                <div class="panel-heading">Quick Buttons</div>
+                <div class="panel-body" style="height : 190px">
+                    <div class="row" style="height : 50%">
+                        <div id="add-finance-button" class="col-md-4 text-center no-padding-side btn-dash-quick" style="border-right : 1px solid #dedee0" onclick="location.href='@Url.Action("EditPropFinance", "Manage", new { Area = "PropertyOwners"})'">
+                            <div class="zmdi zmdi-money"></div>
+                            <div>Add Finance  Details</div>
+                        </div>
+                        <div id="add-tenant-button" class="col-md-4 text-center btn-dash-quick" style="border-right : 1px solid #dedee0" onclick="location.href='@Url.Action("AddTenantDashBoard", "Home", new { area = "PropertyOwners"})'">
+                            <div class="zmdi zmdi-account-add"></div>
+                            <div>Add New Tenant</div>
+                        </div>
+                        <div class="col-md-4 text-center btn-dash-quick" onclick="location.href='@Url.Action("AddNewProperty", new { controller = "Property", area = "PropertyOwners" })'">
+                            <div class="zmdi zmdi-home">
+                                <span style="position : absolute; top:-2px; left:-4px; font-weight : bolder; font-size : 12px">+</span>
+                            </div>
+                            <div>Add New Property</div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="height :50%">
+                        <div class="col-md-12" style="border-top : 1px solid #dedee0">
+                            <div class="row" style="height : 100%;">
+                                <div id="add-listing-button" class="col-md-4 text-center btn-dash-quick pad-top-10" style="border-right : 1px solid #dedee0" onclick="location.href='@Url.Action("ListRental", new { controller = "Property", area = "PropertyOwners", propId = -1 })'">
+                                    <div class="fa fa-key">
+                                        <span class="zmdi zmdi-home" style="position : absolute; top:0; right:0; font-size : 9px"></span>
+                                    </div>
+                                    <div>Add New Listing</div>
+                                </div>
+                                <div id="add-request-button" class="col-md-4 text-center btn-dash-quick pad-top-10" style="border-right : 1px solid #dedee0">
+                                    <a href="@Url.Action("SendRequest", "Home", new { area = "Rental", returnUrl = HttpContext.Current.Request.RawUrl})">
+                                        <div class="fa fa-envelope-square" style="position : relative">
+                                            <span style="position : absolute; top:-5px; left:-6px; font-weight : 900; font-size : 12px">+</span>
+                                        </div>
+                                        <div>Add New Request</div>
+                                    </a>
+
+                                </div>
+                                <div id="add-job-button" class="col-md-4 text-center btn-dash-quick pad-top-10 no-padding-side">
+                                    <a href="@Url.Action("AddNewJob", new { controller = "Home", area = "Jobs", returnUrl = HttpContext.Current.Request.RawUrl })">
+                                        <div class="fa fa-wrench">
+                                            <span style="position : absolute; top:-3px; left:-3px; font-weight : 900; font-size : 12px">+</span>
+                                        </div>
+                                        <div>Add New Market Job</div>
+                                    </a>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default dashboard-panel" data-intro="This is overview of numer of your properties." style="height : 230px">
+                <div class="panel-heading">Properties</div>
+                <div class="panel-body" style="height : 190px">
+                    <div class="row" style="height : 100%; display: flex;align-items: center;">
+                        <div class="col-md-7 no-padding-side">
+                            <canvas id="property-chart" height="200"></canvas>
+                        </div>
+                        <div class="col-md-5 no-padding-side">
+                            <div class="chart-legends" id="prop-chart-legends"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="col-md-4">
+            <div class="panel panel-default dashboard-panel" data-intro="This is summary of all rental applications submittted to your rental listings." style="height : 230px">
+                <div class="panel-heading">Rental Applications</div>
+                <div class="panel-body" style="height : 190px">
+                    <div class="row" style="height : 100%; display: flex;align-items: center;">
+                        <div class="col-md-7 no-padding-side">
+                            <canvas id="rental-chart" height="200"></canvas>
+                        </div>
+                        <div class="col-md-5 no-padding-side">
+                            <div class="chart-legends" id="rent-chart-legends"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="panel panel-default dashboard-panel" data-intro="This is summary of all maintenance jobs for your properties." style="height : 230px">
+                <div class="panel-heading">Maintenance</div>
+                <div class="panel-body" style="height : 190px">
+                    <div class="row" style="height : 100%; display: flex;align-items: center;">
+                        <div class="col-md-7 no-padding-side">
+                            <canvas id="maintenance-chart" height="200"></canvas>
+                        </div>
+                        <div class="col-md-5 no-padding-side">
+                            <div class="chart-legends" id="maintenance-chart-legends"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default dashboard-panel" data-intro="This is summary of all requests from tenants to your properties." style="height : 230px">
+                <div class="panel-heading">Tenants' Request</div>
+                <div class="panel-body" style="height : 190px">
+                    <div class="row" style="height : 100%; display: flex;align-items: center;">
+                        <div class="col-md-7 no-padding-side">
+                            <canvas id="tenant-chart" height="200"></canvas>
+                        </div>
+                        <div class="col-md-5 no-padding-side">
+                            <div class="chart-legends" id="tenant-chart-legends"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default dashboard-panel" data-intro="This is summary of all quotes from service suppliers to your advertised jobs." style="height : 230px">
+                <div class="panel-heading">Job Quotes</div>
+                <div class="panel-body" style="height : 190px">
+                    <div class="row" style="height : 100%; display: flex;align-items: center;">
+                        <div class="col-md-7 no-padding-side">
+                            <canvas id="jobs-chart" height="200"></canvas>
+                        </div>
+                        <div class="col-md-5 no-padding-side">
+                            <div class="chart-legends" id="jobs-chart-legends"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/chartjs/PODashboardChart.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            var dashBoardData = @Html.Raw(Json.Encode(Model));
+            var dashBoard = new DrawDashBoard(dashBoardData);
+        });
+    </script>
+
+    <style>
+        .disabledbutton {
+            pointer-events: none;
+            opacity: 0.4;
+        }
+    </style>

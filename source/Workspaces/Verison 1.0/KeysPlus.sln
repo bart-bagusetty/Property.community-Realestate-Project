@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeysPlus.Website", "KeysPlus.Website\KeysPlus.Website.csproj", "{14AA36B0-C2BA-4BF6-8E18-C5E9527E760E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{0711C200-A948-47C5-90CD-B74040FED52E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeysPlus.Data", "KeysPlus.Data\KeysPlus.Data.csproj", "{9E70B52F-3F32-485B-B89B-24635081DAF5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{95102F38-7A34-4E66-8D21-75D6FDE418AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeysPlus.Service", "KeysPlus.Service\KeysPlus.Service.csproj", "{7A053C7B-D113-4C7C-BCBA-16A775723476}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{14AA36B0-C2BA-4BF6-8E18-C5E9527E760E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14AA36B0-C2BA-4BF6-8E18-C5E9527E760E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14AA36B0-C2BA-4BF6-8E18-C5E9527E760E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14AA36B0-C2BA-4BF6-8E18-C5E9527E760E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E70B52F-3F32-485B-B89B-24635081DAF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E70B52F-3F32-485B-B89B-24635081DAF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E70B52F-3F32-485B-B89B-24635081DAF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E70B52F-3F32-485B-B89B-24635081DAF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A053C7B-D113-4C7C-BCBA-16A775723476}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A053C7B-D113-4C7C-BCBA-16A775723476}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A053C7B-D113-4C7C-BCBA-16A775723476}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A053C7B-D113-4C7C-BCBA-16A775723476}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9E70B52F-3F32-485B-B89B-24635081DAF5} = {0711C200-A948-47C5-90CD-B74040FED52E}
+		{7A053C7B-D113-4C7C-BCBA-16A775723476} = {95102F38-7A34-4E66-8D21-75D6FDE418AB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3B0B6044-647B-45B3-A86A-460D2C67D092}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://dev.mvp.studio:8080/tfs/mvpstudiocollection
+		SccProjectUniqueName0 = KeysPlus.Data\\KeysPlus.Data.csproj
+		SccProjectTopLevelParentUniqueName0 = KeysPlus.sln
+		SccProjectName0 = KeysPlus.Data
+		SccLocalPath0 = KeysPlus.Data
+		SccProjectUniqueName1 = KeysPlus.Service\\KeysPlus.Service.csproj
+		SccProjectTopLevelParentUniqueName1 = KeysPlus.sln
+		SccProjectName1 = KeysPlus.Service
+		SccLocalPath1 = KeysPlus.Service
+		SccLocalPath2 = .
+		SccProjectUniqueName3 = KeysPlus.Website\\KeysPlus.Website.csproj
+		SccProjectName3 = KeysPlus.Website
+		SccLocalPath3 = KeysPlus.Website
+	EndGlobalSection
+EndGlobal

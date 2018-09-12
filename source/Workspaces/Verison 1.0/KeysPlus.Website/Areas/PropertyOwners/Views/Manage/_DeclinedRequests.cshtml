@@ -1,0 +1,549 @@
+﻿@model IPagedList<KeysPlus.Service.Models.PropertyRequestModel>
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/content/pagedList")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/notification")
+    @Styles.Render("~/notification/css")
+    @Scripts.Render("~/bundles/moment")
+    @Scripts.Render("~/bundles/globals")
+    @Scripts.Render("~/bundles/bootstrap")
+
+@section Modal{
+    @{
+        Html.RenderPartial("_SearchResultModal");
+    }
+}
+<div id="dec">
+    <div id="mainPageD">
+        <div class="row">
+            <div class="col-md-8">
+                @{
+                    Html.RenderPartial("_SearchBoxHalf");
+                }
+            </div>
+            <div class="col-md-4 pull-right" style="height:38px; line-height:38px">
+                <div class="row">
+
+                    <div class="col-md-8 pull-right" data-bind="template :{name: 'fiter-select1'}">
+                    </div>
+                    <span style="float:right">Sort By:</span>
+                </div>
+            </div>
+        </div>
+        <br />
+        @{
+            string currentSort = ViewBag.CurrentSort;
+            switch (currentSort)
+            {
+                case "CreatedOn_Asc":
+                    currentSort = "Earliest Date";
+                    break;
+                case "CreatedOn_Desc":
+                    currentSort = "Latest Date";
+                    break;
+                case "RequestStatus_Asc":
+                    currentSort = "Request Status(Asc)";
+                    break;
+                case "RequestStatus_Desc":
+                    currentSort = "Request Status(Desc)";
+                    break;
+                case "RequestType_Asc":
+                    currentSort = "Request Type(Asc)";
+                    break;
+                case "RequestType_Desc":
+                    currentSort = "Request Type(Desc)";
+                    break;
+                default:
+                    ViewBag.CurrentSort = "CreatedOn_Desc";
+                    currentSort = "Latest Date";
+                    break;
+            }
+        }
+        <div style="padding-top : 20px">
+            <div data-bind="foreach : AllRequests">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div title="Delete" class="delete-top-right-corner" data-bind="click: $root.showDeleteRequest"><i class="fa fa-trash-o"></i></div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <!--photo coloumn-->
+                                        <div data-bind="visible:ImgFiles().length>0">
+                                            <div class="carousel " data-ride="carousel" data-bind="attr :{id : 'carousel'+ Data.Id}">
+                                                <div class="carousel-inner" style="margin:auto" data-bind="foreach: ImgFiles">
+                                                    <div class="item" data-bind="css:{active: $index() == 0}">
+                                                        <img class="img-responsive img-thumbnail" data-bind="attr: {src: Data}"
+                                                             onerror="this.src = '/images/no-prop-img.png'" alt="firstImg">
+                                                    </div>
+                                                </div>
+
+                                                <a class="left carousel-control" data-slide="prev" data-bind="attr : {href : '#' + 'carousel'+ Data.Id}, if : ImgFiles().length > 1">
+                                                    <span class="fa fa-2x fa-angle-left"></span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                                <a class="right carousel-control" data-slide="next" data-bind="attr : {href : '#' + 'carousel'+ Data.Id}, if : ImgFiles().length > 1">
+                                                    <span class="fa fa-2x fa-angle-right"></span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </div>
+                                        </div><!--with images-->
+                                        <div class="thumbnail" data-bind="visible:ImgFiles().length<=0">
+                                            <img src="/images/no-prop-img.png" alt="noPropImg" />
+                                        </div>
+                                    </div><!--photo coloumn-->
+
+                                    <div class="col-md-4">
+                                        <div class="row" style="line-height : 25px">
+                                            <div class="row">
+                                                <div class="col-md-5"><strong>Property : </strong></div>
+                                                <div class="col-md-7">
+                                                    <div data-bind="text : StreetAddress"></div>
+                                                    <div data-bind="text : CitySub"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-5"><strong>Request Status: </strong></div>
+                                                <div class="col-md-7"><span data-bind="text : Data.RequestStatus"></span></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-5"><strong>Request Type: </strong></div>
+                                                <div class="col-md-7"><span data-bind="text : Data.RequestType"></span></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-5"><strong>Requested On: </strong></div>
+                                                <div class="col-md-7"><span data-bind="text: moment(Data.CreatedOn()).format('ll')"></span></div>
+                                            </div>
+                                        </div><!--row-->
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-4"><strong>Description: </strong></div>
+                                            <div class="col-md-8"><span data-bind="text : Data.RequestMessage" style="word-break: break-all;"></span></div>
+                                        </div>
+                                        @*<div class="row">
+                                                <div data-bind="if:Reason">
+                                                    <div class="col-md-4"><strong>Reason: </strong></div>
+                                                    <div class="col-md-8" style="word-break: break-all;">
+                                                        <span data-bind="text : Reason" style="line-height:20px"></span>
+                                                    </div>
+                                                </div>
+                                            </div>*@
+                                    </div>
+
+                                    <div class="prop-actions">
+                                        <button class="btn btn-success" data-bind="visible: Data.RequestStatusId == 1 ,click:$root.showEditForm"><span class="zmdi zmdi-edit"></span> Edit</button>
+                                        <button class="btn btn-default" data-bind="@*visible: RequestStatusId == 1,*@ click:$root.showDetailForm">
+                                            <i class="zmdi zmdi-info"></i> Details
+                                        </button>
+
+                                        @*<a class="btn btn-default" href="#" data-bind="attr: { 'href': '@Url.Action(" MyRequestReplies", "Property" , new { area="PropertyOwners" , returnUrl=HttpContext.Current.Request.RawUrl})' + '&requestId=' + Id }">View Replies</a>*@
+                                    </div>
+
+                                    @*<div class="col-md-3 text-center card-act-btn no-border-right">
+                                            <i class="zmdi zmdi-info-outline"></i> Detail
+
+                                        </div>*@
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @{
+            Html.RenderPartial("_PagedDeclinedInspection");
+        }
+    </div>
+
+
+
+
+    @* ********************************** Request Edit Form ****************************************** *@
+    <div id="editForm" data-bind="with:SelectedRequest()" style="display:none">
+        <div class="row">
+            <div style="width : 80%; margin : auto">
+                <h3>Edit Request</h3>
+                <hr />
+                <button class="btn btn-info btn-sx" data-bind="click:$root.toMain"><span class="fa fa-arrow-left"></span> Back</button>
+                <br /><br />
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 100px">
+            <form class="step-form">
+                <fieldset>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">Description <span style="color : red">*</span></label>
+                                <textarea class="form-control" data-bind="value: Data.RequestMessage, valueUpdate:'afterkeydown'" maxlength="500" rows="6" cols="70" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <p class="text-muted" style="font-size:11px; text-align : left">Maximum of 500 characters</p>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Upload your documents here</label>
+                                <div class="panel panel-default">
+                                    <div class="panel-body" style="min-height:150px">
+                                        <div data-bind="foreach: Data.MediaFiles()">
+                                            <div class="col-md-3 col-sm-4 col-xs-4" data-bind="visible : MediaType == 1">
+                                                <div class="thumbnail">
+                                                    <a data-bind="@*click: $parent.RemoveFile*@ clickRemoveMediaFile : 'MediaFiles'">
+                                                        <i class="zmdi zmdi-close-circle" style="float:right"></i>
+                                                    </a>
+                                                    <img class="img-responsive" data-bind="attr: {src: Data}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="list-group" data-bind="foreach: Data.MediaFiles()">
+                                    <li class="list-group-item" data-bind="visible : MediaType == 2">
+                                        <span data-bind="text : OldFileName"></span>
+                                        <span class="zmdi zmdi-close-circle pull-right" data-bind="click : $parent.RemoveFile"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="form-group">
+                                <div class="btn btn-success">
+                                    <span class="fa fa-cloud-upload"></span>
+                                    Choose Files
+                                    <input type="file" id="ImageFile" class="key-upload" data-bind="filesUpload : Data.MediaFiles" accept="application/pdf,image/*" multiple />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <p class="text-muted" style="font-size:11px; text-align : left">You may upload up to 5 files. Total size is 5 MB and supported file types are *.jpg, *.jpeg, *.png, *.gif, *.pdf & *.doc*</p>
+                            </div>
+                            <div class="col-sm-12 text-center" style="padding-bottom: 30px">
+                                <button type="button" class="btn btn-success" data-bind="click:$root.editRequest, enable : IsValid">Save</button>
+                                <button type="button" class="btn btn-danger" data-bind="click:$root.toMain">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    @* ********************************** Inspection Delete Confirmation Form ****************************************** *@
+    <div id="deleteForm" data-bind="with : SelectedRequest()" style="display:none">
+        <div class="container">
+            <h3>Delete Request</h3>
+            <hr />
+            <a class="btn btn-info btn-sx" data-bind="click: $root.toMain"><span class="fa fa-arrow-left"></span> Back</a>
+            <br /><br />
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Are you sure you want to delete this request?
+                </div>
+                <div class="panel-body">
+                    <div class="row" style="line-height : 25px">
+                        <div class="col-md-2">
+                            <strong>Property:</strong>
+                        </div>
+                        <div class="col-md-8">
+                            <span data-bind="text : StreetAddress"></span>
+                            <span data-bind="text : CitySub"></span>
+                        </div>
+                    </div>
+                    <div class="row" style="line-height : 25px">
+                        <div class="col-md-2"><strong>Request Status:</strong></div>
+                        <div class="col-md-8" data-bind="text : Data.RequestStatus"></div>
+                    </div>
+                    <div class="row" style="line-height : 25px">
+                        <div class="col-md-2"><strong>Request Type:</strong></div>
+                        <div class="col-md-8" data-bind="text :  Data.RequestType"></div>
+                    </div>
+                    <div class="row" style="line-height : 25px">
+                        <div class="col-md-2"><strong>Requested On:</strong></div>
+                        <div class="col-md-8"><span data-bind="text: moment(Data.CreatedOn()).format('ll')"></span></div>
+                    </div>
+                    <div class="row" style="line-height : 25px">
+                        <div class="col-md-2"><strong>Description: </strong></div>
+                        <div class="col-md-8" style="word-break: break-all;">
+                            <span data-bind="text : Data.RequestMessage" style="line-height:20px"></span>
+                        </div>
+                    </div>
+                    @*<div class="row" style="line-height : 25px">
+                            <div data-bind="if:Reason">
+                                <div class="col-md-2"><strong>Reason: </strong></div>
+                                <div class="col-md-8" style="word-break: break-all;">
+                                    <span data-bind="text : Reason" style="line-height:20px"></span>
+                                </div>
+                            </div>
+                        </div>*@
+                    <div class="prop-actions">
+                        <button type="button" class="btn btn-success" data-bind="click: $root.deleteRequest">Confirm</button>
+                        <button type="button" class="btn btn-danger" data-bind="click: $root.toMain">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @* ********************************** Details form ****************************************** *@
+    <div id="detailForm" data-bind="with : SelectedRequest()" style="display:none">
+        <div class="container">
+            <h3>Detail Request</h3>
+            <hr />
+            <a class="btn btn-info btn-sx" data-bind="click: $root.toMain"><span class="fa fa-arrow-left"></span> Back</a>
+            <br /><br />
+            <div class="panel panel-default">
+                <div class="panel-heading" style="position: relative;">
+                    <h4>Details of the request</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="row" style="line-height : 25px">
+                        <div class="col-md-7" style="padding-bottom: 100px;">
+                            <div class="row" style="line-height: 25px">
+                                <div class="col-md-4" style="padding-right:0px;">
+                                    <strong>Property:</strong>
+                                </div>
+                                <div class="col-md-8">
+                                    <span data-bind="text : StreetAddress"></span>
+                                    <span data-bind="text : CitySub"></span>
+                                </div>
+                            </div>
+                            <div class="row" style="line-height : 25px">
+                                <div class="col-md-4" style="padding-right:0px;">
+                                    <strong>Request Status:</strong>
+                                </div>
+                                <div class="col-md-8" data-bind="text:Data.RequestStatus">
+
+                                </div>
+
+                            </div>
+                            <div class="row" style="line-height : 25px">
+                                <div class="col-md-4" style="padding-right:0px;"><strong>Request Type:</strong></div>
+                                <div class="col-md-8" data-bind="text :  Data.RequestType"></div>
+                            </div>
+                            <div class="row" style="line-height : 25px">
+                                <div class="col-md-4" style="padding-right:0px;"><strong>Requested On:</strong></div>
+                                <div class="col-md-8"><span data-bind="text: moment(Data.CreatedOn()).format('ll')"></span></div>
+                            </div>
+                            <div class="row" style="line-height : 25px">
+                                <div class="col-md-4" style="padding-right:0px;"><strong>Description: </strong></div>
+                                <div class="col-md-8" style="word-break: break-all;">
+                                    <span data-bind="text : Data.RequestMessage" style="line-height:20px"></span>
+                                </div>
+                            </div>
+                            <div class="row" style="line-height : 25px">
+                                <div data-bind="if:Data.Reason">
+                                    <div class="col-md-4" style="padding-right:0px;"><strong>Reason: </strong></div>
+                                    <div class="col-md-8" style="word-break: break-all;">
+                                        <span data-bind="text : Data.Reason" style="line-height:20px"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="line-height:25px">
+                                <div class="col-md-4" style="padding-right:0px;"><strong>Documents:</strong></div>
+
+                                <ul class="col-md-8" data-bind="foreach: Data.MediaFiles()">
+                                    <li data-bind="visible : MediaType == 2">
+                                        <a data-bind="attr: {href :Data}"><span data-bind=text:OldFileName></span></a>
+
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        @*<div class="row" style="line-height : 25px">
+                                <div data-bind="if:Data.Reason">
+                                    <div class="col-md-4" style="padding-right:0px;"><strong>Reason: </strong></div>
+                                    <div class="col-md-8" style="word-break: break-all;">
+                                        <span data-bind="text : Data.Reason" style="line-height:20px"></span>
+                                    </div>
+                                </div>
+                            </div>*@
+
+                        @*
+                            </div>*@
+
+                        <div class="col-md-5" style="margin-top:0px;">
+                            <div data-bind="visible:ImgFiles().length>0">
+                                <div class="carousel-inner" style="margin:auto" data-bind="foreach: ImgFiles">
+                                    <div class="item" data-bind="css:{active: $index() == 0}">
+                                        <img class="img-responsive img-thumbnail" data-bind="attr: {src: Data}"
+                                             onerror="this.src = '~/images/no-prop-img.png'" alt="noPropImg" style="width:100%; height:150px;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="thumbnail" data-bind="visible:ImgFiles().length<=0">
+                                <img src="/images/no-prop-img.png" alt="noPropImg" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.AntiForgeryToken()
+
+<script>
+
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        function RequestModel(item) {
+            var self = this;
+            self.CreatedOn = ko.observable(item.CreatedOn);
+            self.RequestType = item.RequestType;
+            self.RequestId = item.Id;
+            self.Reason = ko.observable(item.Reason).extend(Extender.description);
+            self.RequestMessage = ko.observable(item.RequestMessage).extend(Extender.description);
+            self.IsViewed = item.IsViewed;
+            self.PropertyId = item.PropertyId;
+            self.RequestStatus = item.RequestStatus;
+            self.RequestStatusId = item.RequestStatusId;
+            self.MediaFiles = ko.observableArray(item.MediaFiles);
+            self.FilesRemoved = ko.observableArray(item.FilesRemoved)
+
+
+
+        }
+        function RequestViewModel(item) {
+            var self = this;
+            self.Data = new RequestModel(item);
+            debugger;
+
+            self.StreetAddress = ko.observable(item.Address.Number + " " + item.Address.Street + ",");
+            self.CitySub = ko.observable(item.Address.Suburb + ", " + item.Address.City);
+            self.FirstPhoto = ko.computed(function () {
+                return KeysFiles.getFirstPhoto(self.Data.MediaFiles());
+            });
+            self.ImgFiles = ko.computed(function () {
+                return self.Data.MediaFiles().filter(function (element) {
+                    return element.MediaType == 1;
+                });
+            });
+            self.DocFiles = ko.computed(function () {
+                return self.Data.MediaFiles().filter(function (element) {
+                    return element.MediaType == 2;
+                });
+            });
+
+            self.FilesRemoved = ko.observableArray();
+            self.RemoveFile = function (file) {
+                debugger;
+                if (file.Status == 'load') {
+                    self.Data.FilesRemoved.push(file.Id);
+                }
+                self.Data.MediaFiles.remove(file);
+            };
+            self.HasMediaFiles = ko.computed(function () {
+                return self.Data.MediaFiles().length > 0;
+            });
+            self.Errors = ko.validation.group([self.RequestMessage]);
+            self.IsValid = ko.computed(function () {
+                return self.Errors().length == 0;
+            });
+        }
+
+        function ViewModel(data) {
+            var self = this;
+            self.AllRequests = ko.observableArray();
+            data.forEach(function (item) {
+                //console.log(item);
+                self.AllRequests.push(new RequestViewModel(item));
+            });
+            self.SelectedRequest = ko.observable();
+            self.showEditForm = function (data) {
+                debugger;
+                self.SelectedRequest(data);
+                console.log('showEditForm', data);
+                $('#mainPageD').css('display', 'none');
+                $('#editForm').css('display', 'block');
+            }
+
+            self.showDetailForm = function (data) {
+                debugger;
+                self.SelectedRequest(data);
+                console.log('showDetailForm', data);
+                $('#mainPageD').css('display', 'none');
+                $('#detailForm').css('display', 'block');
+
+            }
+            self.editRequest = function (data) {
+                function sucessCallback(result) {
+                    debugger;
+                    if (result.Success) {
+                        KeysUtils.notification.show('<p>Request edited successfully!</p>', 'success', reload);
+                    } else {
+                        KeysUtils.notification.show('<p>Something has gone wrong, please try again later!</p>', 'error');
+                    }
+                };
+                var tosend = data.Data;
+                var formData = KeysUtils.toFormData(tosend);
+                debugger;
+                KeysUtils.post('/PropertyOwners/Property/EditMyRequest', formData, sucessCallback);
+                console.log("editRequest", data.Data);
+            }
+
+            self.showDeleteRequest = function (data) {
+                self.SelectedRequest(data);
+                $("#mainPageD").css('display', 'none');
+                $('#deleteForm').css('display', 'block');
+            }
+            self.deleteRequest = function (data) {
+                debugger;
+                $.ajax({
+                    url: "/PropertyOwners/Property/DeleteMyRequest",
+                    data: { __RequestVerificationToken: token, requestId: data.Data.RequestId },
+                    method: "POST",
+                    success: function (result) {
+                        if (result.Success) {
+                            KeysUtils.notification.show('<p>Request deleted successfully!</p>', 'success', reload);
+                        } else {
+                            KeysUtils.notification.show('<p>Something has gone wrong, please try again later!</p>', 'error');
+                        }
+                    }
+                });
+            }
+            function reload() {
+                window.location = '/PropertyOwners/Manage/DeclinedRequests';
+            }
+            self.toMain = function () {
+                $('#mainPageD').css('display', 'block');
+                $('#editForm').css('display', 'none');
+                $('#deleteForm').css('display', 'none');
+                $("#detailForm").css('display', 'none');
+            }
+
+        }
+        $(document).ready(function () {
+            $("#NoRecord").modal("show");
+            ko.applyBindings(new ViewModel(@Html.Raw(Json.Encode(Model))),$("#dec")[0]);
+
+    });
+</script>
+
+<script type="text/template" id="fiter-select1">
+    <select class="form-control" onChange='location.href = this.value'>
+        <option selected disabled hidden>@currentSort</option>
+        <option value="@Url.Action("DeclinedRequests", new { sortOrder="CreatedOn_Asc" , currentFilter=ViewBag.CurrentFilter })">
+            Earliest Date
+        </option>
+        <option value="@Url.Action("DeclinedRequests", new { sortOrder="CreatedOn_Desc" , currentFilter=ViewBag.CurrentFilter })">
+            Latest Date
+        </option>
+        <option value="@Url.Action("DeclinedRequests", new { sortOrder="RequestStatus_Asc" , currentFilter=ViewBag.CurrentFilter })">
+            Request Status(Asc)
+        </option>
+        <option value="@Url.Action("DeclinedRequests", new { sortOrder="RequestStatus_Desc" , currentFilter=ViewBag.CurrentFilter })">
+            Request Status(Desc)
+        </option>
+        <option value="@Url.Action("DeclinedRequests", new { sortOrder="RequestType_Asc" , currentFilter=ViewBag.CurrentFilter })">
+            Request Type(Asc)
+        </option>
+        <option value="@Url.Action(" DeclinedRequests", new { sortOrder="RequestType_Desc" , currentFilter=ViewBag.CurrentFilter })">
+            Request Type(Desc)
+        </option>
+    </select>
+</script>

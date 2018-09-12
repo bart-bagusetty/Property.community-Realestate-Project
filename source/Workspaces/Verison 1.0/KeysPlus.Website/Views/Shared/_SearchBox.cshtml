@@ -1,0 +1,48 @@
+﻿@using (Html.BeginForm())
+{
+
+    <div class="search">
+        @*<form>*@
+            <div class="input-group">
+
+
+                @if (ViewBag.CurrentFilter!=null)
+                {
+                    <input type="text" name="SearchString" id="searchId" class="form-control" style="padding-left:4px"
+                          contenteditable="true" placeholder="@ViewBag.CurrentFilter" autofocus />
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-primary" style="height: 34px;">
+                                <span class="">
+                                    <span class="fa fa-search"></span>
+                                    SEARCH
+                                </span>
+                            </button>
+                        </div>
+                }
+               
+                else
+                {
+                    <input type="text" name="SearchString" id="searchId" class="form-control" style="padding-left:4px"
+                           placeholder="What are you searching for?" autofocus />
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-primary" style="height: 34px;">
+                                <span class="">
+                                    <span class="fa fa-search"></span>
+                                    SEARCH
+                                </span>
+                            </button>
+                        </div>
+
+                }
+
+
+
+                @*<input type="text" name="SearchString" id="searchId" class="form-control" style="padding-left:4px"
+                       placeholder="What are you searching for?" autofocus />*@
+
+               
+
+            </div>
+        @*</form>*@
+    </div>
+}

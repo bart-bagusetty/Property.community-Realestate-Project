@@ -1,0 +1,92 @@
+﻿<script type="text/html" id="CompanyForm">
+    <form id="editCompanyForm">
+        <div class="input-group">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" data-bind="with:selectedCompany">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="accordion" herf="#companyDetails" aria-expanded="false" aria-controls="companyDetails">
+                                Edit Service Supplier Details
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="companyDetails" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        <label class="keys control-label col-sm-3">Name <span style="color:red;">*</span></label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" style="margin-bottom:15px; padding-left:8px" placeholder="Name" data-bind="value: Name,valueUpdate:'afterkeydown'" href="#Name" />
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="keys control-label col-sm-3">Website <span style="color:red;">*</span></label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" style="border-radius:0px; padding-left:8px"  placeholder="Website" data-bind="value: Website">
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="keys control-label col-sm-3">Phone Number <span style="color:red">*</span></label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" style="border-radius:0px; padding-left:8px"  placeholder="Phone Number" data-bind="value: PhoneNumber">
+                                        </div>
+                                    </div>
+                                    <div class="input-group col-sm-12">
+                                        <h4 class="lead text-left">Physical Address</h4>
+                                        <div data-bind="with: PhysicalAddress">
+                                            <div class="form-group" data-bind="template: {name:'editAddress'}"></div>
+                                        </div>
+                                    </div>
+                                    <div class="input-group col-sm-12">
+                                        <input type="checkbox" name="BillingAddress" id="BillingAddressCheckbox" value="1" class="filled-in chk-col-pink" data-bind="checked: isShipSame, click: $root.ResetAddress" />
+                                        <label for="BillingAddressCheckbox">Same Billing Address</label>
+                                    </div>
+                                    <div class="input-group col-sm-12 " id="billingAddress" data-bind="visible: isShipDifferent,AddCss: $data">
+                                        <p class="lead text-left">Billing Address</p>
+                                        <div data-bind="with: BillingAddress">
+                                            <div data-bind="template:{name:'editAddress'}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*Upload Image Function *@
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <h4 class="lead text-left col-xs-12">
+                                            Service Suppliers Logo
+                                        </h4>
+                                        <br />
+                                        <div>
+                                            <div class="col-xs-12" data-bind="visible:PhotoProfile().length>8">
+                                                <div class="thumbnail" data-bind="visible: !toggleImgDisable()">
+                                                    <a data-bind="event: {click:removeImage}">
+                                                        <i class="glyphicon glyphicon-remove"></i>
+                                                    </a>
+                                                    <img class="img-responsive" id="imageSource" data-bind="attr: {src:ImageProfile }" style="width:250px;height:200px" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <label for="ImageFile" class="custom-file-upload">
+                                            <i class="fa fa-cloud-upload"></i> Choose File
+                                        </label>
+                                        <input type="file" id="ImageFile" data-bind="event: {change:imageUpload}" accept="image/*" />
+                                    </div>
+                                </div>
+                            </div>
+                            @*Save and Cancel Button*@
+                            <div class="row">
+                                <div class="form-group col-sm-12">
+                                    <button type="button" class="btn btn-success" data-bind="click:$root.showUpdateCompanyDetailsModal,disable:toggleDisable" style="margin-bottom:15px; text-align:center"> Save </button>
+                                    <button type="button" class="btn btn-danger" data-bind="click:$root.showCancelCompanyModalModal" style="margin-bottom:15px; text-align:center">Cancel</button>
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</script>

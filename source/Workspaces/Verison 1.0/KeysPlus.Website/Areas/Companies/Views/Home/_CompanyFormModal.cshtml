@@ -1,0 +1,350 @@
+﻿<!-- Modal to Save the logo-->
+<div data-bind="with: selectedCompany" id="Savelogo" class="modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                <h4 class="modal-title" style="color:red">Do you want to Save the logo?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-success" data-toggle="modal" data-bind="saveImage: $data"> Yes</button>
+                <button type="button" data-dismiss="modal" class="btn btn-danger" data-bind="click:$root.goToIndex">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div data-bind="with: selectedCompany" id="NextButton" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                <h4 class="modal-title" style="color:red">Do you want to Save the change?</h4>
+            </div>
+            <div class="modal-body">
+                <span data-bind="text: Name"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" @*data-target="#NextButton"*@ class="btn btn-success" data-toggle="modal" data-bind="saveCompany:$data "> Yes</button>
+                <button type="button" data-dismiss="modal" class="btn btn-danger" data-bind="click: $root.checkChange">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div data-bind="with: selectedCompany" id="AddPopUp" class="modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@     @*click:$root.imageUpload*@
+                <h4 class="modal-title" style="color:red">Do you want to save Company?</h4>
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" @*data-target="#AddPopUpforNextButton"*@ class="btn btn-success" data-toggle="modal" data-bind="saveInfo:$data@*,click:saveImage: $data*@ "> Yes</button>
+                <button type="button" data-dismiss="modal" class="btn btn-danger" @*data-bind="click:$root.goToIndex"*@>No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="AddPopUpforNextButton" class="modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                <h4 class="modal-title" style="color:red">Do you want to add logo ?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="removefade" data-dismiss="modal" class="btn btn-success" data-toggle="modal" data-bind="click:$root.imageUpload "> Yes</button>
+                <button type="button" data-dismiss="modal" class="btn btn-danger" data-bind="click:$root.goToIndex">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delPropertyModalSuccess" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body" style="font-weight: bold;font-family:Roboto,Helvetica,Arial,sans-serif;color: inherit;font-size: 18px;">
+                <p>Record deleted successfully</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" data-bind="click: $root.deleteProperty" style="background-color: #fb483a !important;color:white;">Ok</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="CancelButton" class="modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                <h4 class="modal-title" style="color:red">Do you want to cancel Service Supplier Details ?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="removefade" data-dismiss="modal" class="btn btn-danger" data-toggle="modal" data-bind="click:$root.goToIndex "> Yes</button>
+                <button type="button" data-dismiss="modal" class="btn btn-success">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@************************************************************** Image Error Modals *********************************************************************@
+
+
+
+@***************** Unsupported files Modal *************************@
+
+<div id="Unsupported" class="modal" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Supported file types are *.jpg, *.jpeg, *.png, *.gif?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-success" data-toggle="modal" autofocus> Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@***************** Too large file more than 5Mb Modal ***************@
+
+<div id="SizeNotSupported" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">File selected for logo upload is too large. Maximum allowed size is upto 5MB.</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger" data-toggle="modal" autofocus> Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@************************************************************** Add Company Modals *********************************************************************@
+
+
+@***************** Discard Company Detail Modal *************************@
+
+<div id="DiscardCompanyDetails" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="color:red">Are you sure you want to discard Company Details?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger" data-toggle="modal" data-bind="click:$root.cancelCompanyFinally" autofocus> Yes</button>
+                <button type="button" data-dismiss="modal" class="btn btn-success">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@***************** Saved Company Details Successfully Modal *************************@
+
+<div id="SavedCompanySuccessfully" data-bind="with: selectedCompany" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">"<span data-bind="text:Name"></span>" company created successfully.</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-success" autofocus>Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@***************** Upload Company logo confirmation Modal *************************@
+
+
+<div id="UploadLogoForCompany" data-bind="with: selectedCompany" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Do you want to upload your company logo?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" data-bind="click:$root.goToUpLoadPhoto" autofocus> Yes</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" data-bind="click:$root.showSaveCompanyWithoutLogoModal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@***************** Save Company Details without company logo Modal *************************@
+
+
+<div id="SaveCompanyWithoutLogo" data-bind="with: selectedCompany" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="color:red">Are you sure do you want to save your company without logo?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-success" data-bind="saveCompanyOnly:$data" autofocus> Yes</button>
+                <button type="button" data-dismiss="modal" class="btn btn-danger">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@***************** Save Company Details with company logo Modal *************************@
+
+
+<div id="SaveCompanyWithLogo" data-bind="with: selectedCompany" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="color:red">Are you sure do you want to save your company?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-success" data-bind="saveCompanyAndImage:$data" autofocus>Yes</button>
+                <button type="button" data-dismiss="modal" class="btn btn-danger">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@************************************************************** Editing Company Modals *********************************************************************@
+
+
+@***************** Update Company Details Modal *************************@
+
+<div id="UpdateCompanyDetails" class="modal fade" role="dialog" data-bind="with: selectedCompany" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="color:red">Are you sure you want to update company details?</h4>
+            </div>
+            <div class="modal-footer">
+                <span data-bind="if:!companyLogoChanged()"><button type="button" data-dismiss="modal" class="btn btn-success" data-toggle="modal" data-bind="saveCompanyOnly:$data" autofocus> Yes </button></span>
+                <span data-bind="if:companyLogoChanged()"><button type="button" data-dismiss="modal" class="btn btn-success" data-toggle="modal" data-bind="saveCompanyAndImage:$data" autofocus> Yes </button></span>
+                <button type="button" data-dismiss="modal" class="btn btn-danger">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@***************** Updated Company Details Successfully Modal *************************@
+
+<div id="UpdatedCompanySuccessfully" data-bind="with: selectedCompany" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">"<span data-bind="text:Name"></span>" company details updated successfully.</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-success" autofocus>Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*****************  Cancel Company details without saving Model  ************************@
+
+<div id="CancelCompanyModal" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="color:red">Do you want to leave the page without saving?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" data-bind="click: $root.cancelCompanyFinally" autofocus>Yes</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@************************************************************** Delete Company Modals *********************************************************************@
+
+<div id="DeleteCompanyconfirmation" class="modal fade" role="dialog" data-bind="with: selectedCompany" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title" style="color:red">Are you sure do you want to delete company Details?</h3>
+
+                <div class="row">
+                    <div class="col-sm-4" style="padding-top: 30px;" data-bind="visible:PhotoProfile().length>8">
+                        <img class="img-responsive" data-bind="attr: {src: ImageProfile }" style="width:250px;height:150px" />
+                    </div>
+                    <div class="col-sm-8" style="padding-top: 0px;">
+                        <h2 data-bind="text:Name" class="col-sm-12"></h2>
+                        @*<p><span class="glyphicon glyphicon-home col-sm-2">&nbsp;<b>:</b></span><span data-bind="text:fullAddress" class="col-sm-10"></span></p>*@
+                        <p data-bind="with:PhysicalAddress">
+                            <span class="glyphicon glyphicon-home col-sm-2">&nbsp;<b>:</b></span>
+                            <span class="col-sm-10">
+                                <span data-bind="text:Number,visible:Number!=null">&nbsp;</span>
+                                <span data-bind="text:Street,visible:Street!=null">,&nbsp;</span>
+                                <span data-bind="text:Suburb,visible:Suburb!=null">,&nbsp;</span>
+                                <span data-bind="text:City,visible:City!=null">&nbsp; - &nbsp;</span>
+                                <span data-bind="text:PostCode,visible:PostCode!=null"></span>
+                            </span>
+                        </p>
+                        <p><span class="glyphicon glyphicon-phone-alt col-sm-2">&nbsp;<b>:</b></span><span data-bind="text: PhoneNumber" class="col-sm-10"></span></p>
+                        <p><span class="glyphicon glyphicon-globe col-sm-2">&nbsp;<b>:</b></span><span data-bind="text:Website" class="col-sm-10"></span></p>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger" data-bind="click: $root.deleteCompany" autofocus>Yes</button>
+                <button type="button" data-dismiss="modal" class="btn btn-success">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@***************** Deleted Company Successfully Modal *************************@
+
+<div id="DeletedCompanySuccessfully" data-bind="with: selectedCompany" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">"<span data-bind="text:Name"></span>" company deleted successfully.</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-success" autofocus>Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
